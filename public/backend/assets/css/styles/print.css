@@ -1,0 +1,435 @@
+.document {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    position: relative;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    box-shadow: 0px 1px 3px #E0E0E0;
+    padding: 20px;
+    font-size: 1em;
+    max-width: 740px;
+    min-width: 740px;
+    height: 1006px;
+}
+
+b, strong {
+    font-weight: 700;
+}
+
+.document li {
+    list-style-type: disc !important;
+}
+
+.document .clearfix{
+    clear: inherit;
+}
+
+.document .document-top {
+    margin-bottom: 20px;
+}
+
+.document .document-top .document-info-outer {
+    font-size: 1em;
+    width: 35%;
+}
+
+.pull-right {
+    float: right;
+}
+
+.pull-right {
+    float: right!important;
+}
+
+.document .document-top .document-info {
+    text-align: right;
+}
+
+.document .document-top .document-specific-info h1.document-type {
+    font-size: 2em;
+    line-height: 30px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 0;
+    word-break: break-word;
+}
+
+.document .document-top .document-specific-info h1.document-type {
+    font-size: 2em;
+    line-height: 30px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 0;
+    word-break: break-word;
+}
+
+.document .document-top .document-specific-info h2.document-ref {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: normal;
+    line-height: 19px;
+}
+
+.document .document-top .info label {
+    display: block;
+}
+
+.document .document-top .date-document {
+    margin-top: 3px;
+    margin-bottom: 5px;
+}
+
+.document .document-top .document-info {
+    text-align: right;
+}
+
+div.payment-info {
+    margin-top: 0px;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+#due span:first-child {
+    font-weight: normal;
+}
+
+.document .document-top .date-document {
+    margin-top: 3px;
+    margin-bottom: 5px;
+}
+
+.document .document-top .company-information {
+    min-height: 120px;
+}
+
+.document .document-top .logo {
+    margin: 5px 10px 10px 0;
+    vertical-align: top;
+}
+
+.document .document-top .company-information div.company-info {
+    margin-left: 0;
+    margin-top: 5px;
+}
+
+.document .document-top .company-information div.company-info .name {
+    font-weight: bold;
+    margin: 0 0 8px;
+}
+
+.document .document-top .info .name {
+    font-weight: bold;
+    font-size: 1.7em;
+    margin: 0;
+}
+
+.document .document-top .company-information div.company-info .name {
+    font-weight: bold;
+    margin: 0 0 8px;
+}
+
+.document .document-top .info .name {
+    font-size: 1.7em;
+}
+
+.document .document-top .company-information div.company-info .more-info {
+    font-size: 0.85em;
+}
+
+.document a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.document .customer_code_block {
+    margin-top: 15px;
+}
+
+.document .document-top .address-company-customer {
+    margin-top: 10px;
+    margin-left: 0;
+}
+
+.document .document-top .address-company-customer div.info-customer {
+    display: inline-block;
+    vertical-align: top;
+    width: 45%;
+}
+
+.document .document-top .address-company-customer div.info-customer label.address-type-text {
+    display: inline;
+    font-size: 1em;
+    text-decoration: underline;
+    cursor: default;
+}
+
+.document .document-top .address-company-customer div.info-customer .bloc-address {
+    margin-top: 5px;
+}
+
+.document .document-top .address-company-customer .name{
+    font-size: 1em !important;
+}
+
+.document .document-top .address-company-customer div.info-customer.shipping-info-customer {
+    margin-left: 20px;
+}
+
+.document .order-lines-outer {
+    margin-top: 10px;
+}
+
+.document .order-lines-outer .order-line-top {
+    font-size: 0.8em;
+    text-align: right;
+    font-weight: bold;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+table {
+    background-color: transparent;
+}
+
+.document table.order-lines {
+    width: 100%;
+    height: 150px;
+    border-collapse: collapse;
+}
+
+.document table.order-lines td, .document table.order-lines thead {
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.document table.order-lines thead {
+    background: #F0F0F0;
+    border-bottom: 1px solid #DDD;
+    font-size: 1.1em;
+}
+
+.document thead tr {
+    height: 32px;
+    word-wrap: break-word;
+}
+
+.description-column {
+    width: 275px !important;
+}
+
+.document table.order-lines .column {
+    padding: 5px 0 6px 10px;
+    vertical-align: top;
+}
+
+.document table.order-lines .description-column {
+    max-width: 375px;
+}
+
+.document table.order-lines .tax-column {
+    width: 70px;
+}
+
+.document table.order-lines .quantity-column {
+    width: 45px;
+}
+
+.document table.order-lines .date-column, .document table.order-lines .unit-price-column {
+    width: 150px;
+}
+
+.document table.order-lines .total-column {
+    width: 100px;
+    padding-right: 5px !important;
+}
+
+.document table.order-lines tbody tr {
+    border-bottom: 1px solid #efefef;
+}
+
+.document table.order-lines td {
+    font-size: 0.9em;
+}
+
+.document .document-bottom {
+    display: inline-block;
+    page-break-inside: avoid;
+    border-top: 1px solid #DDD;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    clear: both;
+    min-width: 350px;
+}
+
+.document .document-bottom div.bottom-document-item {
+    padding: 0 0 0 7px;
+    margin-bottom: 10px;
+}
+
+.document .document-bottom div.bottom-document-item:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
+.document .document-bottom label {
+    display: inline-block;
+    text-align: left;
+}
+
+.document .document-bottom div.bottom-document-item.subtotal label {
+    font-weight: bold;
+}
+
+.document .document-bottom div.bottom-document-item label.label-subtotal {
+    max-width: 230px;
+    float: left;
+}
+
+.document .document-bottom label.value {
+    font-size: 1.1em;
+    text-align: right;
+    padding: 1px 5px 0 10px;
+}
+
+.document .document-bottom div.bottom-document-item label.value {
+    float: right;
+}
+
+.document .document-bottom div.bottom-document-item.total {
+    padding-top: 4px;
+    padding-bottom: 2px;
+    background: #EAEAEA;
+    border-radius: 4px;
+}
+
+.document .document-bottom div.bottom-document-item.total label.label-subtotal {
+    max-width: 180px;
+}
+
+.document .document-bottom div.bottom-document-item span.tax-calculation {
+    font-size: 1em;
+    color: #888;
+}
+
+.document .separator {
+    clear: both;
+}
+
+#bottom {
+    display: inline-block;
+    width: 100%;
+}
+
+#bottom #bottom-left {
+    width: 366px;
+    display: inline-block;
+    float: right;
+    margin-left: 5px;
+}
+
+#notes {
+    display: inline-block;
+    page-break-inside: avoid;
+    font-size: 0.85em;
+    width: 100%;
+    background: #EAEAEA;
+    border-radius: 4px;
+}
+
+#notes p {
+    text-align: left;
+    margin: 0;
+    padding: 10px;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+
+#notes .global {
+    margin-bottom: 0;
+}
+
+#bottom #bottom-right {
+    width: 100%;
+}
+
+#bottom_left_data > div {
+    margin: 0 10px;
+}
+
+#bottom_left_data h2 {
+    margin-top: 5px;
+    font-size: 1.2em;
+    font-weight: normal;
+}
+
+#bottom_left_data #installments ul {
+    margin: 0;
+    padding-left: 10px;
+}
+
+#bottom_left_data #payment_info_text {
+    font-size: 0.9em;
+    white-space: pre-line;
+    white-space: -moz-pre-line;
+    white-space: -pre-line;
+    white-space: -o-pre-;
+}
+
+#bottom_left_data #payment_info_text > p {
+    margin: 0;
+    display: inline;
+}
+
+#footer {
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+#footer div, #footer pre {
+    text-align: center;
+    font-size: 11px;
+    color: #666;
+    word-break: normal;
+}
+
+#footer .footnote {
+    margin-bottom: 5px;
+}
+
+pre {
+    font-family: inherit;
+    font-size: 1em;
+    margin: 0;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+    background-color: #fff;
+    border: none;
+}
+
+#footer div, #footer pre {
+    text-align: center;
+    font-size: 11px;
+    color: #666;
+    word-break: normal;
+}
+
+#footer .company-id {
+    display: inline;
+}
+

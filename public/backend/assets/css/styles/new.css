@@ -1,0 +1,13 @@
+body {
+    font-family: 'Open Sans, sans-serif !important';
+    text-transform: capitalize;
+}
+
+.submenu-closed.side-closed li.sidebar-user-panel {
+    display: none !important;
+}
+
+tr:focus,
+td:focus {
+    outline: none;
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>checkout mail</title>
+    <style>
+        h2{
+            display: block;
+            text-transform: capitalize;
+            font-family: sans-serif;
+            padding: 5px 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div style="width: 400px;border: 1px solid gray;padding-bottom: 20px;border-radius: 5px;">
+        <h2 style="background: rgb(9, 106, 144);color:white;">Check out mail</h2>
+        <div>
+            <table cellspacing="0" cellpadding="5">
+                <tr>
+                    <td style="width: 30%;">name</td>
+                    <td>:</td>
+                    <td>$user->name</td>
+                </tr>
+                <tr>
+                    <td style="width: 30%;">email</td>
+                    <td>:</td>
+                    <td>$user->email</td>
+                </tr>
+                <tr>
+                    <td style="width: 30%;">mobile number</td>
+                    <td>:</td>
+                    <td>$user->mobile_number</td>
+                </tr>
+                <tr>
+                    <td style="width: 30%;">description</td>
+                    <td>:</td>
+                    <td>$user->description</td>
+                </tr>
+            </table>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+</body>
+</html>

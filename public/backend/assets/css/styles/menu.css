@@ -1,0 +1,68 @@
+.submenu-closed.side-closed li.sidebar-user-panel {
+    display: none !important;
+  }
+
+  tr:focus,
+  td:focus{
+    outline: none;
+  }
+
+  body{
+    font-family: 'Open Sans, sans-serif !important';
+    text-transform: capitalize;
+  }
+
+  .navbar .setting_li_search{
+    position: relative !important;
+  }
+
+  .navbar .setting_li_search i{
+    color: #A2AEB8 !important;
+    font-size: 15px !important;
+    position: absolute !important;
+    top: 20px !important;
+    left: 15px !important;
+  }
+
+  .navbar .setting_li_search input{
+    height: 34px !important;
+    width: 335px !important;
+    border: 0 !important;
+    background: #F7F7F7 !important;
+    padding: 0 15px 0 50px !important;
+    box-sizing: border-box !important;
+  }
+
+  .navbar .setting_li_search input:focus{
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  @media (min-width: 320px) and (max-width: 991px){
+    .navbar .setting_li_search input{
+      width: 100% !important;
+      max-width: 335px !important;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1169px){
+    .navbar .setting_li_search{
+      margin-left: 14px !important;
+    }
+  }
+
+  .menu .list a {
+    color: #838383 !important;
+  }
+
+  .menu .list a span {
+    color: #838383 !important;
+  }
+
+  .menu .list .active a {
+    color: #22B573 !important;
+  }
+
+  .menu .list .active a span {
+    color: #22B573 !important;
+  }

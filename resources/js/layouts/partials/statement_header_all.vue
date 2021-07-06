@@ -1,0 +1,35 @@
+<template>
+    <!-- header start -->
+    <header class="navbar navbar-default navbar-fixed-top navbar-custom fromheader">
+        <div class="navbar-left">
+            <router-link :to="this.url" type="button" class="btn btn-lg btn-link">
+                <span class="picto-font"></span> <span class="back-btn-label bolder" style="padding-left: 10px"> Back </span>
+            </router-link>
+        </div>
+        <div class="A54VNK-o-b">
+            <div class="ellipsis text-center hidden-xs A54VNK-o-g">
+                <h4 class="edit_head_text" style="font-size: 20px;color: #000;font-weight: normal;">Customer Statement</h4>
+            </div>
+        </div>
+    </header>
+    <!-- header end -->
+
+
+</template>
+
+<script>
+    export default {
+        name: '',
+        url: '',
+        created: function(){
+            this.name = window.location.pathname;
+            this.name = this.name.split('/', 5);
+            // console.log(this.name);
+            if(sessionStorage.getItem('url')){
+                this.url = sessionStorage.getItem('url');
+            }else{
+                this.url = '/' + this.name[1] + '/' + this.name[2] + 's';
+            }
+        },
+    }
+</script>

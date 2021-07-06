@@ -1,0 +1,14 @@
+section.content.content-menu {
+    margin-top: 120px;
+}
+  
+section.content.content-menu .card .body{
+    padding: 9px 15px;
+}
+  
+@media (min-width: 320px) and (max-width: 767px){
+    section.content.content-menu {
+        margin-top: 140px;
+    }
+}
+  

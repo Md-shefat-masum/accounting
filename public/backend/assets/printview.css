@@ -1,0 +1,497 @@
+@font-face {
+  font-family: 'avarta';
+  src: url('/avarta.ttf');
+}
+.print_view {
+  font-family: avarta;
+  margin: 0;
+  padding: 20px;
+  background: white;
+  color: black;
+  /* @media screen and (max-width: 700px) {
+    .row {
+        flex-direction: column;
+    }
+} */
+}
+.print_view.main {
+  overflow: hidden;
+  display: block;
+}
+.print_view .row {
+  display: flex;
+}
+.print_view .logo {
+  flex: 50%;
+  padding: 20px;
+}
+.print_view .address {
+  justify-content: right;
+  flex: 50%;
+  background-color: white;
+  padding: 20px;
+  padding-bottom: 0;
+  padding-right: 0;
+}
+.print_view .bill-details p,
+.print_view .address p {
+  font-size: 14px;
+  line-height: 16px;
+}
+.print_view .flex-container {
+  display: flex;
+  flex-direction: column;
+}
+.print_view .flex-container .address-details {
+  text-align: right;
+}
+.print_view .flex-container .address-details h2 {
+  margin: 0px 0px 0px 0px;
+  font-size: 36px;
+  font-weight: 400;
+}
+.print_view .flex-container .address-details h4 {
+  margin: 10px 0px 0px 0px;
+  font-size: 14px;
+}
+.print_view .flex-container .address-details p {
+  margin: 3px 0px;
+}
+.print_view .bill-address {
+  justify-content: right;
+  flex: 31%;
+  background-color: white;
+  padding: 0px 10px 20px 0px;
+}
+.print_view .bill-address h2 {
+  margin: 10px 0px 5px 0px;
+  color: #8C959A;
+  font-size: 14px;
+  font-weight: 400;
+}
+.print_view .bill-address h4 {
+  margin: 5px 0px;
+  font-size: 12px;
+}
+.print_view .bill-address p {
+  margin: 0px;
+  font-size: 14px;
+  line-height: 16px;
+}
+.print_view .ship-address {
+  justify-content: right;
+  flex: 31%;
+  background-color: white;
+  padding: 0px 10px 20px 10px;
+}
+.print_view .ship-address h2 {
+  margin: 10px 0px 5px 0px;
+  color: #8C959A;
+  font-size: 14px;
+  font-weight: 400;
+}
+.print_view .ship-address h4 {
+  margin: 5px 0px;
+  font-size: 12px;
+}
+.print_view .ship-address p {
+  margin: 0px;
+  font-size: 14px;
+  line-height: 16px;
+}
+.print_view .order-date {
+  justify-content: right;
+  flex: 24%;
+  background-color: white;
+  padding: 27px 0px 20px;
+}
+.print_view .order-date h4 {
+  margin: 3px 0px;
+  font-size: 13px;
+}
+.print_view .order-date span:nth-child(2) {
+  color: #000000;
+  font-weight: 400;
+}
+.print_view .flex-container .order-date-details {
+  text-align: right;
+}
+.print_view .bill-item-1 {
+  justify-content: right;
+  flex: 40%;
+  padding: 0px 0px 20px 0px;
+}
+.print_view .bill-item-2 {
+  justify-content: right;
+  flex: 20%;
+}
+.print_view .bill-item-3 {
+  justify-content: right;
+  flex: 20%;
+}
+.print_view .bill-item-4 {
+  justify-content: right;
+  flex: 20%;
+}
+.print_view .bill-item h4 {
+  padding: 10px 10px;
+}
+.print_view .bill-item p {
+  margin: 10px 20px 0px 10px;
+}
+.print_view .bill-item h5 {
+  margin: 10px 20px 0px 10px;
+  font-size: 16px;
+}
+.print_view .terms {
+  justify-content: right;
+  flex: 60%;
+}
+.print_view .terms h4 {
+  margin: 10px 0px 5px 0px;
+}
+.print_view .terms p {
+  margin: 0px;
+  font-size: 13px;
+  width: 70%;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+.print_view .terms p span:nth-child(1) {
+  width: 220px;
+  font-weight: 600;
+}
+.print_view .terms p span:nth-child(2) {
+  width: 85%;
+}
+.print_view .subtotal {
+  justify-content: right;
+  flex: 20%;
+}
+.print_view .flex-container .subtotal-details {
+  text-align: left;
+}
+.print_view .subtotal-details h4 {
+  margin: 10px 0px 5px 0px;
+}
+.print_view .subtotal-details p {
+  margin: 10px 0px 5px 0px;
+}
+.print_view .total-ammount {
+  justify-content: right;
+  flex: 20%;
+}
+.print_view .total-ammount-details h4 {
+  margin: 10px 0px 5px 10px;
+}
+.print_view .total-ammount-details p {
+  margin: 10px 0px 5px 10px;
+}
+.print_view .inv_table {
+  width: 100%;
+}
+.print_view .inv_table thead {
+  background: #acacac78;
+}
+.print_view .inv_table thead th {
+  padding: 10px 15px;
+}
+.print_view .inv_table tfoot td,
+.print_view .inv_table tbody td {
+  padding: 5px 15px;
+}
+.print_view .inv_table thead th:first-child {
+  text-align: left;
+}
+.print_view .inv_table tbody td:nth-child(2) {
+  text-align: center;
+}
+.print_view .inv_table tbody tr td {
+  border-bottom: 1px solid #acacac78;
+}
+.print_view .inv_table tfoot td:nth-child(2),
+.print_view .inv_table tfoot td:nth-child(3),
+.print_view .inv_table tbody td:nth-child(3),
+.print_view .inv_table tbody td:nth-child(4),
+.print_view .inv_table thead th:nth-child(3),
+.print_view .inv_table thead th:nth-child(4) {
+  text-align: right;
+}
+.print_view table thead th {
+  font-size: 13px;
+}
+.print_view table tbody td,
+.print_view table tbody td p {
+  font-size: 12px;
+  margin: 5px 0px;
+}
+.print_view table tbody td h5 {
+  font-size: 12px;
+  margin: 5px 0px;
+}
+.print_view table thead th:nth-child(2) {
+  width: 100px;
+}
+.print_view table thead th:nth-child(3) {
+  width: 120px;
+}
+.print_view table tfoot td {
+  font-size: 13px;
+  font-weight: 400;
+}
+.print_view .order-date-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.print_view .order-date-details span:nth-child(2) {
+  width: 45%;
+  display: inline-block;
+}
+.print_view .hr {
+  width: 100%;
+  height: 1px !important;
+  background-color: #acacac78 !important;
+  -webkit-print-color-adjust: exact;
+}
+.print_view .line {
+  height: 1px !important;
+  background-color: #acacac78 !important;
+  -webkit-print-color-adjust: exact;
+}
+.print_view table tfoot tr {
+  border-bottom: 0 !important;
+}
+.print_view table tfoot tr td:nth-child(2),
+.print_view table tfoot tr td:nth-child(3),
+.print_view table tfoot tr td:nth-child(4) {
+  border-bottom: 1px solid #acacac78;
+}
+.print_view .prepared_by {
+  position: absolute;
+  left: 15px;
+  bottom: 20px;
+  height: 46px;
+}
+.print_view .prepared_by h5 {
+  text-transform: capitalize;
+  font-weight: 400;
+  font-size: 14px;
+  margin: 2px 0px;
+}
+.print_view .prepared_by h6 {
+  font-weight: 400;
+  position: relative;
+  display: inline-block;
+  margin: 2px 0px;
+}
+.print_view .prepared_by h6::before {
+  position: absolute;
+  top: -1px;
+  content: '';
+  background: gray;
+  height: 1px;
+  width: 100%;
+}
+.print_view2 {
+  font-family: avarta;
+  margin: 0;
+  padding: 20px;
+  background: white;
+  color: black;
+}
+.print_view2 .crow {
+  display: flex;
+  flex-wrap: wrap;
+}
+.print_view2 .logo {
+  flex: 44%;
+  padding: 20px;
+  padding-right: 0;
+}
+.print_view2 .address {
+  justify-content: right;
+  flex: 14%;
+  background-color: white;
+  padding: 20px;
+  padding-bottom: 0;
+  padding-right: 0;
+}
+.print_view2 .bill-details p,
+.print_view2 .address p {
+  font-size: 14px;
+  line-height: 16px;
+}
+.print_view2 .flex-container {
+  display: flex;
+  flex-direction: column;
+}
+.print_view2 .flex-container .address-details {
+  text-align: right;
+}
+.print_view2 .flex-container .address-details h2 {
+  margin: 0px 0px 0px 0px;
+  font-size: 36px;
+  font-weight: 400;
+}
+.print_view2 .flex-container .address-details h4 {
+  margin: 10px 0px 0px 0px;
+  font-size: 19px;
+}
+.print_view2 .flex-container .address-details p {
+  margin: 3px 0px;
+}
+.print_view2.main {
+  overflow: hidden;
+  display: block;
+  display: flex;
+}
+.print_view2.main .left {
+  position: relative;
+  height: 406px;
+  border: 1px solid #494949;
+  display: block;
+  width: 33px;
+  text-align: center;
+}
+.print_view2.main .left h1 {
+  font: bold 12px Sans-Serif;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  line-height: 20px;
+  font-size: 20px;
+  position: absolute;
+  left: 0px;
+  transform-origin: 0 0;
+  transform: rotate(-90deg);
+  bottom: -49px;
+  width: 405px;
+  word-spacing: 5px;
+}
+.print_view2.main .right {
+  flex: 1;
+  display: block;
+}
+.print_view2 .receipt_no {
+  display: flex;
+  padding: 0;
+  padding-top: 30px;
+}
+.print_view2 .receipt_no li {
+  list-style-type: none;
+}
+.print_view2 .receipt_no li:nth-child(1) {
+  margin-right: 20px;
+}
+.print_view2 .form_list {
+  display: flex;
+  justify-content: stretch;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  padding: 5px 0px;
+  padding-left: 20px;
+}
+.print_view2 .form_list li {
+  list-style-type: none;
+  padding: 5px 0px;
+  padding-bottom: 2px;
+}
+.print_view2 .form_list li:nth-child(1),
+.print_view2 .form_list li:nth-child(3),
+.print_view2 .form_list li:nth-child(5) {
+  padding-right: 10px;
+  text-transform: uppercase;
+}
+.print_view2 .form_list li:nth-child(3),
+.print_view2 .form_list li:nth-child(5) {
+  padding-left: 10px;
+}
+.print_view2 .form_list li:nth-child(2),
+.print_view2 .form_list li:nth-child(4),
+.print_view2 .form_list li:nth-child(6) {
+  position: relative;
+  flex: 1;
+  padding-left: 10px;
+}
+.print_view2 .form_list li::after {
+  position: absolute;
+  content: '';
+  width: 100%;
+  height: 1px;
+  background-color: #666666;
+  left: 0;
+  bottom: 0;
+  -webkit-print-color-adjust: exact;
+}
+.print_view2 .footer_sign {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  padding-left: 20px;
+  justify-content: space-between;
+  margin-top: 50px;
+  font-weight: 600;
+}
+.print_view2 .footer_sign li {
+  list-style-type: none;
+  position: relative;
+}
+.print_view2 .footer_sign li::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -3px;
+  background: gray;
+  height: 1px;
+  width: 100%;
+  -webkit-print-color-adjust: exact;
+}
+.print_view2.main .right {
+  overflow: hidden;
+}
+@media print {
+  @page {
+    size: A4;
+  }
+  .inv_table thead {
+    background: #21ca3d !important;
+    -webkit-print-color-adjust: exact;
+  }
+  .line {
+    height: 1px !important;
+    background-color: #929292 !important;
+    -webkit-print-color-adjust: exact;
+  }
+  table thead th:nth-child(2) {
+    border-right: 0;
+  }
+  table tfoot tr {
+    border-bottom: 0 !important;
+  }
+  table tfoot tr td:nth-child(2),
+  table tfoot tr td:nth-child(3),
+  table tfoot tr td:nth-child(4) {
+    border-bottom: 1px solid #acacac78;
+  }
+  .print_view {
+    background: white;
+    color: black;
+  }
+  table {
+    page-break-inside: avoid;
+  }
+  .print_view2 .footer_sign li::after {
+    background: gray;
+    -webkit-print-color-adjust: exact;
+  }
+  .print_view2.main .right {
+    overflow: hidden;
+  }
+  .form_list li::after {
+    background-color: #666666;
+    -webkit-print-color-adjust: exact;
+  }
+}
