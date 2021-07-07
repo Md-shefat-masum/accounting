@@ -564,7 +564,7 @@ section.content.content-menu .content-card .nav-tabs>li>a.active {
 
 section.content.content-menu .content-card .nav-tabs>li:hover> a:before,
 section.content.content-menu .content-card .nav-tabs>li>a:before {
-    border-bottom: 3px solid #22B573;
+    border-bottom: 2px solid #5390f4;
 }
 
 section.content.content-menu .amount {
@@ -572,19 +572,19 @@ section.content.content-menu .amount {
     font-size: 12px;
     font-family: 'Open Sans', sans-serif;
     color: #484848 !important;
-    line-height: 25px;
+    line-height: 24px;
     text-align: center;
     height: 25px;
-    width: 25px;
+    width: 30px;
     border: 1px solid #484848 !important;
-    border-radius: 50%;
+    border-radius: 25px;
     display: inline-block;
     margin-left: 5px;
 }
 
 section.content.content-menu .content-card .nav-tabs>li>a.active .amount{
-    background: #22B573;
-    border: 1px solid #22B573 !important;
+    background: #5390f4;
+    border: 1px solid #5390f4 !important;
     color: #fff !important;
 }
 

@@ -145,7 +145,7 @@
                                         <th style="min-width: 95px;">Quote Date</th>
                                         <th style="min-width: 90px;">Quote No</th>
                                         <th style="min-width: 90px;">Customer</th>
-                                        <th class="text-right" style="min-width: 90px;">Amount</th>
+                                        <th class="text-center" style="min-width: 90px;">Amount</th>
                                         <th style="min-width: 125px;">Expiration Date</th>
                                         <th class="text-center" style="min-width: 90px;">Status</th>
                                         <th class="text-center" style="width: 70px;min-width: 70px;"></th>
@@ -169,17 +169,17 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <div @click="editQuote(quote.id)" class="ellipsis">
+                                            <div @click="editQuote(quote.id)" class="ellipsis color_blue">
                                                 {{quote.code}}
                                                 <!-- QST-{{quote.code}} -->
                                             </div>
                                         </td>
                                         <td>
-                                            <div @click="gotoCustomerProfile(quote.customer_id)" class="ellipsis text-success">
+                                            <div @click="gotoCustomerProfile(quote.customer_id)" class="ellipsis color_blue">
                                                 {{quote.customer}}
                                             </div>
                                         </td>
-                                        <td class="text-right">
+                                        <td class="text-center">
                                             <div @click="editQuote(quote.id)" class="ellipsis">
                                                 {{quote.total}}
                                             </div>
@@ -191,11 +191,12 @@
                                         </td>
                                         <td class="text-center">
                                             <div @click="editQuote(quote.id)" class="ellipsis">
-                                                <div class="custom_status_color" v-if="quote.status == 'open'">{{quote.status}}</div>
+                                                <div class="label-light-success" v-if="quote.status == 'open'">{{quote.status}}</div>
                                                 <div v-else>
-                                                    <span class="custom_status_color">won</span>
-                                                    <span class="custom_status_color" v-if="quote.sales_log && quote.sales_log.is_sales_order">ordered</span>
-                                                    <span class="custom_status_color" v-if="quote.sales_log && quote.sales_log.is_invoice">invoiced</span>
+                                                    <span class="label-light-success" v-if="quote.status == 'won'">won</span>
+                                                    <span class="label-light-success" v-if="quote.sales_log && quote.sales_log.is_sales_order">ordered</span>
+                                                    <span class="label-light-success" v-if="quote.sales_log && quote.sales_log.is_invoice">invoiced</span>
+                                                    <span class="label-light-info" v-if="quote.status == 'lost'">lost</span>
                                                 </div>
                                             </div>
                                         </td>
