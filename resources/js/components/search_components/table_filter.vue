@@ -12,7 +12,7 @@
                             </div>
                         </div>
                         <div class="col-md-8 mb-0 text-right">
-                            <div class="dropdown btn btn-outline-default">
+                            <div class="dropdown btn btn-outline-default custom_hover_btn">
                                 <i class="fa fa-angle-down" aria-hidden="true" style="position: absolute;right:9px;top: 10px;"></i>
                                 <input type="text"
                                         style="height:2rem;color:black;font-size:13px;"
@@ -29,7 +29,7 @@
                                     <li class="">
                                         <a class="ellipsis-block" @click="data_by_day('today','by_day','today',$event)" role="button"> today </a>
                                     </li>
-                                    
+
                                     <li class="">
                                         <a class="ellipsis-block" @click="data_by_day('this_month','by_day','this month',$event)" role="button"> this month </a>
                                     </li>
@@ -50,7 +50,7 @@
                                 </ul>
                             </div>
 
-                            <div class="dropdown btn btn-outline-default">
+                            <div class="dropdown btn btn-outline-default custom_hover_btn">
                                 <i class="fa fa-angle-down" aria-hidden="true" style="position: absolute;right:9px;top: 10px;"></i>
                                 <input type="text"
                                         style="height:2rem;color:black;font-size:13px;"
@@ -106,7 +106,7 @@
             // show_list: Object,
             data_sort_type: String,
             data_by_day_name: String,
-            
+
             list: Function,
             dataSort: Function,
             data_by_day: Function,

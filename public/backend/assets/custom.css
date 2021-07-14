@@ -16,7 +16,19 @@
   box-sizing: border-box;
 }
 .product_row_active {
-  background-color: #01aaaf;
+  background-color: #01aaaf !important;
+}
+.product_row_active td:nth-child(1) {
+  color: white;
+}
+.product_row_active td:nth-child(2) {
+  color: white;
+}
+.form1.right-content .table-hover > tbody > tr:hover td {
+  color: white;
+}
+.list_of_product_table tbody tr:hover td {
+  color: white;
 }
 .table-responsive {
   overflow: visible;
@@ -276,6 +288,10 @@ a {
   color: #5bc0de;
   background-color: rgba(91, 192, 222, 0.1);
 }
+.label-light-info {
+  color: #de755b;
+  background-color: rgba(158, 113, 46, 0.1);
+}
 .invoice_btn {
   display: inline-block;
   padding: 0 32px;
@@ -379,10 +395,11 @@ section.content.content-menu .table {
 .formfooter.navbar.navbar-fixed-bottom .loading {
   background: #c2c2c2 !important;
 }
-.table tr:nth-child(even) {
+.table tbody tr:nth-child(even) {
   background-color: #fafafa;
 }
-.table tr:hover {
+.table tbody tr:hover {
+  cursor: pointer;
   background-color: #eeeeee;
 }
 section.content.content-menu .dropdown-menu > .dropdown-item.active,
@@ -433,4 +450,34 @@ section.content.content-menu .btn-white:focus {
   color: #5bc0de;
   background-color: rgba(91, 192, 222, 0.1);
   font-weight: 600;
+}
+section.content.content-menu .btn-default {
+  background-color: #5390f4 !important;
+  border-color: #3b81f2 !important;
+}
+section.content.content-menu .btn-default:hover {
+  color: #fff;
+  background-color: #2371f1 !important;
+  border-color: #0e5fe2 !important;
+}
+section.content.content-menu .custom_hover_btn:hover,
+section.content.content-menu .custom_hover_btn:focus {
+  background: transparent !important;
+  border: 1px solid #0e5fe2 !important;
+}
+section.content.content-menu .custom_hover_btn input:focus {
+  box-shadow: unset !important;
+}
+section.content.content-menu .new_dot.btn-white {
+  color: #0e5fe2;
+}
+section.content.content-menu .setting_li_search input {
+  font-size: 13px;
+}
+table tr td,
+table tr th {
+  vertical-align: middle !important;
+}
+.dropdown-menu > li > a {
+  padding: 7px;
 }

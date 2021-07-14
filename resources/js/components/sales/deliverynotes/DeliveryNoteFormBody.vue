@@ -95,7 +95,8 @@
                             <div class="error-panel"></div>
                         </div>
                     </div>
-                    <div class="form-group row" data-id="v192168001012_1418222522948_291">
+
+                    <!-- <div class="form-group row" data-id="v192168001012_1418222522948_291">
                         <div class="col-sm-4 col-4 control-label">
                             <label class="" style="font-weight: normal;">Status</label>
                         </div>
@@ -109,7 +110,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
+
                     <div class="form-group row" data-id="v192168000062_1318947796381_657">
                         <div class="col-sm-4 col-4 control-label">
                             <label class="" style="font-weight: normal;">PO Number</label>

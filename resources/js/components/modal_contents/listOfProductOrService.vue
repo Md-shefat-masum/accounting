@@ -51,7 +51,7 @@
                 <div class="row clearfix" v-if="!add_new_product_form">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-hover list_of_product_table">
                                 <thead>
                                     <tr>
                                         <th style="width: 5%;padding: 5px;">

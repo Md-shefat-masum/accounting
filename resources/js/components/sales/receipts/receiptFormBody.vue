@@ -316,7 +316,7 @@ export default {
             // this.recipients = recipient;
         },
         set_payment_method: function(payment_method_info){
-            console.log(payment_method_info);
+            // console.log(payment_method_info);
             this.form.payment_method = payment_method_info.payment_method;
             this.form.receipt_status = payment_method_info.receipt_status;
             this.form.bank = payment_method_info.bank_name;

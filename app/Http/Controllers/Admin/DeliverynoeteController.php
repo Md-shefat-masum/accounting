@@ -98,12 +98,13 @@ class DeliverynoeteController extends Controller
 
         $products = $request->selected_products;
 
-        $requestData = $request->except(['files', 'attachments']);
+        $requestData = $request->except(['files', 'attachments','status']);
         $requestData['code'] = NULL;
+        $requestData['status'] = 'not invoiced';
         $requestData['creator'] = Auth::user()->id;
 
         if (!isset($request->code)) {
-            CommonController::getCodeId('delivery_note', 'DEN');
+            $requestData['code'] = CommonController::getCodeId('delivery_note', 'DEN');
         } else {
             //business_code is set
             $requestData['code'] = $request->code;
@@ -145,14 +146,15 @@ class DeliverynoeteController extends Controller
             $delivery_note->status = 'invoiced';
             $delivery_note->save();
         }else{
-            $sales_log_id = SalesLog::insertGetId([
+            $fields = [
                 'creator' => Auth::user()->id,
                 'customer_id' => $delivery_note->customer_id,
                 'is_delivery_note' => 1,
                 'delivery_note_id' => $delivery_note->id,
                 'delivery_note_code' => $delivery_note->code,
                 'delivery_note_description' => 'new delivery note creation',
-            ]);
+            ];
+            $sales_log_id = SalesLog::insertGetId($fields);
         }
 
         $requestImage = $request->all();
@@ -183,7 +185,7 @@ class DeliverynoeteController extends Controller
         ]);
 
         $delivery_note = Deliverynote::findOrFail($id);
-        $input = $request->except(['files', 'attachments']);
+        $input = $request->except(['files', 'attachments', 'status']);
         $delivery_note->fill($input)->save();
 
         $products = $request->selected_products;

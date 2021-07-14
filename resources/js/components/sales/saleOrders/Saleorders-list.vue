@@ -192,10 +192,10 @@
                                         </td>
                                         <td class="text-center">
                                             <div class="ellipsis" @click="editOrder(saleorder.id)">
-                                                <div class="custom_status_color" v-if="saleorder.status == 'open'">not prepared</div>
+                                                <div class="label-light-success" v-if="saleorder.status == 'open'">not prepared</div>
                                                 <div v-else>
-                                                    <span class="custom_status_color">delivered</span>
-                                                    <span class="custom_status_color" v-if="saleorder.sales_log && saleorder.sales_log.is_delivery_note">ordered</span>
+                                                    <span class="label-light-success">delivered</span>
+                                                    <span class="label-light-info" v-if="saleorder.sales_log && saleorder.sales_log.is_delivery_note">ordered</span>
                                                     <span class="custom_status_color" v-if="saleorder.sales_log && saleorder.sales_log.is_invoice">invoiced</span>
                                                 </div>
                                             </div>
