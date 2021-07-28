@@ -138,6 +138,7 @@ import NewaccountingReceipt from './components/accounting/accountingReceipt/acco
 import Profile from './components/user_settings/profile'
 import Notifications from './components/user_settings/notifications'
 import Preferences from './components/user_settings/preferences'
+import employee from './components/user_settings/employee/employee'
 // USER SETTINGS MODULES END
 
 Vue.use(VueRouter);
@@ -158,6 +159,7 @@ const routes = [
             {path: 'profile', component: Profile},
             {path: 'notifications', component: Notifications},
             {path: 'preferences', component: Preferences},
+            {path: 'all-employee', component: employee},
         ]
     },
     {

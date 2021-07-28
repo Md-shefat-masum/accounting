@@ -3,7 +3,7 @@
         <sub-header></sub-header>
         <!-- submenu -->
         <!-- full table -->
-        <section class="content content-menu">
+        <section class="content content-menu content_setting">
             <div class="container-fluid">
                 <!-- breadcumbs -->
                 <div class="block-header">
@@ -69,30 +69,30 @@
                                             </div>
                                             <div class="col-sm-6 A54VNK-Nd-d">
                                                 <div class="form-group">
-                                                    <label class="control-label bold A54VNK-Md-a">Shorter Amounts </label>
-                                                    <div class="btn-group A54VNK-Cc-c switch-button" aria-atomic="true">
-                                                        <a class="btn btn-default" href="#" aria-pressed="false">On</a>
-                                                        <a class="btn active btn-primary" href="#" aria-pressed="true">Off</a>
+                                                    <label class="control-label bold A54VNK-Md-a d-block font-weight-bold">Shorter Amounts </label>
+                                                    <div class="btn-group A54VNK-Cc-c switch-button mb-3" aria-atomic="true" tabindex="0">
+                                                        <a class="btn btn-primary" href="#" aria-pressed="true" role="button">Yes</a>
+                                                        <a class="btn active btn-default" href="#" aria-pressed="false" role="button">No</a>
                                                     </div>
                                                     <p class="help-block">Amount in filters and dashboards will be
                                                         rounded. i.e. Tk137,320 will be replaced by Tk137K
                                                     </p>
                                                 </div>
-                                                <div class="form-group"><label class="control-label bold A54VNK-Md-a">
+                                                <div class="form-group"><label class="control-label bold A54VNK-Md-a d-block font-weight-bold">
                                                     Contact Info Previewer </label>
-                                                    <div class="btn-group A54VNK-Cc-c switch-button" aria-atomic="true">
-                                                        <a class="btn active btn-primary" href="#" aria-pressed="true">On</a>
-                                                        <a class="btn btn-default" href="#" aria-pressed="false">Off</a>
+                                                    <div class="btn-group A54VNK-Cc-c switch-button mb-3" aria-atomic="true" tabindex="0">
+                                                        <a class="btn btn-primary" href="#" aria-pressed="true" role="button">Yes</a>
+                                                        <a class="btn active btn-default" href="#" aria-pressed="false" role="button">No</a>
                                                     </div>
                                                     <div class="help-block"> Preview your contacts’ information when
                                                         hovering over their name
                                                     </div>
                                                 </div>
-                                                <div class="form-group"><label class="control-label bold A54VNK-Md-a">
+                                                <div class="form-group"><label class="control-label bold A54VNK-Md-a d-block font-weight-bold">
                                                     Accountant Mode </label>
-                                                    <div class="btn-group A54VNK-Cc-c switch-button" aria-atomic="true">
-                                                        <a class="btn btn-default" href="#" aria-pressed="false">On</a>
-                                                        <a class="btn active btn-primary" href="#" aria-pressed="true">Off</a>
+                                                    <div class="btn-group A54VNK-Cc-c switch-button mb-3" aria-atomic="true" tabindex="0">
+                                                        <a class="btn btn-primary" href="#" aria-pressed="true" role="button">Yes</a>
+                                                        <a class="btn active btn-default" href="#" aria-pressed="false" role="button">No</a>
                                                     </div>
                                                     <div class="help-block"> Display accounting account information
                                                         within categories and other features

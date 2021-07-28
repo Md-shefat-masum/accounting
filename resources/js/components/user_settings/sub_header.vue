@@ -12,6 +12,9 @@
                 <li>
                     <router-link to="/settings/preferences">Preferences</router-link>
                 </li>
+                <li>
+                    <router-link to="/settings/all-employee">Employee</router-link>
+                </li>
 
             </ul>
             <!-- Tab panes -->
