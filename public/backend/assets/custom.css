@@ -553,3 +553,13 @@ section.content.content-menu.content_setting .btn-primary.active {
 .tabs-container li a.active::before {
   transform: scaleX(1);
 }
+.theme-black .btn-outline-primary:hover {
+  background: #353c48 !important;
+  color: #fff !important;
+  border: 1px solid #353c48 !important;
+}
+.theme-black .btn-outline-primary.active {
+  background: #353c48 !important;
+  color: #fff !important;
+  border: 1px solid #353c48 !important;
+}

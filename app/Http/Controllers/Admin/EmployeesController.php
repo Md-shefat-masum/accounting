@@ -20,7 +20,7 @@ class EmployeesController extends Controller
     public function list(Request $request)
     {
         $auth_user = Auth::user();
-        $employees = Employees::where('user_id', $auth_user->id)->orderBy('created_at', 'asc')->get();
+        $employees = Employees::where('user_id', $auth_user->id)->orderBy('created_at', 'asc')->paginate(10);
         return $employees;
     }
 

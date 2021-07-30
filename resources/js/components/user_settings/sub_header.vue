@@ -13,7 +13,7 @@
                     <router-link to="/settings/preferences">Preferences</router-link>
                 </li>
                 <li>
-                    <router-link to="/settings/all-employee">Employee</router-link>
+                    <router-link to="/settings/all-role">Role</router-link>
                 </li>
 
             </ul>

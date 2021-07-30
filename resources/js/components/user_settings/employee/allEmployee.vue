@@ -11,10 +11,10 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tr>
-                        <td>Mr Abdul jabbar</td>
-                        <td>abs@gmail.com</td>
-                        <td>+8801452369</td>
+                    <tr v-for="(employee) in employees.data" :key="employee.id">
+                        <td>{{ employee.name }}</td>
+                        <td>{{ employee.email }}</td>
+                        <td>{{ employee.phone }}</td>
                         <td>
                             <div class="dropdown d-inline-block">
                                 <div class="btn-group dropleft text-center">
@@ -22,7 +22,8 @@
                                         <i aria-hidden="true" class="fa fa-ellipsis-v"></i>
                                     </a>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item text-danger waves-effect waves-light">Show</a>
+                                        <!-- <a class="dropdown-item text-danger waves-effect waves-light">Show</a> -->
+                                        <a class="dropdown-item text-danger waves-effect waves-light">Edit</a>
                                         <a class="dropdown-item text-danger waves-effect waves-light">Delete</a>
                                     </div>
                                 </div>
@@ -36,9 +37,40 @@
 </template>
 
 <script>
-export default {
+import { mapActions, mapMutations, mapGetters } from 'vuex';
 
-}
+export default {
+    name:'',
+    data:function () {
+        return {
+            id: '',
+            employees: {},
+        }
+    },
+    created: function(){
+        this.get_employee();
+    },
+    methods: {
+        ...mapActions([
+            // 'nameOfAction', //also supports payload `this.nameOfAction(amount)`
+        ]),
+        ...mapMutations([
+
+        ]),
+        get_employee: function(){
+            axios.get('/api/employees')
+                .then((res)=>{
+                    this.employees = res.data;
+                });
+        },
+
+    },
+    computed: {
+        ...mapGetters([
+
+        ]),
+    }
+};
 </script>
 
 <style scoped>

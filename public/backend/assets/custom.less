@@ -1,4 +1,5 @@
-.form2.right-content a:hover, .form2.right-content a:focus {
+.form2.right-content a:hover,
+.form2.right-content a:focus {
     color: #22B573 !important;
     text-decoration: none;
 }
@@ -661,18 +662,19 @@ section.content.content-menu.content_setting {
 
 
 
-.tabs-container{
+.tabs-container {
     display: flex;
     justify-content: center;
     overflow: auto;
     flex-wrap: wrap;
     background: #f1f1f1;
 
-    li{
+    li {
         position: relative;
         flex: 0 0 auto;
         display: block;
-        a{
+
+        a {
             display: block;
             border: 0;
             text-align: center;
@@ -696,11 +698,23 @@ section.content.content-menu.content_setting {
                 transition: transform 250ms ease;
             }
 
-            &.active{
-                &::before{
+            &.active {
+                &::before {
                     transform: scaleX(1);
                 }
             }
         }
     }
+}
+
+.theme-black .btn-outline-primary:hover {
+    background: #353c48 !important;
+    color: #fff !important;
+    border: 1px solid #353c48 !important;
+}
+
+.theme-black .btn-outline-primary.active {
+    background: #353c48 !important;
+    color: #fff !important;
+    border: 1px solid #353c48 !important;
 }

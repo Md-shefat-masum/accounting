@@ -159,7 +159,7 @@ const routes = [
             {path: 'profile', component: Profile},
             {path: 'notifications', component: Notifications},
             {path: 'preferences', component: Preferences},
-            {path: 'all-employee', component: employee},
+            {path: 'all-role', component: employee},
         ]
     },
     {

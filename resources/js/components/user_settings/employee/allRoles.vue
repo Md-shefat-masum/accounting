@@ -2,7 +2,7 @@
     <div>
         <div class="card">
             <div class="card-header d-flex" style="justify-content: flex-end;">
-                <a href="#" v-if="type == 'all_role'" @click.prevent="type ='create_role'" class="btn btn-primary done_btn" style="padding: 7px 19px;">Create New</a>
+                <a href="#" v-if="type == 'all_role'" @click.prevent="type ='create_role'" class="btn btn-primary done_btn" style="padding: 7px 19px;">Create Role</a>
                 <a href="#" v-if="type == 'create_role'" @click.prevent="type ='all_role'" class="btn btn-primary done_btn" style="padding: 7px 19px;">All Roles</a>
             </div>
 

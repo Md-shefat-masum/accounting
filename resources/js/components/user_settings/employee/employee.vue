@@ -9,10 +9,10 @@
 
                 <div class="block-header">
                     <div class="row" style="justify-content: center;">
-                        <div class="col-md-8">
+                        <div class="col-md-10">
                             <div class="card" style="margin-bottom: 13px; margin-top: 80px;">
 
-                                <div class="card-body pb-0">
+                                <!-- <div class="card-body pb-0">
                                     <ul class="tabs-container employee_menu_list">
                                         <li class="tab">
                                             <a class="active" @click.prevent="change_content('employee_list')" href="#"><span>All Employee</span></a>
@@ -24,11 +24,11 @@
                                             <a class="" @click.prevent="change_content('roles')" href="#"><span>Roles</span></a>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> -->
 
-                                <all-employee v-if="type == 'employee_list'"></all-employee>
+                                <!-- <all-employee v-if="type == 'employee_list'"></all-employee> -->
 
-                                <create-employee v-if="type == 'create_employee'"></create-employee>
+                                <!-- <create-employee v-if="type == 'create_employee'"></create-employee> -->
 
                                 <all-roles v-if="type == 'roles'"></all-roles>
 
@@ -45,21 +45,21 @@
 
 <script>
 import SubHeader from '../sub_header'
-import AllEmployee from './allEmployee.vue'
+// import AllEmployee from './allEmployee.vue'
 import AllRoles from './allRoles.vue'
-import CreateEmployee from './createEmployee.vue'
+// import CreateEmployee from './createEmployee.vue'
 
 export default {
     components: {
         SubHeader,
-        CreateEmployee,
+        // CreateEmployee,
         AllRoles,
-        AllEmployee,
+        // AllEmployee,
     },
 
     data: function(){
         return {
-            type: 'employee_list',
+            type: 'roles',
         }
     },
 
