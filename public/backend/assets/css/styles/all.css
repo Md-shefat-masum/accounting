@@ -4254,7 +4254,7 @@ section.content.content-menu .vat.modal .modal-footer .btn {
     z-index: 11;
 }
 .form2.right-content input + label:not(.not_float) {
-    color: #999999 !important;
+    color: #999999;
     font-size: inherit !important;
     font-weight: 400 !important;
     z-index: 11 !important;

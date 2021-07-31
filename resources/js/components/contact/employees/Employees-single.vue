@@ -25,7 +25,10 @@
                                             <label>Job Title <small style="color: red;padding-left: 4px;">*</small></label>
                                         </div>
                                         <div class="col-md-10">
-                                            <input type="text" v-model="form.job_title" class="form-control" id="gwt-uid-2">
+                                            <!-- <input type="text" v-model="form.job_title" class="form-control" id="gwt-uid-2"> -->
+                                            <select name="" v-model="form.job_title" class="form-control">
+                                                <option :value="role.role_name" v-for="role in roles" :key="role.id">{{ role.role_name }}</option>
+                                            </select>
                                             <div v-if="form.errors.has('job_title')" class="required-text-inline" v-html="form.errors.get('job_title')"></div>
                                         </div>
                                     </div>
@@ -246,11 +249,12 @@
                     "business_code": '',
                     "created_at": "",
                     "updated_at": "",
-                })
+                }),
+                roles: [],
             }
         },
         created: function () {
-
+            this.get_roles();
         },
         methods: {
             createEmployee: function () {
@@ -267,6 +271,12 @@
                         title: 'Created error'
                     });
                 });
+            },
+            get_roles: function(){
+                axios.get('/api/get-all-roles')
+                    .then((res)=>{
+                        this.roles = res.data;
+                    })
             },
             addFile(e){
                 let file = e.target.files;

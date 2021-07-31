@@ -19,13 +19,14 @@ class QuotesController extends Controller
 {
     public function get(Request $request, $id)
     {
-        $quotes = Quotes::where('id',$id)->with('sales_log','delivery_address_info','creator_info')->first();
-        $selected_products = RelatedProduct::where('type_name','quotes')->where('type_id', $id)->with('product_details')->get();
-        $customer_info = Customers::where('id', $quotes->customer_id)->with([
-                                    'country_name',
-                                    'contacts',
-                                    'files','sale_receipts','projects'
-                                ])->first();
+        $quotes = Quotes::where('creator', Auth::user()->id)->where('id', $id)->with('sales_log', 'delivery_address_info', 'creator_info')->first();
+        $selected_products = RelatedProduct::where('type_name', 'quotes')->where('type_id', $id)->with('product_details')->get();
+        $customer_info = Customers::where('user_id', Auth::user()->id)->where('id', $quotes->customer_id)
+            ->with([
+                'country_name',
+                'contacts',
+                'files', 'sale_receipts', 'projects'
+            ])->first();
 
         return response()->json([
             'quotes' => $quotes,
@@ -36,24 +37,24 @@ class QuotesController extends Controller
 
     public function list(Request $request)
     {
-        Quotes::where('expiration_date','<',Carbon::now()->toDateString())->update([
+        Quotes::where('creator', Auth::user()->id)->where('expiration_date', '<', Carbon::now()->toDateString())->update([
             'status' => 'lost'
         ]);
 
         if ($request->status == 'open') {
-            $datas = Quotes::latest()->where('status', 'open')->with('sales_log')->orderBy('id','DESC')->paginate(10);
+            $datas = Quotes::where('creator', Auth::user()->id)->latest()->where('status', 'open')->with('sales_log')->orderBy('id', 'DESC')->paginate(10);
         } elseif ($request->status == 'won') {
-            $datas = Quotes::latest()->where('status', 'won')->with('sales_log')->orderBy('id','DESC')->paginate(10);
+            $datas = Quotes::where('creator', Auth::user()->id)->latest()->where('status', 'won')->with('sales_log')->orderBy('id', 'DESC')->paginate(10);
         } elseif ($request->status == 'lost') {
-            $datas = Quotes::latest()->where('status', 'lost')->with('sales_log')->orderBy('id','DESC')->paginate(10);
+            $datas = Quotes::where('creator', Auth::user()->id)->latest()->where('status', 'lost')->with('sales_log')->orderBy('id', 'DESC')->paginate(10);
         } else {
-            $datas = Quotes::latest()->with('sales_log')->orderBy('id','DESC')->paginate(10);
+            $datas = Quotes::where('creator', Auth::user()->id)->latest()->with('sales_log')->orderBy('id', 'DESC')->paginate(10);
         }
 
-        $quotes_count = Quotes::count();
-        $open_quotes_count = Quotes::where('status', 'open')->count();
-        $won_quotes_count = Quotes::where('status', 'won')->count();
-        $lost_quotes_count = Quotes::where('status', 'lost')->count();
+        $quotes_count = Quotes::where('creator', Auth::user()->id)->count();
+        $open_quotes_count = Quotes::where('creator', Auth::user()->id)->where('status', 'open')->count();
+        $won_quotes_count = Quotes::where('creator', Auth::user()->id)->where('status', 'won')->count();
+        $lost_quotes_count = Quotes::where('creator', Auth::user()->id)->where('status', 'lost')->count();
 
         return response()->json([
             'datas' => $datas,
@@ -90,11 +91,14 @@ class QuotesController extends Controller
         // $requestData['creator'] = Auth::user()->id;
         $auth_user = Auth::user();
         if (!isset($request->code)) {
-            CommonController::getCodeId('quotation', 'QOT');
+            $requestData['code'] = CommonController::getCodeId('quotation', 'QOT');
         } else {
             //business_code is set
             $requestData['code'] = $request->code;
+            CommonController::setCodeId('quotation', 'QOT');
         }
+
+        // return dd($requestData['code'], CommonController::getCodeId('quotation', 'QOT'));
 
         $quotes = Quotes::create($requestData);
         $quotes->creator = Auth::user()->id;
@@ -113,7 +117,7 @@ class QuotesController extends Controller
         $quotes->sales_log_id = $sales_log_id;
         $quotes->save();
 
-        CommonController::related_product_insert($products,'quotes',$quotes->id);
+        CommonController::related_product_insert($products, 'quotes', $quotes->id);
 
         $requestImage = $request->all();
 
@@ -164,43 +168,21 @@ class QuotesController extends Controller
 
         $requestData = $request->except(['files', 'attachments']);
         $auth_user = Auth::user();
+
         if (!isset($request->code)) {
-            //business_code is not set
-            $customer_uniqueId_count = UniqueId::where('user_id', $auth_user->id)
-                ->where('type', 'quotation')
-                ->select('count')
-                ->first();
-
-            if (!isset($customer_uniqueId_count)) {
-                $saveUniqueID = [
-                    'user_id' => $auth_user->id,
-                    'type' => 'quotation',
-                    'count' => '1',
-                ];
-                UniqueId::create($saveUniqueID);
-                $requestData['code'] = 'QOT-001';
-            } else {
-                $increment = (int) $customer_uniqueId_count->count + 1;
-
-                UniqueId::where('user_id', $auth_user->id)
-                    ->where('type', 'quotation')
-                    ->update([
-                        'count' => $increment,
-                    ]);
-                $increments = sprintf('%03d', $increment);
-                $requestData['code'] = 'QOT-' . $increments;
-            }
+            $requestData['code'] = CommonController::getCodeId('quotation', 'QOT');
         } else {
             //business_code is set
             $requestData['code'] = $request->code;
+            CommonController::setCodeId('quotation', 'QOT');
         }
 
         $quotes->fill($requestData)->save();
         $quotes->updated_at = Carbon::now()->toDateTimeString();
         $quotes->save();
 
-        RelatedProduct::where('type_name','quotes')->where('type_id', $quotes->id)->delete();
-        CommonController::related_product_insert($products,'quotes',$quotes->id);
+        RelatedProduct::where('type_name', 'quotes')->where('type_id', $quotes->id)->delete();
+        CommonController::related_product_insert($products, 'quotes', $quotes->id);
 
         // CommonController::delete_customer_log([
         //     'creator' => Auth::user()->id,
@@ -218,7 +200,7 @@ class QuotesController extends Controller
 
         $requestImage = $request->all();
         if (isset($requestImage['files'])) {
-            ImageFile::where('type', 'quotes')->where('type_id',$quotes->id)->delete();
+            ImageFile::where('type', 'quotes')->where('type_id', $quotes->id)->delete();
 
             CommonController::file_upload_to_image_files(
                 [
@@ -236,14 +218,14 @@ class QuotesController extends Controller
 
     public function delete($id)
     {
-        $quotes = Quotes::findOrFail($id);
+        $quotes = Quotes::where('creator', Auth::user()->id)->findOrFail($id);
 
-        if($quotes->sales_log()){
+        if ($quotes->sales_log()) {
             $log = $quotes->sales_log()->first();
 
-            if($log && ( $log->is_sales_order != null || $log->is_delivery_note != null || $log->is_invoice != null ) ){
+            if ($log && ($log->is_sales_order != null || $log->is_delivery_note != null || $log->is_invoice != null)) {
                 throw new ModelNotFoundException('quotation is related to another document');
-            }else{
+            } else {
                 CommonController::delete_customer_log([
                     'creator' => Auth::user()->id,
                     'customer_id' => $quotes->customer_id,
@@ -260,7 +242,7 @@ class QuotesController extends Controller
 
     public function qutation_sort(Request $request)
     {
-        $quotes = Quotes::orderBy((string) $request->key, $request->type)->paginate(10);
+        $quotes = Quotes::where('creator', Auth::user()->id)->orderBy((string) $request->key, $request->type)->paginate(10);
         return $quotes;
     }
 
@@ -269,28 +251,28 @@ class QuotesController extends Controller
 
         if ($request->type == 'by_day') {
             if ($request->key == 'today') {
-                return Quotes::whereDay('created_at', Carbon::now()->today())->paginate(10);
+                return Quotes::where('creator', Auth::user()->id)->whereDay('created_at', Carbon::now()->today())->paginate(10);
             }
             if ($request->key == 'this_month') {
-                return Quotes::whereMonth('created_at', Carbon::now()->month)->paginate(10);
+                return Quotes::where('creator', Auth::user()->id)->whereMonth('created_at', Carbon::now()->month)->paginate(10);
             }
             if ($request->key == 'this_year') {
-                return Quotes::whereYear('created_at', Carbon::now()->year)->paginate(10);
+                return Quotes::where('creator', Auth::user()->id)->whereYear('created_at', Carbon::now()->year)->paginate(10);
             }
         }
 
         if ($request->type == 'by_sub_day') {
             if ($request->key == 'last_week') {
                 $date = \Carbon\Carbon::today()->subDays(7);
-                return Quotes::where('created_at', '>=', $date)->paginate(10);
+                return Quotes::where('creator', Auth::user()->id)->where('created_at', '>=', $date)->paginate(10);
             }
             if ($request->key == 'last_month') {
                 $date = \Carbon\Carbon::today()->subDays(30);
-                return Quotes::where('created_at', '>=', $date)->paginate(10);
+                return Quotes::where('creator', Auth::user()->id)->where('created_at', '>=', $date)->paginate(10);
             }
             if ($request->key == 'last_year') {
                 $date = \Carbon\Carbon::today()->subDays(365);
-                return Quotes::where('created_at', '>=', $date)->paginate(10);
+                return Quotes::where('creator', Auth::user()->id)->where('created_at', '>=', $date)->paginate(10);
             }
         }
         return $this->list($request);
@@ -300,6 +282,7 @@ class QuotesController extends Controller
     {
         $key = $request->key;
         $quotes = Quotes::where('customer', $key)
+            ->where('creator', Auth::user()->id)
             ->orWhere('customer', 'like', '%' . $key . '%')
             ->orWhere('code', 'like', '%' . $key . '%')
             ->orWhere('total', 'like', '%' . $key . '%')
@@ -309,7 +292,7 @@ class QuotesController extends Controller
 
     public function update_qutation_status(Request $request)
     {
-        $quotes = Quotes::find($request->id);
+        $quotes = Quotes::where('creator',Auth::user()->id)->find($request->id);
         $quotes->status = $request->status;
         $quotes->save();
         return $quotes;

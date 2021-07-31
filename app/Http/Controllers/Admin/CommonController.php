@@ -113,7 +113,19 @@ class CommonController extends Controller
             $code = "$key-" . $increments;
         }
 
+        // return dd($_REQUEST, $_GET, $_POST, explode('-', request()->get('code'))[1]);
         return $code;
+    }
+
+    public static function setCodeId($type)
+    {
+        if (request()->has('code') && request()->get('code') != null) {
+            UniqueId::where('user_id', Auth::user()->id)
+                ->where('type', $type)
+                ->update([
+                    'count' => explode('-', request()->get('code'))[1],
+                ]);
+        }
     }
 
     public static function insert_customer_log($info = [])
@@ -138,8 +150,8 @@ class CommonController extends Controller
             ->where('type_id', $info['type_id'])
             ->delete();
 
-        if($info['type'] == 'quotes'){
-            SalesLog::where('quote_id',$info['type_id'],)->update([
+        if ($info['type'] == 'quotes') {
+            SalesLog::where('quote_id', $info['type_id'],)->update([
                 'is_quote' => null,
                 'quote_code' => null,
                 'quote_id' => null,
@@ -147,8 +159,8 @@ class CommonController extends Controller
             ]);
         }
 
-        if($info['type'] == 'saleorders'){
-            SalesLog::where('sales_order_id',$info['type_id'],)->update([
+        if ($info['type'] == 'saleorders') {
+            SalesLog::where('sales_order_id', $info['type_id'],)->update([
                 'is_sales_order' => null,
                 'sales_order_id' => null,
                 'sales_order_code' => null,
@@ -156,8 +168,8 @@ class CommonController extends Controller
             ]);
         }
 
-        if($info['type'] == 'deliverynotes'){
-            SalesLog::where('delivery_note_id',$info['type_id'],)->update([
+        if ($info['type'] == 'deliverynotes') {
+            SalesLog::where('delivery_note_id', $info['type_id'],)->update([
                 'is_delivery_note' => null,
                 'delivery_note_id' => null,
                 'delivery_note_code' => null,
@@ -165,8 +177,8 @@ class CommonController extends Controller
             ]);
         }
 
-        if($info['type'] == 'invoices'){
-            SalesLog::where('invoice_id',$info['type_id'],)->update([
+        if ($info['type'] == 'invoices') {
+            SalesLog::where('invoice_id', $info['type_id'],)->update([
                 'is_invoice' => null,
                 'invoice_id' => null,
                 'invoice_code' => null,
@@ -197,11 +209,11 @@ class CommonController extends Controller
                     $name = $t++ . "." . time() . '.' . explode('/', explode(':', substr($file['image'], 0, strpos($file['image'], ';')))[1])[1];
 
                     $extension = explode('/', explode(';', $file['image'])[0])[1];
-                    if($extension == "pdf"){
-                        $image = str_replace('data:application/'.$extension.';base64,', '', $file['image']);
+                    if ($extension == "pdf") {
+                        $image = str_replace('data:application/' . $extension . ';base64,', '', $file['image']);
                         $image = str_replace(' ', '+', $image);
                         \File::put(public_path() . '/images/' . $name, base64_decode($image));
-                    }else{
+                    } else {
                         Image::make($file['image'])->save(public_path('images/') . $name);
                     }
 
@@ -226,9 +238,9 @@ class CommonController extends Controller
         foreach ($products as $key => $item) {
             $item = (object) $item;
             $related_product = new RelatedProduct();
-            if(isset($item->product_id)){
+            if (isset($item->product_id)) {
                 $related_product->product_id = $item->product_id;
-            }else{
+            } else {
                 $related_product->product_id = $item->id;
             }
             $related_product->type_name = $type_name;
@@ -239,21 +251,21 @@ class CommonController extends Controller
             $related_product->sales_price = $item->sales_price;
             $related_product->purchase_price = $item->purchase_price;
             $related_product->qty = $item->qty;
-            if($type_name == 'saleorders'){
+            if ($type_name == 'saleorders') {
                 $related_product->ordered_qty = $item->qty;
             }
-            if($type_name == 'delivery_note' && isset($item->ordered_qty)){
+            if ($type_name == 'delivery_note' && isset($item->ordered_qty)) {
                 $related_product->ordered_qty = $item->ordered_qty;
             }
             $related_product->disc = $item->disc;
             $related_product->total_price = $item->total_price;
             $related_product->vat_on_sales = $item->vat_on_sales;
 
-            if(isset($item->selected_select2_tax_and_vat)){
+            if (isset($item->selected_select2_tax_and_vat)) {
                 $related_product->selected_select2_tax_and_vat = json_encode($item->selected_select2_tax_and_vat);
             }
 
-            if(isset($item->vat_info)){
+            if (isset($item->vat_info)) {
                 $related_product->vat_info = json_encode($item->vat_info);
             }
 

@@ -96,16 +96,16 @@
                                 <ul class="nav nav-tabs tab-nav-right" role="tablist">
                                     <li role="presentation">
                                         <a href="#" data-toggle="tab" class="active show">
-                                            Active
-                                            <span class="amount">10</span>
+                                            All
+                                            <span class="amount">{{ employees.data && employees.data.length }}</span>
                                         </a>
                                     </li>
-                                    <li role="presentation">
+                                    <!-- <li role="presentation">
                                         <a href="#" data-toggle="tab">
                                             Deactivate
                                             <span class="amount">10</span>
                                         </a>
-                                    </li>
+                                    </li> -->
                                 </ul>
                                 <!-- Tab panes -->
                             </div>
@@ -131,7 +131,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="employee in employees">
+                                    <tr v-for="employee in employees.data" :key="employee.id">
                                         <td style="padding-left: 24px;cursor: pointer;" @click="employeeEdit(employee)">
                                             <div class="ellipsis">
                                                 {{ employee.name }}

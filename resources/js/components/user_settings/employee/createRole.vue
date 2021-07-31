@@ -1,23 +1,27 @@
 <template>
     <div>
         <div class="card-header">
-            <h3>Create Roles</h3>
+            <h3 v-if="form_type == 'create'">Create Role</h3>
+            <h3 v-else>Update Role</h3>
         </div>
 
         <div class="card-body">
             <form action="" id="role_create_form">
                 <div class="row">
                     <div class="form-group floating-label mandatory col-md-6 px-2">
-                        <input type="text" name="role_name" id="gwt-uid-380" autocomplete="off" class="form-control form-component" />
+                        <input type="text" name="role_name" v-model="form_data.role_name" id="gwt-uid-380" autocomplete="off" class="form-control form-component" />
                         <label for="gwt-uid-380" class="control-label form-question ellipsis">Name</label>
+                        <span class="text-danger role_name_err"></span>
                     </div>
                     <div class="form-group floating-label mandatory col-md-6 px-2">
-                        <input type="text" name="code" id="gwt-uid-381" autocomplete="off" class="form-control form-component" />
+                        <input type="text" name="code" v-model="form_data.code" id="gwt-uid-381" autocomplete="off" class="form-control form-component" />
                         <label for="gwt-uid-381" class="control-label form-question ellipsis">Code</label>
+                        <span class="text-danger code_err"></span>
                     </div>
                     <div class="form-group floating-label mandatory col-md-6 px-2">
-                        <input type="text" name="description" id="gwt-uid-382" autocomplete="off" class="form-control form-component" />
+                        <input type="text" name="description" v-model="form_data.description" id="gwt-uid-382" autocomplete="off" class="form-control form-component" />
                         <label for="gwt-uid-382" class="control-label form-question ellipsis">Description</label>
+                        <span class="text-danger description_err"></span>
                     </div>
 
                     <div class="col-12">
@@ -38,10 +42,10 @@
                         <div class="card">
                             <div class="card-body">
                                 <ul class="row">
-                                    <li class="col-md-4 my-1 check_option_single_list" v-for="(check,index) in selected_checks" :key="index">
+                                    <li class="col-md-4 my-1 check_option_single_list" v-for="(check,index) in selected_checks" :key="index+check.name">
                                         <label :for="check.name+index" class="d-flex flex-wrap" style="cursor:pointer;">
-                                            <input type="checkbox" v-if="check.checked" checked :name="check.name+index" :id="check.name+index" style="opacity:unset; position:unset;">
-                                            <input type="checkbox" v-else :name="check.name+index" :id="check.name+index" style="opacity:unset; position:unset;">
+                                            <input type="checkbox" v-if="check.checked" checked v-model="check.checked" :name="check.name+index" :id="check.name+index" style="opacity:unset; position:unset;">
+                                            <input type="checkbox" v-else :name="check.name+index" v-model="check.checked" :id="check.name+index" style="opacity:unset; position:unset;">
                                             <div style="display: inline-block;line-height:16px;width:87%;margin-left: 5px;">{{ check.name }}</div>
                                         </label>
                                     </li>
@@ -51,7 +55,8 @@
                     </div>
 
                     <div class="form-group pl-4">
-                        <button class="btn btn-primary done_btn" @click.prevent="store_role()" >Submit</button>
+                        <button v-if="form_type == 'create'" class="btn btn-primary done_btn" @click.prevent="store_role()" >Submit</button>
+                        <button v-else class="btn btn-primary done_btn" @click.prevent="update_role()" >Submit</button>
                     </div>
                 </div>
             </form>
@@ -64,6 +69,7 @@
 
 <script>
 export default {
+    props: ['change_type','role_info','form_type','get_roles'],
     data: function(){
         return{
             permissions: "API;Admin Panel;Apps Home;Apps Item;Apps My;Apps Tiles;Banking Accounts;Banking Reconciliations;Banking Transactions;Banking Transfers;Client Portal;Common Companies;Common Dashboards;Common Items;Common Notifications;Common Reports;Common Search;Common Uploads;Common Widgets;Customer Statement Statement;Customer/Vendor Balances Reports Customer Balances;Customer/Vendor Balances Reports Vendor Balances;Notifications;Offline Payments Settings;Paypal Standard Settings;Portal Invoices;Portal Payments;Portal Profile;Portal Proposals;Purchases Bills;Purchases Payments;Purchases Vendors;Reports Expense Summary;Reports Income Expense Summary;Reports Income Summary;Reports Profit Loss;Reports Tax Summary;Sales Customers;Sales Invoices;Sales Revenues;Settings Apps;Settings Categories;Settings Company;Settings Currencies;Settings Defaults;Settings Email;Settings Invoice;Settings Localisation;Settings Schedule;Settings Settings;Settings Taxes;Users Profile;Vendor Statement Statement;Widgets Account Balance;Widgets Cash Flow;Widgets Currencies;Widgets Expenses By Category;Widgets Income By Category;Widgets Latest Expenses;Widgets Latest Income;Widgets Total Expenses;Widgets Total Income;Widgets Total Profit;Apps Api Key;Apps Item;Apps Token;Banking Accounts;Banking Reconciliations;Banking Transactions;Banking Transfers;Common Dashboards;Common Import;Common Items;Common Notifications;Common Reports;Common Widgets;Customer Statement Statement;Purchases Bills;Purchases Payments;Purchases Vendors;Sales Customers;Sales Invoices;Sales Revenues;Settings Categories;Settings Currencies;Settings Taxes;Vendor Statement Statement;Apps Api Key;Apps Item;Banking Accounts;Banking Reconciliations;Banking Transactions;Banking Transfers;Common Companies;Common Dashboards;Common Items;Common Notifications;Common Reports;Common Widgets;Customer Statement Statement;Notifications;Offline Payments Settings;Paypal Standard Settings;Portal Invoices;Portal Payments;Portal Profile;Portal Proposals;Purchases Bills;Purchases Payments;Purchases Vendors;Sales Customers;Sales Invoices;Sales Revenues;Settings Apps;Settings Categories;Settings Currencies;Settings Settings;Settings Taxes;Users Profile;Vendor Statement Statement;Banking Accounts;Banking Reconciliations;Banking Transactions;Banking Transfers;Common Dashboards;Common Items;Common Notifications;Common Reports;Common Uploads;Common Widgets;Customer Statement Statement;Offline Payments Settings;Purchases Bills;Purchases Payments;Purchases Vendors;Sales Customers;Sales Invoices;Sales Revenues;Settings Categories;Settings Currencies;Settings Taxes;Vendor Statement Statement",
@@ -1221,11 +1227,33 @@ export default {
 
             selected_checks: [],
             checked_title_name: 'read',
+            list_key: parseInt(Math.random()),
+
+            form_data : {
+                role_name : '',
+                code : '',
+                description : '',
+            }
 
         }
     },
     created: function(){
         // this.checks = this.permissions.split(';');
+
+        if (this.form_type == 'update') {
+            this.form_data = this.role_info;
+            this.checks_area_read = JSON.parse(this.role_info.read_permission);
+            this.checks_area_create = JSON.parse(this.role_info.create_permission);
+            this.checks_area_update = JSON.parse(this.role_info.update_permission);
+            this.checks_area_delete = JSON.parse(this.role_info.delete_permission);
+
+            // let that = this;
+            setTimeout(() => {
+                // that.list_key = parseInt(Math.random());
+                $('.form2.right-content .floating-label .control-label').addClass('active');
+            }, 200);
+        }
+
         this.selected_checks = this.checks_area_read;
 
         $(function(){
@@ -1283,20 +1311,97 @@ export default {
         },
 
         set_selected_title: function(title, data){
+            // console.log(title);
+
+            if (this.checked_title_name == 'read') {
+                // console.log(this.selected_checks);
+                this.checks_area_read = this.selected_checks;
+            }
+
+            if (this.checked_title_name == 'create') {
+                this.checks_area_create = this.selected_checks;
+            }
+
+            if (this.checked_title_name == 'update') {
+                this.checks_area_update = this.selected_checks;
+            }
+
+            if (this.checked_title_name == 'delete') {
+                this.checks_area_delete = this.selected_checks;
+            }
+
             this.selected_checks = data;
             this.checked_title_name = title;
         },
 
         store_role: function(){
-            let form_data = new FormData( $('#role_create_form')[0] );
-            form_data.append('read_permission',this.checks_area_read);
-            form_data.append('create_permission',this.checks_area_create);
-            form_data.append('update_permission',this.checks_area_update);
-            form_data.append('delete_permission',this.checks_area_delete);
+            let form_data = new FormData( );
+            this.set_selected_title(this.checked_title_name, this.selected_checks);
+            form_data.append('role_name',this.form_data.role_name);
+            form_data.append('code',this.form_data.code);
+            form_data.append('description',this.form_data.description);
+            form_data.append('read_permission',JSON.stringify(this.checks_area_read));
+            form_data.append('create_permission',JSON.stringify(this.checks_area_create));
+            form_data.append('update_permission',JSON.stringify(this.checks_area_update));
+            form_data.append('delete_permission',JSON.stringify(this.checks_area_delete));
 
+            let that = this;
             axios.post('/api/user-role',form_data)
                 .then((res)=>{
-                    console.log(res);
+                    that.get_roles();
+                    that.change_type('all_role');
+                })
+                .catch((err)=>{
+                    // console.log(err.response.data.errors);
+                    let errors = err.response.data.errors;
+                    for (const key in errors) {
+                        if (Object.hasOwnProperty.call(errors, key)) {
+                            const element = errors[key];
+                            let label = $('.'+key+'_err').siblings('.control-label');
+                            $(label[0]).html( element[0] ) ;
+                            $(label[0]).addClass('text-danger');
+                            Toast.fire({
+                                icon: 'error',
+                                title: element[0]
+                            });
+                        }
+                    }
+                })
+        },
+
+        update_role: function(){
+            let form_data = new FormData( );
+            this.set_selected_title(this.checked_title_name, this.selected_checks);
+            form_data.append('id',this.form_data.id);
+            form_data.append('role_name',this.form_data.role_name);
+            form_data.append('code',this.form_data.code);
+            form_data.append('description',this.form_data.description);
+            form_data.append('read_permission',JSON.stringify(this.checks_area_read));
+            form_data.append('create_permission',JSON.stringify(this.checks_area_create));
+            form_data.append('update_permission',JSON.stringify(this.checks_area_update));
+            form_data.append('delete_permission',JSON.stringify(this.checks_area_delete));
+
+            let that = this;
+            axios.post('/api/update-user-role',form_data)
+                .then((res)=>{
+                    that.get_roles();
+                    that.change_type('all_role');
+                })
+                .catch((err)=>{
+                    // console.log(err.response.data.errors);
+                    let errors = err.response.data.errors;
+                    for (const key in errors) {
+                        if (Object.hasOwnProperty.call(errors, key)) {
+                            const element = errors[key];
+                            let label = $('.'+key+'_err').siblings('.control-label');
+                            $(label[0]).html( element[0] ) ;
+                            $(label[0]).addClass('text-danger');
+                            Toast.fire({
+                                icon: 'error',
+                                title: element[0]
+                            });
+                        }
+                    }
                 })
         }
 

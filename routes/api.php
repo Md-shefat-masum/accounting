@@ -35,10 +35,14 @@ Route::group([
     // Functional Routes End
 
     // user role routes start
-    Route::get('user-role/{role}', 'UserRoleController@get');
+
+    Route::get('get-all-roles', 'UserRoleController@all_roles');
+    Route::get('user-roles', 'UserRoleController@roles');
+    Route::get('user-role/{role}', 'UserRoleController@get_role');
     Route::post('user-role', 'UserRoleController@store');
-    Route::put('user-role/{id}', 'UserRoleController@update');
-    Route::delete('user-role/{id}', 'UserRoleController@delete');
+    Route::post('update-user-role', 'UserRoleController@update');
+    Route::post('delete-user-role', 'UserRoleController@delete');
+
     // user role routes end
 
     Route::get('customer-get-basic-information', 'CustomersController@get_basic_information');

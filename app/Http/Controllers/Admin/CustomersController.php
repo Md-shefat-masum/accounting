@@ -19,7 +19,7 @@ class CustomersController extends Controller
 {
     public function get(Request $request, $id)
     {
-        $customers = Customers::where('id', $id)->with(['delivery_address', 'country_name', 'contacts', 'files','sale_receipts','projects'])->first();
+        $customers = Customers::where('user_id',Auth::user()->id)->where('id', $id)->with(['delivery_address', 'country_name', 'contacts', 'files','sale_receipts','projects'])->first();
         return $customers;
     }
 
@@ -37,7 +37,8 @@ class CustomersController extends Controller
         $auth_user = Auth::user();
         if($request->has('user_name') && $request->user_name != null){
             $key = $request->user_name;
-            $customers = Customers::where('business_code', $key)
+            $customers = Customers::where('user_id',Auth::user()->id)
+                                    ->where('business_code', $key)
                                     ->orWhere('phone', $key)
                                     ->orWhere('email', $key)
                                     ->orWhere('first_name', $key)
@@ -59,48 +60,48 @@ class CustomersController extends Controller
 
     public function customer_statements($id)
     {
-        $statements = CustomerStatement::where('customer_id',$id)->with(['invoice_details','receipt_details'])->get();
+        $statements = CustomerStatement::where('creator',Auth::user()->id)->where('customer_id',$id)->with(['invoice_details','receipt_details'])->get();
         return $statements;
     }
 
     public function customer_profile($id)
     {
-        $customer_logs = CustomerLog::where('customer_id',$id)->latest()->get();
+        $customer_logs = CustomerLog::where('creator',Auth::user()->id)->where('customer_id',$id)->latest()->get();
         $log_details = [];
         foreach ($customer_logs as $key=>$item) {
             switch($item->type){
                 case 'quotes' :
-                    if(DB::table('quotes')->where('id',$item->type_id)->where('customer_id',$id)->exists())
+                    if(DB::table('quotes')->where('id',$item->type_id)->where('creator',Auth::user()->id)->where('customer_id',$id)->exists())
                         array_push($log_details,DB::table('quotes')->where('id',$item->type_id)->where('customer_id',$id)->first());
                         $log_details[$key]->log_name = 'Quote';
                 break;
                 case 'deliverynotes' :
-                    if(DB::table('deliverynotes')->where('id',$item->type_id)->where('customer_id',$id)->exists())
+                    if(DB::table('deliverynotes')->where('id',$item->type_id)->where('creator',Auth::user()->id)->where('customer_id',$id)->exists())
                         array_push($log_details,DB::table('deliverynotes')->where('id',$item->type_id)->where('customer_id',$id)->first());
                         $log_details[$key]->log_name = 'Delivery Note';
                 break;
                 case 'invoices' :
-                    if(DB::table('invoices')->where('id',$item->type_id)->where('customer_id',$id)->exists())
+                    if(DB::table('invoices')->where('id',$item->type_id)->where('creator',Auth::user()->id)->where('customer_id',$id)->exists())
                         array_push($log_details,DB::table('invoices')->where('id',$item->type_id)->where('customer_id',$id)->first());
                         $log_details[$key]->log_name = 'Invoice';
                 break;
                 case 'receipts' :
-                    if(DB::table('receipts')->where('id',$item->type_id)->where('customer_id',$id)->exists())
+                    if(DB::table('receipts')->where('id',$item->type_id)->where('creator',Auth::user()->id)->where('customer_id',$id)->exists())
                         array_push($log_details,DB::table('receipts')->where('id',$item->type_id)->where('customer_id',$id)->first());
                         $log_details[$key]->log_name = 'Receipt';
                 break;
                 case 'saleorders' :
-                    if(DB::table('saleorders')->where('id',$item->type_id)->where('customer_id',$id)->exists())
+                    if(DB::table('saleorders')->where('id',$item->type_id)->where('creator',Auth::user()->id)->where('customer_id',$id)->exists())
                         array_push($log_details,DB::table('saleorders')->where('id',$item->type_id)->where('customer_id',$id)->first());
                         $log_details[$key]->log_name = 'Sales Order';
                 break;
                 case 'customerpayments' :
-                    if(DB::table('customerpayments')->where('id',$item->type_id)->where('customer_id',$id)->exists())
+                    if(DB::table('customerpayments')->where('id',$item->type_id)->where('creator',Auth::user()->id)->where('customer_id',$id)->exists())
                         array_push($log_details,DB::table('customerpayments')->where('id',$item->type_id)->where('customer_id',$id)->first());
                         $log_details[$key]->log_name = 'Payment';
                 break;
                 case 'creditmemos' :
-                    if(DB::table('creditmemos')->where('id',$item->type_id)->where('customer_id',$id)->exists())
+                    if(DB::table('creditmemos')->where('id',$item->type_id)->where('creator',Auth::user()->id)->where('customer_id',$id)->exists())
                         array_push($log_details,DB::table('creditmemos')->where('id',$item->type_id)->where('customer_id',$id)->first());
                         $log_details[$key]->log_name = 'Credit Memo';
                 break;
@@ -108,12 +109,12 @@ class CustomersController extends Controller
         }
         return response()->json([
             'log_details' => $log_details,
-            'invoices_total' => CustomerLog::where('customer_id',$id)->where('type','invoices')->count(),
-            'deliverynotes_total' => CustomerLog::where('customer_id',$id)->where('type','deliverynotes')->count(),
-            'receipts_total' => CustomerLog::where('customer_id',$id)->where('type','receipts')->count(),
-            'quotes_total' => CustomerLog::where('customer_id',$id)->where('type','quotes')->count(),
-            'saleorders_total' => CustomerLog::where('customer_id',$id)->where('type','saleorders')->count(),
-            'customer' => Customers::find($id)
+            'invoices_total' => CustomerLog::where('creator',Auth::user()->id)->where('customer_id',$id)->where('type','invoices')->count(),
+            'deliverynotes_total' => CustomerLog::where('creator',Auth::user()->id)->where('customer_id',$id)->where('type','deliverynotes')->count(),
+            'receipts_total' => CustomerLog::where('creator',Auth::user()->id)->where('customer_id',$id)->where('type','receipts')->count(),
+            'quotes_total' => CustomerLog::where('creator',Auth::user()->id)->where('customer_id',$id)->where('type','quotes')->count(),
+            'saleorders_total' => CustomerLog::where('creator',Auth::user()->id)->where('customer_id',$id)->where('type','saleorders')->count(),
+            'customer' => Customers::where('user_id',Auth::user()->id)->find($id)
         ]);
     }
 
