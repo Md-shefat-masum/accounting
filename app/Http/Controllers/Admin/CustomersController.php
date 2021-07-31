@@ -206,6 +206,8 @@ class CustomersController extends Controller
                         'customer_id' => $customers->id,
                         'first_name' => $contact['first_name'],
                         'last_name' => $contact['last_name'],
+                        'email' => $contact['email'],
+                        'phone' => $contact['phone'],
                         'worked_email' => $contact['email'],
                         'worked_phone' => $contact['phone'],
                     ];

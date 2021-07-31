@@ -34,6 +34,13 @@ Route::group([
     Route::get('city-post-code', 'CountrySettingsController@get_city_post_code');
     // Functional Routes End
 
+    // user role routes start
+    Route::get('user-role/{role}', 'UserRoleController@get');
+    Route::post('user-role', 'UserRoleController@store');
+    Route::put('user-role/{id}', 'UserRoleController@update');
+    Route::delete('user-role/{id}', 'UserRoleController@delete');
+    // user role routes end
+
     Route::get('customer-get-basic-information', 'CustomersController@get_basic_information');
     Route::get('customers', 'CustomersController@list');
     Route::get('customers-paginate', 'CustomersController@listPaginate');

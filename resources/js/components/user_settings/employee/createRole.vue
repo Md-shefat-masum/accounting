@@ -5,19 +5,18 @@
         </div>
 
         <div class="card-body">
-            <form action="">
-
+            <form action="" id="role_create_form">
                 <div class="row">
                     <div class="form-group floating-label mandatory col-md-6 px-2">
-                        <input type="text" id="gwt-uid-380" autocomplete="off" class="form-control form-component" />
+                        <input type="text" name="role_name" id="gwt-uid-380" autocomplete="off" class="form-control form-component" />
                         <label for="gwt-uid-380" class="control-label form-question ellipsis">Name</label>
                     </div>
                     <div class="form-group floating-label mandatory col-md-6 px-2">
-                        <input type="text" id="gwt-uid-381" autocomplete="off" class="form-control form-component" />
+                        <input type="text" name="code" id="gwt-uid-381" autocomplete="off" class="form-control form-component" />
                         <label for="gwt-uid-381" class="control-label form-question ellipsis">Code</label>
                     </div>
                     <div class="form-group floating-label mandatory col-md-6 px-2">
-                        <input type="text" id="gwt-uid-382" autocomplete="off" class="form-control form-component" />
+                        <input type="text" name="description" id="gwt-uid-382" autocomplete="off" class="form-control form-component" />
                         <label for="gwt-uid-382" class="control-label form-question ellipsis">Description</label>
                     </div>
 
@@ -52,7 +51,7 @@
                     </div>
 
                     <div class="form-group pl-4">
-                        <button class="btn btn-primary done_btn">Submit</button>
+                        <button class="btn btn-primary done_btn" @click.prevent="store_role()" >Submit</button>
                     </div>
                 </div>
             </form>
@@ -1286,6 +1285,19 @@ export default {
         set_selected_title: function(title, data){
             this.selected_checks = data;
             this.checked_title_name = title;
+        },
+
+        store_role: function(){
+            let form_data = new FormData( $('#role_create_form')[0] );
+            form_data.append('read_permission',this.checks_area_read);
+            form_data.append('create_permission',this.checks_area_create);
+            form_data.append('update_permission',this.checks_area_update);
+            form_data.append('delete_permission',this.checks_area_delete);
+
+            axios.post('/api/user-role',form_data)
+                .then((res)=>{
+                    console.log(res);
+                })
         }
 
     }

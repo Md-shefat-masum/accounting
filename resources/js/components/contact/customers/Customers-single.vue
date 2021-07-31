@@ -554,7 +554,7 @@
                         icon: 'success',
                         title: 'Created successfully'
                     });
-                    this.$router.replace({ name: 'customerLists'})
+                    this.$router.push({ name: 'customerLists'})
                     this.form.reset();
                 }).catch(() => {
                     Toast.fire({
