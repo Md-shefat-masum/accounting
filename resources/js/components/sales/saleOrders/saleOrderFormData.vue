@@ -175,7 +175,7 @@
             </div>
         </div>
 
-        <sales-status v-if="type == 'edit' || type == 'quote_to_sales_order'" :sales_logs="sales_logs"></sales-status>
+        <sales-status v-if="sales_logs && ( type == 'edit' || type == 'quote_to_sales_order' ) " :sales_logs="sales_logs"></sales-status>
 
         <list-of-product-table
             :old_data="form.selected_products"

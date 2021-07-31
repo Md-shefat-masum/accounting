@@ -34,6 +34,10 @@ Route::group([
     Route::get('city-post-code', 'CountrySettingsController@get_city_post_code');
     // Functional Routes End
 
+    // profile settings start
+    Route::post('/user-profile-update','UserController@profile_pic_update');
+    // profile settings end
+
     // user role routes start
 
     Route::get('get-all-roles', 'UserRoleController@all_roles');

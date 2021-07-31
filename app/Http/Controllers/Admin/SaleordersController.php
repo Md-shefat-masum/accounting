@@ -22,13 +22,15 @@ class SaleordersController extends Controller
 {
     public function get(Request $request, $id)
     {
-        $orders = Saleorders::where('id',$id)->with('sales_log','delivery_address_info')->first();
+        $orders = Saleorders::where('creator',Auth::user()->id)->where('id',$id)->with('sales_log','delivery_address_info')->first();
         $selected_products = RelatedProduct::where('type_name','saleorders')->where('type_id', $id)->with('product_details')->get();
-        $customer_info = Customers::where('id', $orders->customer_id)->with([
+        $customer_info = Customers::where('user_id',Auth::user()->id)->where('id', $orders->customer_id)->with([
                 'country_name',
                 'contacts',
                 'files','sale_receipts','projects'
             ])->first();
+
+        // return dd($orders, SalesLog::where('sales_order_id',$orders->id)->first());
         return response()->json([
             'orders' => $orders,
             'selected_products' => $selected_products,
@@ -48,9 +50,9 @@ class SaleordersController extends Controller
             $datas = Saleorders::latest()->where('creator',Auth::user()->id)->with('sales_log')->paginate(10);
         }
 
-        $all_saleorders_count = Saleorders::count();
-        $not_delivered_count = Saleorders::where('status', 'open')->count();
-        $pertially_delivered_count = Saleorders::where('status', 'pertially_delivered')->count();
+        $all_saleorders_count = Saleorders::where('creator',Auth::user()->id)->count();
+        $not_delivered_count = Saleorders::where('creator',Auth::user()->id)->where('status', 'open')->count();
+        $pertially_delivered_count = Saleorders::where('creator',Auth::user()->id)->where('status', 'pertially_delivered')->count();
         $delivered_count = SalesLog::where('creator',Auth::user()->id)->where('is_sales_order',1)->where('is_delivery_note',1)->count();
         $invoiced_count = SalesLog::where('creator',Auth::user()->id)->where('is_sales_order',1)->where('is_invoice',1)->count();
 
@@ -92,34 +94,11 @@ class SaleordersController extends Controller
         $auth_user = Auth::user();
 
         if (!isset($request->code)) {
-            //business_code is not set
-            $customer_uniqueId_count = UniqueId::where('user_id', $auth_user->id)
-                ->where('type', 'sales_order')
-                ->select('count')
-                ->first();
-
-            if (!isset($customer_uniqueId_count)) {
-                $saveUniqueID = [
-                    'user_id' => $auth_user->id,
-                    'type' => 'sales_order',
-                    'count' => '1',
-                ];
-                UniqueId::create($saveUniqueID);
-                $requestData['code'] = 'CORD-001';
-            } else {
-                $increment = (int) $customer_uniqueId_count->count + 1;
-
-                UniqueId::where('user_id', $auth_user->id)
-                    ->where('type', 'sales_order')
-                    ->update([
-                        'count' => $increment,
-                    ]);
-                $increments = sprintf('%03d', $increment);
-                $requestData['code'] = 'CORD-' . $increments;
-            }
+            $requestData['code'] = CommonController::getCodeId('sales_order', 'CORD');
         } else {
             //business_code is set
             $requestData['code'] = $request->code;
+            CommonController::setCodeId('sales_order');
         }
 
         $saleorders = Saleorders::create($requestData);
@@ -199,7 +178,7 @@ class SaleordersController extends Controller
         $saleorders->fill($input)->save();
 
         $products = $request->selected_products;
-        SaleOrderProduct::where('sale_order_id', $saleorders->id)->delete();
+        // SaleOrderProduct::where('sale_order_id', $saleorders->id)->delete();
         ProductServiceLog::where('sale_order_id',$saleorders->id)->delete();
 
         RelatedProduct::where('type_name','saleorders')->where('type_id',$saleorders->id)->delete();
@@ -265,7 +244,7 @@ class SaleordersController extends Controller
 
     public function saleorders_sort(Request $request)
     {
-        $quotes = Saleorders::orderBy((string) $request->key, $request->type)->paginate(10);
+        $quotes = Saleorders::where('creator',Auth::user()->id)->orderBy((string) $request->key, $request->type)->paginate(10);
         return $quotes;
     }
 
@@ -273,28 +252,28 @@ class SaleordersController extends Controller
     {
         if ($request->type == 'by_day') {
             if ($request->key == 'today') {
-                return Saleorders::whereDay('created_at', Carbon::now()->today())->paginate(10);
+                return Saleorders::where('creator',Auth::user()->id)->whereDay('created_at', Carbon::now()->today())->paginate(10);
             }
             if ($request->key == 'this_month') {
-                return Saleorders::whereMonth('created_at', Carbon::now()->month)->paginate(10);
+                return Saleorders::where('creator',Auth::user()->id)->whereMonth('created_at', Carbon::now()->month)->paginate(10);
             }
             if ($request->key == 'this_year') {
-                return Saleorders::whereYear('created_at', Carbon::now()->year)->paginate(10);
+                return Saleorders::where('creator',Auth::user()->id)->whereYear('created_at', Carbon::now()->year)->paginate(10);
             }
         }
 
         if ($request->type == 'by_sub_day') {
             if ($request->key == 'last_week') {
                 $date = \Carbon\Carbon::today()->subDays(7);
-                return Saleorders::where('created_at', '>=', $date)->paginate(10);
+                return Saleorders::where('creator',Auth::user()->id)->where('created_at', '>=', $date)->paginate(10);
             }
             if ($request->key == 'last_month') {
                 $date = \Carbon\Carbon::today()->subDays(30);
-                return Saleorders::where('created_at', '>=', $date)->paginate(10);
+                return Saleorders::where('creator',Auth::user()->id)->where('created_at', '>=', $date)->paginate(10);
             }
             if ($request->key == 'last_year') {
                 $date = \Carbon\Carbon::today()->subDays(365);
-                return Saleorders::where('created_at', '>=', $date)->paginate(10);
+                return Saleorders::where('creator',Auth::user()->id)->where('created_at', '>=', $date)->paginate(10);
             }
         }
         return $this->list($request);
@@ -303,7 +282,8 @@ class SaleordersController extends Controller
     public function saleorders_search(Request $request)
     {
         $key = $request->key;
-        $sales = Saleorders::where('customer', $key)
+        $sales = Saleorders::where('creator',Auth::user()->id)
+            ->where('customer', $key)
             ->orWhere('customer', 'like', '%' . $key . '%')
             ->orWhere('code', 'like', '%' . $key . '%')
             ->orWhere('total', 'like', '%' . $key . '%')

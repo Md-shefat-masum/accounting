@@ -80,12 +80,11 @@
         },
         methods: {
 
-            getQuote: function (Quote) {
+            getQuote: function () {
                 var that = this;
                 axios.get('/api/quotes/' + this.$route.params.id)
                     .then(function (response) {
                         that.sales_logs = response.data.quotes.sales_log;
-
                     });
 
              },

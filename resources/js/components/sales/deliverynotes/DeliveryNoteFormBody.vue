@@ -225,7 +225,7 @@
             </div>
         </div>
 
-        <salesStatusVue v-if=" type == 'edit' || type == 'invoice_to_delivery_note' || type == 'sale_order_to_delivery_note' "
+        <salesStatusVue v-if="sales_logs && ( type == 'edit' || type == 'invoice_to_delivery_note' || type == 'sale_order_to_delivery_note' ) "
             :sales_logs="sales_logs">
         </salesStatusVue>
 
@@ -526,7 +526,7 @@
                     that.sales_logs = response.data.orders.sales_log;
                     setTimeout(() => {
                         that.get_customer_data(response.data.orders.customer_id);
-                        if(that.sales_logs.is_delivery_note){
+                        if(that.sales_logs && that.sales_logs.is_delivery_note){
                             $('input').attr('disabled',true);
                             $('textarea').attr('disabled',true);
                             $('select').attr('disabled',true);

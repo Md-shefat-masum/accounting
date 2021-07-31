@@ -156,7 +156,7 @@
             </div>
         </div>
 
-        <sales-status v-if="type == 'edit' || type == 'quote_to_invoice' || type == 'sales_order_to_invoice' || type == 'delivery_note_to_invoice'"
+        <sales-status v-if="sales_logs && ( type == 'edit' || type == 'quote_to_invoice' || type == 'sales_order_to_invoice' || type == 'delivery_note_to_invoice' )"
             :sales_logs="sales_logs">
         </sales-status>
 
@@ -386,7 +386,6 @@ export default {
     },
     created: function () {
         // this.getInvoice();
-        this.setDateAndCode();
         this.form.payment_date = this.set_form_data_payment_terms(this.form.payment_terms);
         if(this.type=='edit'){
             this.getInvoice();
@@ -400,6 +399,7 @@ export default {
         if(this.type=='delivery_note_to_invoice'){
             this.getDeliverynote();
         }
+        this.setDateAndCode();
     },
     watch: {
         form: {

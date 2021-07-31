@@ -94,17 +94,19 @@
         methods: {
             getSales: function () {
                 var that = this;
-                this.form.get('/api/saleorders/' + this.$route.params.id).then(function (response) {
-                    that.sales_logs = response.data.orders.sales_log;
-                    setTimeout(() => {
-                        if(that.sales_logs.is_delivery_note){
-                            $('input').attr('disabled',true);
-                            $('textarea').attr('disabled',true);
-                            $('select').attr('disabled',true);
-                            $('button').attr('disabled',true);
-                        }
-                    }, 2000);
-                });
+                this.form.get('/api/saleorders/' + this.$route.params.id)
+                    .then(function (response) {
+                        that.sales_logs = response.data.orders.sales_log;
+                        console.log(response.data);
+                        setTimeout(() => {
+                            if(that.sales_logs && that.sales_logs.is_delivery_note){
+                                $('input').attr('disabled',true);
+                                $('textarea').attr('disabled',true);
+                                $('select').attr('disabled',true);
+                                $('button').attr('disabled',true);
+                            }
+                        }, 2000);
+                    });
                 that.loaded = true;
             },
 

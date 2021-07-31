@@ -84,10 +84,11 @@ class InvoicesController extends Controller
         $requestData['creator'] = Auth::user()->id;
         $auth_user = Auth::user();
         if (!isset($request->code)) {
-            CommonController::getCodeId('invoice', 'INV');
+            $requestData['code'] = CommonController::getCodeId('invoice', 'INV');
         } else {
             //business_code is set
             $requestData['code'] = $request->code;
+            CommonController::setCodeId('invoice');
         }
 
         $invoices = Invoices::create($requestData);
@@ -198,6 +199,15 @@ class InvoicesController extends Controller
 
         $invoices = Invoices::findOrFail($id);
         $input = $request->except(['files', 'attachments']);
+
+        if (!isset($request->code)) {
+            $input['code'] = CommonController::getCodeId('invoice', 'INV');
+        } else {
+            //business_code is set
+            $input['code'] = $request->code;
+            CommonController::setCodeId('invoice');
+        }
+
         $invoices->fill($input)->save();
 
         $products = $request->selected_products;
@@ -279,7 +289,7 @@ class InvoicesController extends Controller
 
     public function invoices_sort(Request $request)
     {
-        $quotes = Invoices::orderBy((string) $request->key, $request->type)->paginate(10);
+        $quotes = Invoices::where('creator',Auth::user()->id)->orderBy((string) $request->key, $request->type)->paginate(10);
         return $quotes;
     }
 
@@ -287,28 +297,28 @@ class InvoicesController extends Controller
     {
         if ($request->type == 'by_day') {
             if ($request->key == 'today') {
-                return Invoices::whereDay('created_at', Carbon::now()->today())->paginate(10);
+                return Invoices::where('creator',Auth::user()->id)->whereDay('created_at', Carbon::now()->today())->paginate(10);
             }
             if ($request->key == 'this_month') {
-                return Invoices::whereMonth('created_at', Carbon::now()->month)->paginate(10);
+                return Invoices::where('creator',Auth::user()->id)->whereMonth('created_at', Carbon::now()->month)->paginate(10);
             }
             if ($request->key == 'this_year') {
-                return Invoices::whereYear('created_at', Carbon::now()->year)->paginate(10);
+                return Invoices::where('creator',Auth::user()->id)->whereYear('created_at', Carbon::now()->year)->paginate(10);
             }
         }
 
         if ($request->type == 'by_sub_day') {
             if ($request->key == 'last_week') {
                 $date = \Carbon\Carbon::today()->subDays(7);
-                return Invoices::where('created_at', '>=', $date)->paginate(10);
+                return Invoices::where('creator',Auth::user()->id)->where('created_at', '>=', $date)->paginate(10);
             }
             if ($request->key == 'last_month') {
                 $date = \Carbon\Carbon::today()->subDays(30);
-                return Invoices::where('created_at', '>=', $date)->paginate(10);
+                return Invoices::where('creator',Auth::user()->id)->where('created_at', '>=', $date)->paginate(10);
             }
             if ($request->key == 'last_year') {
                 $date = \Carbon\Carbon::today()->subDays(365);
-                return Invoices::where('created_at', '>=', $date)->paginate(10);
+                return Invoices::where('creator',Auth::user()->id)->where('created_at', '>=', $date)->paginate(10);
             }
         }
         return $this->list($request);
@@ -317,7 +327,8 @@ class InvoicesController extends Controller
     public function invoices_search(Request $request)
     {
         $key = $request->key;
-        $Invoices = Invoices::where('customer', $key)
+        $Invoices = Invoices::where('creator',Auth::user()->id)
+            ->where('customer', $key)
             ->orWhere('customer', 'like', '%' . $key . '%')
             ->orWhere('code', 'like', '%' . $key . '%')
             ->orWhere('total', 'like', '%' . $key . '%')

@@ -95,7 +95,7 @@ class QuotesController extends Controller
         } else {
             //business_code is set
             $requestData['code'] = $request->code;
-            CommonController::setCodeId('quotation', 'QOT');
+            CommonController::setCodeId('quotation');
         }
 
         // return dd($requestData['code'], CommonController::getCodeId('quotation', 'QOT'));
@@ -174,7 +174,7 @@ class QuotesController extends Controller
         } else {
             //business_code is set
             $requestData['code'] = $request->code;
-            CommonController::setCodeId('quotation', 'QOT');
+            CommonController::setCodeId('quotation');
         }
 
         $quotes->fill($requestData)->save();

@@ -23,9 +23,9 @@ class DeliverynoeteController extends Controller
 {
     public function get(Request $request, $id)
     {
-        $delivery_note = Deliverynote::where('id',$id)->with('sales_log','delivery_address_info')->first();
+        $delivery_note = Deliverynote::where('creator',Auth::user()->id)->where('id',$id)->with('sales_log','delivery_address_info')->first();
         $selected_products = RelatedProduct::where('type_name','delivery_note')->where('type_id', $id)->with('product_details')->get();
-        $customer_info = Customers::where('id', $delivery_note->customer_id)->with([
+        $customer_info = Customers::where('user_id',Auth::user()->id)->where('id', $delivery_note->customer_id)->with([
                                                     'country_name',
                                                     'contacts',
                                                     'files','sale_receipts','projects'
@@ -41,16 +41,16 @@ class DeliverynoeteController extends Controller
     {
 
         if ($request->status == 'not invoiced') {
-            $datas = Deliverynote::where('status', 'not invoiced')->where('creator',Auth::user()->id)->with('sales_log')->orderBy('id','DESC')->paginate(10);
+            $datas = Deliverynote::where('creator',Auth::user()->id)->where('status', 'not invoiced')->where('creator',Auth::user()->id)->with('sales_log')->orderBy('id','DESC')->paginate(10);
         } elseif ($request->status == 'invoiced') {
-            $datas = Deliverynote::where('status', 'invoiced')->where('creator',Auth::user()->id)->with('sales_log')->orderBy('id','DESC')->paginate(10);
+            $datas = Deliverynote::where('creator',Auth::user()->id)->where('status', 'invoiced')->where('creator',Auth::user()->id)->with('sales_log')->orderBy('id','DESC')->paginate(10);
         } else {
-            $datas = Deliverynote::orderBy('id','DESC')->where('creator',Auth::user()->id)->with('sales_log')->orderBy('id','DESC')->paginate(10);
+            $datas = Deliverynote::where('creator',Auth::user()->id)->orderBy('id','DESC')->where('creator',Auth::user()->id)->with('sales_log')->orderBy('id','DESC')->paginate(10);
         }
 
-        $all_count = Deliverynote::where('creator',Auth::user()->id)->count();
-        $not_invoiced_count = Deliverynote::where('status', 'not invoiced')->where('creator',Auth::user()->id)->count();
-        $invoiced_count = Deliverynote::where('status', 'invoiced')->where('creator',Auth::user()->id)->count();
+        $all_count = Deliverynote::where('creator',Auth::user()->id)->where('creator',Auth::user()->id)->count();
+        $not_invoiced_count = Deliverynote::where('creator',Auth::user()->id)->where('status', 'not invoiced')->where('creator',Auth::user()->id)->count();
+        $invoiced_count = Deliverynote::where('creator',Auth::user()->id)->where('status', 'invoiced')->where('creator',Auth::user()->id)->count();
 
         return response()->json([
             'datas' => $datas,
@@ -63,7 +63,8 @@ class DeliverynoeteController extends Controller
     public function not_invoiced_delivery_notes(Request $request, $customer_id)
     {
         if($request->has('delivery_address_id')){
-            $invoices = Deliverynote::where('status', 'not invoiced')
+            $invoices = Deliverynote::where('creator',Auth::user()->id)
+                ->where('status', 'not invoiced')
                 ->where('creator',Auth::user()->id)
                 ->where('customer_id',$customer_id)
                 ->where('delivery_address_id',$request->delivery_address_id)
@@ -71,7 +72,8 @@ class DeliverynoeteController extends Controller
                 ->orderBy('id','DESC')
                 ->get();
         }else{
-            $invoices = Deliverynote::where('status', 'not invoiced')
+            $invoices = Deliverynote::where('creator',Auth::user()->id)
+                                ->where('status', 'not invoiced')
                                 ->where('creator',Auth::user()->id)
                                 ->where('customer_id',$customer_id)
                                 ->select('id','code')
@@ -108,6 +110,7 @@ class DeliverynoeteController extends Controller
         } else {
             //business_code is set
             $requestData['code'] = $request->code;
+            CommonController::setCodeId('delivery_note');
         }
 
         $delivery_note = Deliverynote::create($requestData);
@@ -185,7 +188,16 @@ class DeliverynoeteController extends Controller
         ]);
 
         $delivery_note = Deliverynote::findOrFail($id);
+
         $input = $request->except(['files', 'attachments', 'status']);
+        if (!isset($request->code)) {
+            $input['code'] = CommonController::getCodeId('delivery_note', 'DEN');
+        } else {
+            //business_code is set
+            $input['code'] = $request->code;
+            CommonController::setCodeId('delivery_note');
+        }
+
         $delivery_note->fill($input)->save();
 
         $products = $request->selected_products;
