@@ -12,7 +12,7 @@
                             </div>
                         </div>
                         <div class="col-md-8 mb-0 text-right">
-                            <div class="dropdown btn btn-outline-default custom_hover_btn">
+                            <div class="dropdown btn btn-outline-default custom_hover_btn table_filter_hover_input ">
                                 <i class="fa fa-angle-down" aria-hidden="true" style="position: absolute;right:9px;top: 10px;"></i>
                                 <input type="text"
                                         style="height:2rem;color:black;font-size:13px;"
@@ -20,6 +20,7 @@
                                         placeholder="any date"
                                         v-model="data_by_day_name"
                                         data-toggle="dropdown"
+                                        readonly
                                         autocomplete="off">
                                 <ul class="dropdown-menu cus_dropdown_menu A54VNK-Yj-a">
                                     <li class="">
@@ -50,7 +51,7 @@
                                 </ul>
                             </div>
 
-                            <div class="dropdown btn btn-outline-default custom_hover_btn">
+                            <div class="dropdown btn btn-outline-default custom_hover_btn table_filter_hover_input">
                                 <i class="fa fa-angle-down" aria-hidden="true" style="position: absolute;right:9px;top: 10px;"></i>
                                 <input type="text"
                                         style="height:2rem;color:black;font-size:13px;"
@@ -58,6 +59,7 @@
                                         placeholder="sorted Creation date"
                                         v-model="data_sort_type"
                                         data-toggle="dropdown"
+                                        readonly
                                         autocomplete="off">
                                 <ul class="dropdown-menu cus_dropdown_menu A54VNK-Yj-a">
                                     <li class="">
@@ -75,6 +77,7 @@
                                     </li> -->
                                 </ul>
                             </div>
+
                         </div>
                     </div>
                     <!-- Filter Panel -->

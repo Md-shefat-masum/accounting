@@ -284,6 +284,7 @@ a {
 .label-light-warning {
   color: #f0ad4e;
   background-color: rgba(240, 173, 78, 0.1);
+  font-weight: 600;
 }
 .label,
 .label-light {
@@ -293,9 +294,11 @@ a {
   color: #5bc0de;
   background-color: rgba(91, 192, 222, 0.1);
 }
-.label-light-info {
+.label-light-warning {
   color: #de755b;
   background-color: rgba(158, 113, 46, 0.1);
+  display: block;
+  margin-top: 2px;
 }
 .invoice_btn {
   display: inline-block;
@@ -568,4 +571,21 @@ section.content.content-menu.content_setting .btn-primary.active {
 }
 .form2.right-content .control-label.form-question.ellipsis.text-danger:not(.not_float) {
   color: #dc3545 !important;
+}
+.table_filter_hover_input {
+  color: #838383 !important;
+  border-radius: 4px !important;
+  border: 1px solid #e0e0e0 !important;
+}
+.table_filter_hover_input .ellipsis-block.active {
+  color: #fff;
+  text-decoration: none;
+  outline: 0;
+  background-color: #5390f4;
+}
+section.content.content-menu .amount {
+  font-size: 12px;
+  line-height: 21px;
+  height: 23px;
+  width: 28px;
 }

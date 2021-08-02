@@ -179,9 +179,11 @@
                                                 {{quote.customer}}
                                             </div>
                                         </td>
-                                        <td class="text-center">
+                                        <td class="text-right">
                                             <div @click="editQuote(quote.id)" class="ellipsis">
-                                                {{quote.total}}
+                                                <!-- {{quote.total}} -->
+                                                <span class="text-uppercase">{{ get_basic_information.currency }}</span>
+                                                {{ quote.amount_number_format }}
                                             </div>
                                         </td>
                                         <td>
@@ -193,9 +195,9 @@
                                             <div @click="editQuote(quote.id)" class="ellipsis">
                                                 <div class="label-light-success" v-if="quote.status == 'open'">{{quote.status}}</div>
                                                 <div v-else>
-                                                    <span class="label-light-success" v-if="quote.status == 'won'">won</span>
+                                                    <span class="label-light-info" v-if="quote.status == 'won'">won</span>
                                                     <span class="label-light-success" v-if="quote.sales_log && quote.sales_log.is_sales_order">ordered</span>
-                                                    <span class="label-light-success" v-if="quote.sales_log && quote.sales_log.is_invoice">invoiced</span>
+                                                    <span class="label-light-warning" v-if="quote.sales_log && quote.sales_log.is_invoice">invoiced</span>
                                                     <span class="label-light-info" v-if="quote.status == 'lost'">lost</span>
                                                 </div>
                                             </div>
@@ -286,6 +288,7 @@
     import printDataModalBodyVue from '../../modal_contents/printDataModalBody.vue';
     import SubHeader from "../sub_header";
     import tableFilterVue from '../../search_components/table_filter.vue';
+    import { mapGetters } from 'vuex';
 
     export default {
         components: {
@@ -356,10 +359,12 @@
                 })
             }
         },
+
         created: function () {
             this.listQuotes('all');
             this.getResults();
         },
+
         methods: {
             getResults(page = 1) {
                 let that = this;
@@ -535,6 +540,12 @@
                 sessionStorage.setItem('url','/sales/quotes');
                 this.$router.replace({name: 'customer_details', params: { id: customer_id }})
             }
+        },
+
+        computed: {
+            ...mapGetters([
+                'get_basic_information',
+            ]),
         }
     }
 </script>

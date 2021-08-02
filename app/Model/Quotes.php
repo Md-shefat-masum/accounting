@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Quotes extends Model
 {
 
-    protected $appends = ['files'];
+    protected $appends = ['files','amount_number_format'];
+
+    public function getAmountNumberFormatAttribute()
+    {
+        return number_format((float) $this->total, 2, '.', ',');
+    }
 
     public function getFilesAttribute()
     {

@@ -32,7 +32,7 @@ class UserRoleController extends Controller
         // return dd($request->all());
 
         $this->validate($request, [
-            'role_name' => ['required', 'unique:user_roles'],
+            'role_name' => ['required'],
             'code' => ['required'],
         ]);
 

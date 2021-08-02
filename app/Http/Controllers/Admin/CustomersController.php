@@ -96,7 +96,7 @@ class CustomersController extends Controller
                         $log_details[$key]->log_name = 'Sales Order';
                 break;
                 case 'customerpayments' :
-                    if(DB::table('customerpayments')->where('id',$item->type_id)->where('creator',Auth::user()->id)->where('customer_id',$id)->exists())
+                    if(DB::table('customerpayments')->where('id',$item->type_id)->where('customer_id',$id)->exists())
                         array_push($log_details,DB::table('customerpayments')->where('id',$item->type_id)->where('customer_id',$id)->first());
                         $log_details[$key]->log_name = 'Payment';
                 break;

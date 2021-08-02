@@ -83,7 +83,7 @@
                     <li class="dropdown user_profile">
                         <a href="#" onClick="return false;" class="dropdown-toggle" data-toggle="dropdown"
                            role="button">
-                            <img src="/backend/assets/images/user.jpg" width="32" height="32" alt="User">
+                            <img :src="'/'+get_auth_user_info.image" width="32" height="32" alt="User">
                             <i class="fas fa-angle-down" style="padding-left: 8px;"></i>
                         </a>
                         <ul class="dropdown-menu pullDown">
@@ -123,6 +123,7 @@
     <!-- #Top Bar -->
 </template>
 <script>
+import { mapActions, mapGetters } from 'vuex';
     export default {
         data: function(){
             return {
@@ -130,6 +131,7 @@
             }
         },
         methods:{
+            ...mapActions(['fetch_user_information']),
             logout:function(){
                 axios.get('logout').then(response => {
                     if (response.status === 302 || 401) {
@@ -145,7 +147,10 @@
             },
         },
         created: function(){
-
+            this.fetch_user_information();
         },
+        computed:{
+            ...mapGetters(['get_auth_user_info'])
+        }
     }
 </script>

@@ -176,7 +176,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="ellipsis text-success" @click="gotoCustomerProfile(saleorder.customer_id)">
+                                            <div class="ellipsis text-info" @click="gotoCustomerProfile(saleorder.customer_id)">
                                                 {{saleorder.customer}}
                                             </div>
                                         </td>
@@ -196,7 +196,7 @@
                                                 <div v-else>
                                                     <span class="label-light-success">delivered</span>
                                                     <span class="label-light-info" v-if="saleorder.sales_log && saleorder.sales_log.is_delivery_note">ordered</span>
-                                                    <span class="custom_status_color" v-if="saleorder.sales_log && saleorder.sales_log.is_invoice">invoiced</span>
+                                                    <span class="label-light-warning" v-if="saleorder.sales_log && saleorder.sales_log.is_invoice">invoiced</span>
                                                 </div>
                                             </div>
                                         </td>
