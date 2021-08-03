@@ -47,7 +47,7 @@
                     "satus": "open",
                     "paid_satus": "not_delivered",
                     "delivery_date": "",
-                    "payment_terms": "at 30 days",
+                    "payment_terms": "Due on receipt",
                     "selected_products":'',
                     "product": "",
                     "document_note": "",

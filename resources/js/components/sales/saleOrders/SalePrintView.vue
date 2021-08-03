@@ -53,13 +53,13 @@
                     <div class="order-date-details">
                         <h4><span>Order No:</span> <span>{{sales_order.code}}</span></h4>
                         <h4><span>Date:</span> <span>{{sales_order.date}}</span></h4>
-                        <h4><span>Expires On:</span> <span>{{sales_order.expiration_date}}</span></h4>
+                        <h4><span>Expires On:</span> <span>{{sales_order.payment_date}}</span></h4>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row"><div class="col-12"><p class="text-right"><b>PO#: {{sales_order.po_number}}</b></p></div></div>
+        <div style="width:100%;"><p style="text-align:right;padding-right:25px;"><b>PO#: {{sales_order.po_number}}</b></p></div>
 
         <div class="row">
             <div class="col-12" style="width: 100%;padding:0">
@@ -100,7 +100,7 @@
                             <td colspan="2">Source Tax 4%:</td>
                             <td>6,90,15265</td>
                         </tr> -->
-                        <tr>
+                        <tr v-if="sales_order.vat > 0">
                             <td></td>
                             <td colspan="2">Vat {{ 100*sales_order.vat/sales_order.subtotal }}%:</td>
                             <td>৳ {{sales_order.vat}}</td>

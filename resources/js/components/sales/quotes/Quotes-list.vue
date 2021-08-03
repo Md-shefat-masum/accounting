@@ -145,8 +145,8 @@
                                         <th style="min-width: 95px;">Quote Date</th>
                                         <th style="min-width: 90px;">Quote No</th>
                                         <th style="min-width: 90px;">Customer</th>
-                                        <th class="text-center" style="min-width: 90px;">Amount</th>
-                                        <th style="min-width: 125px;">Expiration Date</th>
+                                        <th class="text-right" style="min-width: 90px;">Amount</th>
+                                        <th class="text-center" style="min-width: 125px;">Expiration Date</th>
                                         <th class="text-center" style="min-width: 90px;">Status</th>
                                         <th class="text-center" style="width: 70px;min-width: 70px;"></th>
                                     </tr>
@@ -186,7 +186,7 @@
                                                 {{ quote.amount_number_format }}
                                             </div>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <div @click="editQuote(quote.id)" class="ellipsis">
                                                 {{quote.expiration_date}}
                                             </div>
@@ -376,6 +376,7 @@
             },
             listQuotes: function (status) {
                 var that = this;
+                this.data_by_day_name = 'any date';
                 this.data_get_url_status = status;
                 this.form.get(`/api/quotes?status=`+status).then(function (response) {
                     that.show_quotes = that.quotes = response.data.datas;
@@ -452,7 +453,11 @@
                 let that = this;
                 axios.get(url)
                     .then((response)=>{
-                        that.show_quotes = that.quotes = response.data;
+                        if(response.data.datas){
+                            that.show_quotes = that.quotes = response.data.datas;
+                        }else{
+                            that.show_quotes = that.quotes = response.data;
+                        }
                     })
             },
             dataSort: function(key,type,description,event){
@@ -463,7 +468,11 @@
                 let that = this;
                 axios.get(url)
                     .then((response)=>{
-                        that.show_quotes = that.quotes = response.data;
+                        if(response.data.datas){
+                            that.show_quotes = that.quotes = response.data.datas;
+                        }else{
+                            that.show_quotes = that.quotes = response.data;
+                        }
                     })
             },
             dataSearch: function(){

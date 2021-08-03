@@ -576,6 +576,7 @@ section.content.content-menu.content_setting .btn-primary.active {
   color: #838383 !important;
   border-radius: 4px !important;
   border: 1px solid #e0e0e0 !important;
+  position: relative !important;
 }
 .table_filter_hover_input .ellipsis-block.active {
   color: #fff;
@@ -583,9 +584,45 @@ section.content.content-menu.content_setting .btn-primary.active {
   outline: 0;
   background-color: #5390f4;
 }
+.table_filter_hover_input ul {
+  width: max-content;
+  transform: unset !important;
+  position: absolute;
+  top: unset !important;
+  left: unset !important;
+  bottom: unset !important;
+  will-change: transform;
+  right: 0 !important;
+  top: 73px !important;
+}
+.table_filter_hover_input ul:not(.browser-default) > li a {
+  padding: 10px 10px;
+  position: relative;
+  padding-left: 30px;
+}
+.table_filter_hover_input ul:not(.browser-default) > li a::before {
+  content: "";
+  font-family: fontello;
+  left: 9px;
+  top: 10px;
+  position: absolute;
+  opacity: 0;
+}
+.table_filter_hover_input ul:not(.browser-default) > li a.active::before {
+  opacity: 1;
+}
 section.content.content-menu .amount {
   font-size: 12px;
   line-height: 21px;
   height: 23px;
   width: 28px;
+}
+.breadcrumb .page-title {
+  color: #484848;
+}
+section.content.content-menu .content-card .nav-tabs > li > a.active {
+  font-weight: 600;
+}
+.modal.show .modal-dialog {
+  box-shadow: 0px 0px 15px #535353;
 }

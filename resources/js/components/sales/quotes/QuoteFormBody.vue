@@ -32,6 +32,7 @@
                                             data-toggle="dropdown"
                                             autocomplete="off"
                                             role="button"
+                                            readonly
                                             v-model="form_data.recipient"
                                             placeholder="Contact name">
                                     <ul class="dropdown-menu A54VNK-pi-c">
@@ -179,7 +180,7 @@
             </div>
         </div>
 
-        <salesStatusVue v-if="form_data.status !== 'open'" :sales_logs="sales_logs"></salesStatusVue>
+        <salesStatusVue v-if="form_data.status !== 'open' && type == 'edit' " :sales_logs="sales_logs"></salesStatusVue>
 
         <list-of-product-table
             :old_data="form_data.selected_products"
@@ -257,6 +258,7 @@
                                                     <input type="text"
                                                             class="form-control A54VNK-pi-d"
                                                             autocomplete="off"
+                                                            readonly
                                                             role="button"
                                                             v-model="form_data.assigned_to"
                                                             placeholder="Assigned To">

@@ -35,6 +35,29 @@ class UserController extends Controller
         return 'not sucess';
     }
 
+    public function logo_pic_update(Request $request)
+    {
+        if($request->hasFile('logo_image')){
+            $file = $request->file('logo_image');
+            $extension = $file->getClientOriginalExtension();
+            $temp_name  = uniqid(10) . time();
+            $image = Image::make($file);
+            // $image->resize(136,27,function($constraint){
+            //     $constraint->aspectRatio();
+            // });
+            $path = 'uploads/users/logo_136x27_' . $temp_name . '.' . $extension;
+            $image->save($path);
+
+            $user = User::find(Auth::user()->id);
+            $user->logo = $path;
+            $user->save();
+
+            return response()->json('success');
+        }
+
+        return 'not sucess';
+    }
+
     public function get_user_info()
     {
         return Auth::user();

@@ -396,7 +396,7 @@ class CustomersController extends Controller
     public function get_basic_information()
     {
         $basic_information = User::where('id',Auth::user()->id)->first();
-        $basic_information->logo = '/pdflogo.png';
+        // $basic_information->logo = '/pdflogo.png';
         $basic_information->assigned_to = $basic_information->name;
         return $basic_information;
     }

@@ -164,7 +164,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="ellipsis cursor_pointer text-success" @click="gotoCustomerProfile(deliverynote.customer_id)" >
+                                            <div class="ellipsis cursor_pointer text-info" @click="gotoCustomerProfile(deliverynote.customer_id)" >
                                                 {{deliverynote.customer}}
                                             </div>
                                         </td>
@@ -442,7 +442,12 @@
 
                 axios.get(url)
                     .then((response)=>{
-                        that.show_deliverynotes = that.deliverynotes = response.data;
+                        if(response.data.datas){
+                            that.show_deliverynotes = that.deliverynotes = response.data.datas;
+                        }
+                        else{
+                            that.show_deliverynotes = that.deliverynotes = response.data;
+                        }
                         // console.log(response);
                     })
             },

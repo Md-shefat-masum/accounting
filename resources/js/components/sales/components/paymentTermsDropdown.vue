@@ -6,6 +6,7 @@
                     data-toggle="dropdown"
                     autocomplete="off" role="button"
                     v-model="payment_terms"
+                    readonly
                     placeholder="Select">
             <ul class="dropdown-menu A54VNK-oi-a">
                 <li class="active">
@@ -42,6 +43,10 @@ export default {
         }
     },
     created: function(){
+        this.payment_term_info.payment_date = this.set_payment_date(this.payment_terms);
+        this.payment_term_info.payment_terms = this.payment_terms;
+        this.set_payment_terms(this.payment_term_info);
+
         this.$watch('payment_terms', (newVal, oldVal) => {
             this.payment_term_info.payment_date = this.set_payment_date(this.payment_terms);
             this.payment_term_info.payment_terms = this.payment_terms;

@@ -1,13 +1,57 @@
 @font-face {
-  font-family: 'avarta';
-  src: url('/avarta.ttf');
+  font-family: "Averta";
+  src: url("/fonts/Averta-RegularItalic.woff2") format("woff2"), url("/fonts/Averta-RegularItalic.woff") format("woff");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Averta";
+  src: url("/fonts/Averta-Regular.woff2") format("woff2"), url("/fonts/Averta-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Averta";
+  src: url("/fonts/Averta-Semibold.woff2") format("woff2"), url("/fonts/Averta-Semibold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Averta";
+  src: url("/fonts/Averta-SemiboldItalic.woff2") format("woff2"), url("/fonts/Averta-SemiboldItalic.woff") format("woff");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Averta";
+  src: url("/fonts/Averta-Bold.woff2") format("woff2"), url("/fonts/Averta-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Averta";
+  src: url("/fonts/Averta-BoldItalic.woff2") format("woff2"), url("/fonts/Averta-BoldItalic.woff") format("woff");
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+body {
+  padding: 0;
+  margin: 0;
+  outline: 0;
+  margin: 0 auto;
 }
 .print_view {
-  font-family: avarta;
+  font-family: Averta;
   margin: 0;
-  padding: 20px;
   background: white;
   color: black;
+  padding-bottom: 100px;
   /* @media screen and (max-width: 700px) {
     .row {
         flex-direction: column;
@@ -29,9 +73,8 @@
   justify-content: right;
   flex: 50%;
   background-color: white;
-  padding: 20px;
-  padding-bottom: 0;
-  padding-right: 0;
+  padding-top: 20px;
+  padding-right: 25px;
 }
 .print_view .bill-details p,
 .print_view .address p {
@@ -62,16 +105,20 @@
   flex: 31%;
   background-color: white;
   padding: 0px 10px 20px 0px;
+  font-family: 'Averta';
+  padding-left: 25px;
 }
 .print_view .bill-address h2 {
   margin: 10px 0px 5px 0px;
   color: #8C959A;
   font-size: 14px;
   font-weight: 400;
+  font-family: 'Averta';
 }
 .print_view .bill-address h4 {
   margin: 5px 0px;
-  font-size: 12px;
+  font-size: 14px;
+  font-family: 'Averta';
 }
 .print_view .bill-address p {
   margin: 0px;
@@ -92,7 +139,7 @@
 }
 .print_view .ship-address h4 {
   margin: 5px 0px;
-  font-size: 12px;
+  font-size: 14px;
 }
 .print_view .ship-address p {
   margin: 0px;
@@ -103,11 +150,11 @@
   justify-content: right;
   flex: 24%;
   background-color: white;
-  padding: 27px 0px 20px;
+  padding: 27px 25px 20px;
 }
 .print_view .order-date h4 {
   margin: 3px 0px;
-  font-size: 13px;
+  font-size: 14px;
 }
 .print_view .order-date span:nth-child(2) {
   color: #000000;
@@ -146,13 +193,15 @@
 .print_view .terms {
   justify-content: right;
   flex: 60%;
+  padding: 0px 25px;
 }
 .print_view .terms h4 {
   margin: 10px 0px 5px 0px;
+  font-family: 'Averta';
 }
 .print_view .terms p {
   margin: 0px;
-  font-size: 13px;
+  font-size: 14px;
   width: 70%;
   display: flex;
   justify-content: flex-start;
@@ -195,14 +244,20 @@
   background: #acacac78;
 }
 .print_view .inv_table thead th {
-  padding: 10px 15px;
+  padding: 10px 25px;
+  font-family: 'Averta';
 }
 .print_view .inv_table tfoot td,
 .print_view .inv_table tbody td {
-  padding: 5px 15px;
+  padding: 5px 25px;
+  font-family: 'Averta';
 }
 .print_view .inv_table thead th:first-child {
   text-align: left;
+  width: 35%;
+}
+.print_view .inv_table thead th:nth-child(3) {
+  width: 25%;
 }
 .print_view .inv_table tbody td:nth-child(2) {
   text-align: center;
@@ -219,16 +274,19 @@
   text-align: right;
 }
 .print_view table thead th {
-  font-size: 13px;
+  font-size: 14px;
 }
 .print_view table tbody td,
 .print_view table tbody td p {
-  font-size: 12px;
+  font-size: 14px;
   margin: 5px 0px;
+  font-family: 'Averta';
 }
 .print_view table tbody td h5 {
-  font-size: 12px;
+  font-size: 14px;
   margin: 5px 0px;
+  font-family: 'Averta';
+  font-weight: bold;
 }
 .print_view table thead th:nth-child(2) {
   width: 100px;
@@ -237,7 +295,7 @@
   width: 120px;
 }
 .print_view table tfoot td {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
 }
 .print_view .order-date-details {
@@ -295,7 +353,7 @@
   width: 100%;
 }
 .print_view2 {
-  font-family: avarta;
+  font-family: Averta;
   margin: 0;
   padding: 20px;
   background: white;
@@ -356,7 +414,7 @@
   text-align: center;
 }
 .print_view2.main .left h1 {
-  font: bold 12px Sans-Serif;
+  font: bold 14px Sans-Serif;
   letter-spacing: 5px;
   text-transform: uppercase;
   padding: 5px 10px;
@@ -455,10 +513,24 @@
 @media print {
   @page {
     size: A4;
+    margin: 0;
   }
   .inv_table thead {
     background: #21ca3d !important;
+    color: #fff !important;
     -webkit-print-color-adjust: exact;
+  }
+  html,
+  body {
+    width: 210mm;
+    /* height: 297mm; */
+    height: 282mm;
+    font-size: 11px;
+    background: #FFF;
+    overflow: visible;
+  }
+  body {
+    padding-top: 15mm;
   }
   .line {
     height: 1px !important;

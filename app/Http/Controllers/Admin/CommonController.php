@@ -101,13 +101,16 @@ class CommonController extends Controller
             // $requestData['code'] = "QOT-001";
             $code = "$key-001";
         } else {
-            $increment = (int) $customer_uniqueId_count->count + 1;
+            // $increment = (int) $customer_uniqueId_count->count + 1;
+            $increment = (int) $customer_uniqueId_count->count;
 
-            UniqueId::where('user_id', $auth_user->id)
-                ->where('type', $type)
-                ->update([
-                    'count' => $increment,
-                ]);
+            // save after increament
+            // UniqueId::where('user_id', $auth_user->id)
+            //     ->where('type', $type)
+            //     ->update([
+            //         'count' => $increment,
+            //     ]);
+
             $increments = sprintf('%03d', $increment);
             // $requestData['code'] = 'QOT-' . $increments;
             $code = "$key-" . $increments;
@@ -120,11 +123,22 @@ class CommonController extends Controller
     public static function setCodeId($type)
     {
         if (request()->has('code') && request()->get('code') != null) {
-            UniqueId::where('user_id', Auth::user()->id)
-                ->where('type', $type)
-                ->update([
-                    'count' => explode('-', request()->get('code'))[1],
-                ]);
+            $new_count = explode('-', request()->get('code'))[1];
+            $latest_count = 0;
+
+            if(UniqueId::where('user_id', Auth::user()->id)->where('type', $type)->exists()){
+                $latest_count = UniqueId::where('user_id', Auth::user()->id)->where('type', $type)->first();
+            }
+
+            // update if given code greater than latest code
+            if($new_count > $latest_count){
+                UniqueId::where('user_id', Auth::user()->id)
+                        ->where('type', $type)
+                        ->update([
+                            'count' => explode('-', request()->get('code'))[1],
+                        ]);
+            }
+
         }
     }
 

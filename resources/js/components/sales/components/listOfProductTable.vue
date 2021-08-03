@@ -108,7 +108,7 @@
                             </td>
                             <td class="A54VNK-Ff-a A54VNK-Ff-s A54VNK-Ff-A" style="padding-top: 8px;">
                                 <div style="outline-style: none;" data-row="1" data-column="6">
-                                    <input type="text" v-model="selected_product.total_price" class="form-control" />
+                                    <input type="text" readonly v-model="selected_product.total_price" class="form-control" />
                                 </div>
                             </td>
                             <td class="A54VNK-Ff-a A54VNK-Ff-s A54VNK-Ff-n">
@@ -209,7 +209,7 @@
                                     <input type="text"
                                             class="form-control"
                                             disabled=""
-                                            v-model="subtotal"
+                                            v-model="get_subtotal"
                                             style="text-align: right;">
                                 </div>
                             </div>
@@ -220,12 +220,13 @@
                         <div class="form-horizontal">
                             <div class="form-group row" style="margin-bottom: 15px !important;" >
                                 <div class="col-sm-4 col-4 control-label">
-                                    <label style="font-weight: normal;">Discount Rate</label>
+                                    <label style="font-weight: normal;">Flat Amount</label>
                                 </div>
                                 <div class="col-sm-8 col-8">
+                                    <!-- discount rate e flat amount hobe. percentage er jaygay tkar amount hobe -->
                                     <input type="text"
                                             v-model="discount_rate"
-                                            @keyup="calculateTotal()"
+                                            @keyup="calculate_discount_rate_after_some_time()"
                                             class="form-control" style="text-align: right;">
                                 </div>
                             </div>
@@ -432,9 +433,16 @@
                             let disc = element.disc;
 
                             if(disc > 0){
-                                let dis = disc / 100;
-                                sales_price = sales_price - ( sales_price * dis );
-                                sales_price = sales_price.toFixed(3);
+
+                                /* discount rate jodi percentage e hoy */
+                                // let dis = disc / 100;
+                                // sales_price = sales_price - ( sales_price * dis );
+                                // sales_price = sales_price.toFixed(3);
+                                // element.total_price = sales_price*element.qty;
+
+
+                                /* discount rate flat rate er jonno, no change*/
+                                sales_price = parseFloat(disc).toFixed(2);
                                 element.total_price = sales_price*element.qty;
                             }
 
@@ -476,10 +484,13 @@
                                     if (Object.hasOwnProperty.call(element.vat_info, key)) {
                                         const data = element.vat_info[key];
 
+                                        let sales_price_with_qty = element.sales_price * element.qty;
+
                                         if(vat_info_total[key]){
-                                            vat_info_total[key] += (element.sales_price / 100) * (data+100) - element.sales_price;
+                                            // vat_info_total[key] += (element.sales_price / 100) * (data+100) - element.sales_price;
+                                            vat_info_total[key] += (sales_price_with_qty / 100) * (data+100) - sales_price_with_qty;
                                         }else{
-                                            vat_info_total[key] = (element.sales_price / 100) * (data+100) - element.sales_price;
+                                            vat_info_total[key] = (sales_price_with_qty / 100) * (data+100) - sales_price_with_qty;
                                         }
 
                                     }
@@ -498,9 +509,14 @@
 
                 this.subtotal = subtotal;
                 if(discount_rate > 0){
-                    let dis = discount_rate / 100;
-                    discount_amount = subtotal - ( subtotal * dis );
-                    discount_amount = discount_amount.toFixed(3);
+                    /* discount rate jodi percentage e hoy */
+
+                    // let dis = discount_rate / 100;
+                    // discount_amount = subtotal - ( subtotal * dis );
+                    // discount_amount = discount_amount.toFixed(3);
+
+                    /* discount rate flat rate er jonno, no change*/
+                    discount_amount = parseFloat(discount_rate).toFixed(2);
                 }else{
                    discount_amount = 0;
                 }
@@ -512,6 +528,11 @@
                 this.vat_info_total = vat_info_total;
                 total = subtotal - discount_amount + parseFloat(this.vat) + parseFloat(this.source_tax);
                 this.total = parseFloat(total).toFixed(2);
+            },
+
+            calculate_discount_rate_after_some_time:function(){
+                // console.log();
+                window._.debounce(()=>{this.calculateTotal()},300);
             },
 
             product_selected_row: function(product_id,index,event){
@@ -559,6 +580,11 @@
 
             },
         },
+        computed: {
+            get_subtotal:function(){
+                return this.subtotal.toFixed(2);
+            }
+        }
     }
 </script>
 
@@ -575,4 +601,34 @@
     .select2-container--default.select2-container--open.select2-container--below .select2-selection--multiple{
         padding: 0!important;
     }
+
+    input:not([type]):disabled,
+    input:not([type])[readonly="readonly"],
+    input[type="text"]:not(.browser-default):disabled,
+    input[type="text"]:not(.browser-default)[readonly="readonly"],
+    input[type="password"]:not(.browser-default):disabled,
+    input[type="password"]:not(.browser-default)[readonly="readonly"],
+    input[type="email"]:not(.browser-default):disabled,
+    input[type="email"]:not(.browser-default)[readonly="readonly"],
+    input[type="url"]:not(.browser-default):disabled,
+    input[type="url"]:not(.browser-default)[readonly="readonly"],
+    input[type="time"]:not(.browser-default):disabled,
+    input[type="time"]:not(.browser-default)[readonly="readonly"],
+    input[type="date"]:not(.browser-default):disabled,
+    input[type="date"]:not(.browser-default)[readonly="readonly"],
+    input[type="datetime"]:not(.browser-default):disabled,
+    input[type="datetime"]:not(.browser-default)[readonly="readonly"],
+    input[type="datetime-local"]:not(.browser-default):disabled,
+    input[type="datetime-local"]:not(.browser-default)[readonly="readonly"],
+    input[type="tel"]:not(.browser-default):disabled,
+    input[type="tel"]:not(.browser-default)[readonly="readonly"],
+    input[type="number"]:not(.browser-default):disabled,
+    input[type="number"]:not(.browser-default)[readonly="readonly"],
+    input[type="search"]:not(.browser-default):disabled,
+    input[type="search"]:not(.browser-default)[readonly="readonly"],
+    textarea.materialize-textarea:disabled,
+    textarea.materialize-textarea[readonly="readonly"] {
+        color: black;
+    }
+
 </style>

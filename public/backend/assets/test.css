@@ -1,0 +1,14 @@
+@font-face {
+    font-family: "wv-icons";
+    font-weight: normal;
+    font-style: normal;
+    src: url("fonts/wv-icons.woff") format("woff")
+}
+
+@font-face {
+    font-family: "Caveat";
+    font-weight: normal;
+    font-style: normal;
+    src: url("fonts/Caveat-Regular.woff2") format("woff2"), url("fonts/Caveat-Regular.woff") format("woff")
+}
+

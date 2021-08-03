@@ -6,6 +6,7 @@
                     class="form-control A54VNK-pi-d"
                     autocomplete="off"
                     role="button"
+                    readonly
                     data-toggle="modal"
                     data-target="#addCustomerDeliveryContact"
                     v-model="delivery_contact"

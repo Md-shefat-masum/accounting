@@ -9,6 +9,7 @@
                     data-toggle="dropdown" autocomplete="off"
                     role="button" placeholder="Customer name or code"
                     v-model="customer_name"
+                    readonly
                     aria-expanded="true" />
             <ul class="dropdown-menu A54VNK-pi-c">
                 <li class="active">

@@ -27,6 +27,17 @@
                                             </div>
                                             <div class="col-sm-4 offset-1">
                                                 <h4>
+                                                    <div class="">Logo</div>
+                                                </h4>
+                                            </div>
+                                            <div class="col-sm-6 A54VNK-Nd-d">
+                                                <form action="" name="logo_pic_form" id="logo_pic_form">
+                                                    <input type="file" @change="upload_logo" name="logo_image" class="form-control form-component" autocomplete="off" />
+                                                    <img :src="'/'+this.get_auth_user_info.logo" alt="" style="height: 40px;margin: 10px;">
+                                                </form>
+                                            </div>
+                                            <div class="col-sm-4 offset-1">
+                                                <h4>
                                                     <div class="">Change Email</div>
                                                 </h4>
                                             </div>
@@ -127,6 +138,17 @@ import { mapActions, mapGetters } from 'vuex';
                         Toast.fire({
                             icon: 'success',
                             title: 'Profile Image Updated'
+                        });
+                        this.fetch_user_information();
+                    })
+            },
+            upload_logo: function(){
+               let form_data = new FormData($('#logo_pic_form')[0]);
+               axios.post('/api/user-logo-update',form_data)
+                    .then((res)=>{
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'logo Updated'
                         });
                         this.fetch_user_information();
                     })

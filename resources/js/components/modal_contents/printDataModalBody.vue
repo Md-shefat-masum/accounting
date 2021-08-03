@@ -119,4 +119,8 @@
     };
 </script>
 
-<style></style>
+<style scoped>
+    #print_document{
+        padding-right: 15px;
+    }
+</style>

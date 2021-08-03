@@ -4,6 +4,7 @@
             <a class="clear_input" @click="selected_project=''"><span class="picto-font">D</span></a>
             <input type="text" class="form-control A54VNK-Qi-d"
                 data-toggle="modal" data-target="#addProject"
+                readonly
                 :value="selected_project"
                 autocomplete="off" role="button" id="gwt-uid-480"
                 placeholder="Project name" aria-expanded="false" />

@@ -2,7 +2,7 @@
     <div class="main print_view">
         <div class="row">
             <div class="logo">
-                <img src="http://akaunter.com/pdflogo.png" alt="" style="height: 50px;">
+                <img :src="'/'+get_basic_information.logo" alt="" style="height: 50px;">
             </div>
             <div class="address">
                 <div class="flex-container" style="padding:5px">
@@ -21,7 +21,7 @@
                 <div class="flex-container" style="padding:5px">
                     <div class="bill-details">
                         <h2>BILL To</h2>
-                        <h4 class="text-capitalize">{{quote.customer}}</h4>
+                        <h4 style="text-transform: capitalize">{{quote.customer}}</h4>
                         <span v-if="quote.customer_info">
                             <p>{{quote.customer_info.billing_address}}</p>
                             <p>{{quote.customer_info.line_2}} , {{quote.customer_info.zip_code}}</p>
@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="ship-address">
-                <div class="flex-container" style="padding:5px" v-if="quote.delivery_address_info !== null">
+                <div class="flex-container" style="padding:5px;" v-if="quote.delivery_address_info !== null">
                     <div class="ship-details">
                         <h2>SHIP To</h2>
                         <h4 class="text-capitalize">{{quote.delivery_contact}}</h4>
@@ -165,6 +165,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import printTopBarAddress from '../components/printTopBarAddress.vue';
 export default {
     components: { printTopBarAddress },
@@ -203,7 +204,10 @@ export default {
     computed: {
         get_document_note: function(){
             return this.quote.document_note.replace("\n", "<br>")
-        }
+        },
+        ...mapGetters([
+            'get_basic_information',
+        ]),
     }
 }
 </script>

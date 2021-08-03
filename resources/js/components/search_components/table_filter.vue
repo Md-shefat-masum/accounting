@@ -24,7 +24,7 @@
                                         autocomplete="off">
                                 <ul class="dropdown-menu cus_dropdown_menu A54VNK-Yj-a">
                                     <li class="">
-                                        <a class="ellipsis-block" @click="list()" role="button"> Any Date </a>
+                                        <a class="ellipsis-block" @click="data_by_day(' ',' ','any date',$event)" role="button"> Any Date </a>
                                     </li>
 
                                     <li class="">

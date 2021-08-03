@@ -28,6 +28,7 @@
                                         data-toggle="dropdown"
                                         autocomplete="off"
                                         role="button"
+                                        readonly
                                         v-model="form.recipient"
                                         placeholder="Contact name">
                                 <ul class="dropdown-menu A54VNK-pi-c">
@@ -133,6 +134,7 @@
                                         data-toggle="dropdown"
                                         autocomplete="off" role="button"
                                         v-model="form.status"
+                                        readonly
                                         placeholder="Select">
                                 <ul class="dropdown-menu A54VNK-oi-a">
                                     <li class="">
@@ -357,7 +359,8 @@ export default {
                 "status": "open",
                 "paid_satus": "not_delivered",
                 "delivery_date": "",
-                "payment_terms": "at 30 days",
+                "payment_terms": "Due on receipt",
+                "payment_date": "",
                 "selected_products":'',
                 "product": "",
                 "document_note": "",
