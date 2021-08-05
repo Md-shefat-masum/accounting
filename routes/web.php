@@ -59,6 +59,8 @@ Route::group( ['namespace'=>'Admin','middleware'=>['auth'] ],function(){
 
 });
 
+
+
 Route::get('/test',function(){
     $customer_logs = CustomerLog::get();
     $log_details = [];
@@ -97,6 +99,7 @@ Route::get('/test',function(){
 
     dd($log_details);
 })->name('route name');
+
 //Route::get('/', 'HomeController@index')->name('dashboard');
 Route::get('/logout', 'HomeController@logout')->name('logout');
 Route::get('/{vue?}', 'HomeController@index')->where('vue', '[\/\w\.-]*')->name('super_admin');

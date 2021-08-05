@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class RelatedProduct extends Model
 {
+    protected $appends = [
+        'related_product_id',
+    ];
+
+    public function getRelatedProductIdAttribute()
+    {
+        return $this->id;
+    }
+
     public function getSelectedSelect2TaxAndVatAttribute($value)
     {
         return json_decode($value);

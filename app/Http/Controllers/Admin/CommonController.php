@@ -101,8 +101,7 @@ class CommonController extends Controller
             // $requestData['code'] = "QOT-001";
             $code = "$key-001";
         } else {
-            // $increment = (int) $customer_uniqueId_count->count + 1;
-            $increment = (int) $customer_uniqueId_count->count;
+            $increment = (int) ( $customer_uniqueId_count->count ) + 1;
 
             // save after increament
             // UniqueId::where('user_id', $auth_user->id)
@@ -123,6 +122,7 @@ class CommonController extends Controller
     public static function setCodeId($type)
     {
         if (request()->has('code') && request()->get('code') != null) {
+
             $new_count = explode('-', request()->get('code'))[1];
             $latest_count = 0;
 
@@ -130,8 +130,10 @@ class CommonController extends Controller
                 $latest_count = UniqueId::where('user_id', Auth::user()->id)->where('type', $type)->first();
             }
 
+            // dd(request()->get('code'), $type , $new_count , $latest_count->count);
+
             // update if given code greater than latest code
-            if($new_count > $latest_count){
+            if($new_count > $latest_count->count){
                 UniqueId::where('user_id', Auth::user()->id)
                         ->where('type', $type)
                         ->update([

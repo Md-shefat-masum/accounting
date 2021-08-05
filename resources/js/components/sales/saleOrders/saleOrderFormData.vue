@@ -177,7 +177,7 @@
             </div>
         </div>
 
-        <sales-status v-if="sales_logs && ( type == 'edit' || type == 'quote_to_sales_order' ) " :sales_logs="sales_logs"></sales-status>
+        <sales-status v-if="sales_logs && ( type == 'edit' || type == 'quote_to_sales_order' ) " :type="'sales_order_edit'" :sales_logs="sales_logs"></sales-status>
 
         <list-of-product-table
             :old_data="form.selected_products"
@@ -295,6 +295,7 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
     import addCustomerOrLead from '../../modal_contents/add_customer_or_lead.vue'
     import listOfCustomerOrLeadVue from '../../modal_contents/listOfCustomerOrLead.vue'
     import listOfProductOrServiceVue from '../../modal_contents/listOfProductOrService.vue'
@@ -402,6 +403,11 @@ export default {
         },
     },
     methods: {
+        ...mapMutations([
+            'set_selected_sales_order_related_products',
+            'set_edited_sales_order_related_products_for_delivery_note',
+            'set_selected_sales_order_all_delivery_notes',
+        ]),
         basicInfo: function(){
             var today = new Date();
             var dd = String(today.getDate()).padStart(2, '0');
@@ -424,6 +430,7 @@ export default {
                 that.productrecivelocation = response.data;
             });
         },
+
         getSales: function () {
             var that = this;
             this.form.get('/api/saleorders/' + this.$route.params.id).then(function (response) {
@@ -431,6 +438,8 @@ export default {
                 that.form.selected_products = response.data.selected_products;
                 that.selected_products = response.data.selected_products;
                 that.loaded = true;
+
+                that.set_selected_sales_order_all_delivery_notes( response.data.orders.delivery_list_info_json );
 
                 that.sales_logs = response.data.orders.sales_log;
                 setTimeout(() => {
@@ -483,6 +492,7 @@ export default {
                 });
 
         },
+
         createSales: function(){
             this.form.selected_products = this.selected_products;
             this.form.status = this.status;
@@ -502,12 +512,14 @@ export default {
                 });
             });
         },
+
         updateSales: function () {
             var that = this;
             this.form.put('/api/saleorders/' + this.$route.params.id).then(function (response) {
                 that.form.fill(response.data);
             })
         },
+
         getCustomerNameId: function(name, id, address){
             this.form.customer = name;
             this.form.id = id;
@@ -522,9 +534,11 @@ export default {
                     this.projects = res.data.projects;
                 })
         },
+
         getCustomerRecipent: function(recipient){
             this.recipients = recipient;
         },
+
         toggleProductServiceOrExpense: function(type){
             if(type == 'porduct_service'){
                 this.form.is_product_and_service = true;
@@ -535,6 +549,7 @@ export default {
                 this.form.is_expense = true;
             }
         },
+
         set_selected_product_info: function(info){
             // console.log(info);
             this.form.selected_products = info.selected_products;
@@ -545,6 +560,7 @@ export default {
             this.form.total = info.total;
             this.form.vat = info.vat;
         },
+
         set_files: function(file_info){
             // console.log(file_info);
             this.form.files = file_info.files;
@@ -568,6 +584,9 @@ export default {
         set_customer_project: function(project_name){
             this.form.project = project_name;
         },
+    },
+    computed: {
+
     }
 }
 </script>

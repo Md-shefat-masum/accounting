@@ -93,7 +93,9 @@
                             </td>
                             <td class="A54VNK-Ff-a A54VNK-Ff-s">
                                 <div style="outline-style: none;" data-row="1" data-column="3">
-                                    <input type="text" @keyup="calculateTotal()" v-model="selected_product.qty" class="form-control" />
+                                    <input type="text"
+                                            @keyup="change_qty(selected_product.id, $event.target.value, index)"
+                                            v-model="selected_product.qty" class="form-control" />
                                 </div>
                             </td>
                             <td class="A54VNK-Ff-a A54VNK-Ff-s">
@@ -106,7 +108,7 @@
                                     <input type="text" v-model="selected_product.disc" @keyup="calculateTotal(selected_product.id)" class="form-control" />
                                 </div>
                             </td>
-                            <td class="A54VNK-Ff-a A54VNK-Ff-s A54VNK-Ff-A" style="padding-top: 8px;">
+                            <td class="A54VNK-Ff-a A54VNK-Ff-s A54VNK-Ff-A">
                                 <div style="outline-style: none;" data-row="1" data-column="6">
                                     <input type="text" readonly v-model="selected_product.total_price" class="form-control" />
                                 </div>
@@ -307,6 +309,7 @@
 <script>
     import ListOfProductOrService from '../../modal_contents/listOfProductOrService.vue';
     import Select2 from 'v-select2-component';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
     export default {
         props: ['set_selected_product_info','currency_rate','old_data','old_document_note'],
@@ -377,6 +380,10 @@
             }
         },
         methods: {
+            ...mapMutations([
+                'set_edited_sales_order_related_products_for_delivery_note',
+                'set_saved_selected_sales_order_related_products',
+            ]),
             productListRender: function(){
                 this.product_random_number++;
             },
@@ -406,7 +413,26 @@
                 this.calculateTotal();
             },
 
-            calculateTotal: function(){
+            change_qty: function(related_product_id=null, qty=null, arrray_index=null){
+                if(qty == ''){
+                    qty = 0;
+                }
+
+                if(this.get_converting_sales_order_to_deliver_note && qty >= 0){
+                    this.set_edited_sales_order_related_products_for_delivery_note(
+                        {
+                            related_product_id: related_product_id,
+                            qty: parseInt(qty),
+                            arrray_index: arrray_index,
+                        }
+                    )
+                }
+
+                this.calculateTotal();
+            },
+
+            calculateTotal: function(related_product_id=null){
+                // console.log(product_id, qty);
                 let subtotal = 0;
                 let discount_rate = this.discount_rate;
                 let discount_amount = this.discount_amount;
@@ -503,6 +529,7 @@
 
                         }
                     }
+
                     this.show_selected_products = this.selected_products;
 
                 }
@@ -583,7 +610,10 @@
         computed: {
             get_subtotal:function(){
                 return this.subtotal.toFixed(2);
-            }
+            },
+            ...mapGetters([
+                'get_converting_sales_order_to_deliver_note'
+            ]),
         }
     }
 </script>
@@ -629,6 +659,10 @@
     textarea.materialize-textarea:disabled,
     textarea.materialize-textarea[readonly="readonly"] {
         color: black;
+    }
+
+    input.product_row_active{
+        background: white!important;;
     }
 
 </style>

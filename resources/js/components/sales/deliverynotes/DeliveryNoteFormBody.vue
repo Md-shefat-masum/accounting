@@ -226,7 +226,7 @@
         </div>
 
         <salesStatusVue v-if="sales_logs && ( type == 'edit' || type == 'invoice_to_delivery_note' || type == 'sale_order_to_delivery_note' ) "
-            :sales_logs="sales_logs">
+            :sales_logs="sales_logs" :type="'sale_order_to_delivery_note'">
         </salesStatusVue>
 
         <list-of-product-table
@@ -391,6 +391,7 @@
     import salesStatusVue from '../components/sales_status.vue'
     import ProjectDropdown from '../components/projectDropdown.vue'
     import FileUploadField from '../components/fileUploadField.vue'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
     export default {
         props: ['setFormData','type'],
@@ -479,19 +480,31 @@
             }
         },
         created: function () {
-            // this.getDeliverynote();
-            this.basicinfo();
+
             if(this.type == 'edit'){
                 this.getDeliverynote();
             }
+
+            this.set_converting_sales_order_to_deliver_note(false);
             if(this.type == 'sale_order_to_delivery_note'){
                 this.getSales();
+                this.set_converting_sales_order_to_deliver_note(true);
             }
+
             if(this.type == 'invoice_to_delivery_note'){
                 this.getInvoice();
             }
+
+            this.basicinfo();
         },
         methods: {
+            ...mapMutations([
+                'set_selected_sales_order_related_products',
+                'set_saved_selected_sales_order_related_products',
+                'set_converting_sales_order_to_deliver_note',
+                'set_checked_all_sale_order_qty_converted_to_delivery_note',
+                'set_selected_sales_order_all_delivery_notes',
+            ]),
             basicinfo: function(){
                 var today = new Date();
                 var dd = String(today.getDate()).padStart(2, '0');
@@ -513,27 +526,49 @@
 
             getSales: function () {
                 var that = this;
-                this.form.get('/api/saleorders/' + this.$route.params.id).then(function (response) {
-                    that.form.fill(response.data.orders);
-                    that.form.currency = 'TK';
-                    that.form.status = 'not invoiced';
-                    that.form.delivery_method = 'truck';
-                    that.form.selected_products = response.data.selected_products;
-                    that.selected_products = response.data.selected_products;
-                    that.form.selected_products = response.data.selected_products;
-                    that.loaded = true;
-                    // console.log(response.data.selected_products);
-                    that.sales_logs = response.data.orders.sales_log;
-                    setTimeout(() => {
-                        that.get_customer_data(response.data.orders.customer_id);
-                        if(that.sales_logs && that.sales_logs.is_delivery_note){
-                            $('input').attr('disabled',true);
-                            $('textarea').attr('disabled',true);
-                            $('select').attr('disabled',true);
-                            $('button').attr('disabled',true);
+                this.form.get('/api/saleorders/' + this.$route.params.id + '?convert_to_delivery_note=1')
+                    .then(function (response) {
+                        that.form.fill(response.data.orders);
+                        that.form.currency = 'TK';
+                        that.form.status = 'not invoiced';
+                        that.form.delivery_method = 'truck';
+
+                        that.form.selected_products = response.data.selected_products;
+
+                        if(response.data.orders.delivery_list_info != null){
+                            let list = response.data.orders.delivery_list_info_json;
+                            console.log(list);
+                            list = list[ list.length-1 ].related_product;
+                            that.selected_products = list;
+                            that.set_selected_sales_order_related_products( list );
+                            that.set_saved_selected_sales_order_related_products( list );
+                            that.set_selected_sales_order_all_delivery_notes( response.data.orders.delivery_list_info_json );
+                            that.form.selected_products = list;
+                        }else{
+                            that.selected_products = response.data.selected_products;
+                            that.set_selected_sales_order_related_products( response.data.selected_products );
+                            that.set_saved_selected_sales_order_related_products(response.data.selected_products);
+                            that.set_selected_sales_order_all_delivery_notes( [] );
+                            that.form.selected_products = response.data.selected_products;
                         }
-                    }, 2000);
-                });
+
+                        that.set_checked_all_sale_order_qty_converted_to_delivery_note();
+
+                        // console.log(JSON.parse(JSON.stringify(response.data.selected_products)));
+                        that.loaded = true;
+                        // console.log(response.data.selected_products);
+                        that.sales_logs = response.data.orders.sales_log;
+                        setTimeout(() => {
+                            that.get_customer_data(response.data.orders.customer_id);
+                            // if(that.sales_logs && that.sales_logs.is_delivery_note){
+                            if(response.data.orders.is_delivered){
+                                $('input').attr('disabled',true);
+                                $('textarea').attr('disabled',true);
+                                $('select').attr('disabled',true);
+                                $('button').attr('disabled',true);
+                            }
+                        }, 2000);
+                    });
                 that.loaded = true;
 
                 this.form.get('/api/get-latest-code-id/delivery_note/DEN').then(function (response) {
@@ -697,6 +732,12 @@
                 this.form.files = file_info.files;
                 this.form.attachments = file_info.attachments;
             }
+        },
+        computed: {
+            ...mapGetters([
+                'get_selected_sales_order_related_products',
+                'get_edited_sales_order_related_products_for_delivery_note',
+            ])
         }
 
     }

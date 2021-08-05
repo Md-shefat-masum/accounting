@@ -30,6 +30,12 @@ class SaleordersController extends Controller
                 'files','sale_receipts','projects'
             ])->first();
 
+        if($request->has('convert_to_delivery_note')){
+            // $last_delivery_products = $orders->sales_log;
+            // $orders->last_converted_delivery_note_related_products = $last_delivery_products;
+            // dd($orders->toArray());
+        }
+
         // return dd($orders, SalesLog::where('sales_order_id',$orders->id)->first());
         return response()->json([
             'orders' => $orders,

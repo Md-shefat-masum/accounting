@@ -14,8 +14,12 @@
                         </div>
                     </div>
 
-                    <new-footer
+                    <!-- <new-footer
                         v-if="!(sales_logs && sales_logs.is_delivery_note) &&
+                        !(sales_logs && sales_logs.is_invoice)"
+                        type="basic"/> -->
+                    <new-footer
+                        v-if="!is_delivered &&
                         !(sales_logs && sales_logs.is_invoice)"
                         type="basic"/>
                 </div>
@@ -27,6 +31,7 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex';
 
     import NewFooter from '../../../layouts/partials/new_footer'
     import DeliveryNoteFormBody from '../deliverynotes/DeliveryNoteFormBody.vue';
@@ -41,6 +46,7 @@
             return {
                 type: 'sale_order_to_delivery_note',
                 sales_logs:[],
+                is_delivered: false,
                 form: new Form({
                     "id": "",
                     "customer": "",
@@ -92,14 +98,19 @@
             }, 300);
         },
         methods: {
+            ...mapMutations([
+                'set_converting_sales_order_to_deliver_note',
+            ]),
+
             getSales: function () {
                 var that = this;
                 this.form.get('/api/saleorders/' + this.$route.params.id)
                     .then(function (response) {
                         that.sales_logs = response.data.orders.sales_log;
-                        console.log(response.data);
+                        that.is_delivered = response.data.is_delivered;
+                        // console.log(response.data);
                         setTimeout(() => {
-                            if(that.sales_logs && that.sales_logs.is_delivery_note){
+                            if(that.is_delivered){
                                 $('input').attr('disabled',true);
                                 $('textarea').attr('disabled',true);
                                 $('select').attr('disabled',true);
@@ -112,29 +123,40 @@
 
             createDeliverynote: function() {
                 // this.form.selected_products = this.selected_products;
+                if(this.get_converting_sales_order_to_deliver_note){
+                    this.form.check_all_product_converted_to_note = this.get_checked_all_sale_order_qty_converted_to_delivery_note;
+                    this.form.edited_sales_order_related_product_qty = this.get_edited_sales_order_related_products_for_delivery_note;
+                }
+
                 $('.done_btn').addClass('loading').prop("disabled",true);
                 this.form.post('/api/delivery-note?sales_order_sales_log_id='+this.sales_logs.id)
-                .then(() => {
-                    // this.form.reset();
-                    // this.selected_products = [];
-                    // this.basicinfo();
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Created successfully'
+                    .then(() => {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Created successfully'
+                        });
+                        this.$router.replace({name: 'deliveryNoteList'})
+                    })
+                    .catch(() => {
+                        $('.done_btn').removeClass('loading').prop("disabled",false);
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Created error'
+                        });
                     });
-                    this.$router.replace({name: 'deliveryNoteList'})
-                }).catch(() => {
-                    $('.done_btn').removeClass('loading').prop("disabled",false);
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'Created error'
-                    });
-                });
             },
 
             setFormData: function(form_data){
                 this.form = form_data;
             },
+        },
+        computed:{
+            ...mapGetters([
+                'get_saved_selected_sales_order_related_products',
+                'get_edited_sales_order_related_products_for_delivery_note',
+                'get_converting_sales_order_to_deliver_note',
+                'get_checked_all_sale_order_qty_converted_to_delivery_note',
+            ]),
         }
     }
 </script>

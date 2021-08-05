@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -351,4 +352,20 @@ Route::group([
     Route::put('testsohans/{id}', 'TestsohansController@update');
     Route::delete('testsohans/{id}', 'TestsohansController@delete');
 
+
+
+});
+
+
+Route::post('/api-login',function(){
+    $email = request()->email;
+    $password = request()->password;
+    if(Auth::attempt(['email' => $email, 'password' => $password])){
+        // return Auth::user();
+        $user = Auth::user();
+        $data['access_token'] = $user->createToken('accessToken')->accessToken;
+        $data['user'] = $user;
+        return $data;
+    }
+    return request();
 });

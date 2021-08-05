@@ -23,13 +23,13 @@ class DeliverynoeteController extends Controller
 {
     public function get(Request $request, $id)
     {
-        $delivery_note = Deliverynote::where('creator',Auth::user()->id)->where('id',$id)->with('sales_log','delivery_address_info')->first();
-        $selected_products = RelatedProduct::where('type_name','delivery_note')->where('type_id', $id)->with('product_details')->get();
-        $customer_info = Customers::where('user_id',Auth::user()->id)->where('id', $delivery_note->customer_id)->with([
-                                                    'country_name',
-                                                    'contacts',
-                                                    'files','sale_receipts','projects'
-                                                ])->first();
+        $delivery_note = Deliverynote::where('creator', Auth::user()->id)->where('id', $id)->with('sales_log', 'delivery_address_info')->first();
+        $selected_products = RelatedProduct::where('type_name', 'delivery_note')->where('type_id', $id)->with('product_details')->get();
+        $customer_info = Customers::where('user_id', Auth::user()->id)->where('id', $delivery_note->customer_id)->with([
+            'country_name',
+            'contacts',
+            'files', 'sale_receipts', 'projects'
+        ])->first();
         return response()->json([
             'delivery_note' => $delivery_note,
             'selected_products' => $selected_products,
@@ -41,16 +41,16 @@ class DeliverynoeteController extends Controller
     {
 
         if ($request->status == 'not invoiced') {
-            $datas = Deliverynote::where('creator',Auth::user()->id)->where('status', 'not invoiced')->where('creator',Auth::user()->id)->with('sales_log')->orderBy('id','DESC')->paginate(10);
+            $datas = Deliverynote::where('creator', Auth::user()->id)->where('status', 'not invoiced')->where('creator', Auth::user()->id)->with('sales_log')->orderBy('id', 'DESC')->paginate(10);
         } elseif ($request->status == 'invoiced') {
-            $datas = Deliverynote::where('creator',Auth::user()->id)->where('status', 'invoiced')->where('creator',Auth::user()->id)->with('sales_log')->orderBy('id','DESC')->paginate(10);
+            $datas = Deliverynote::where('creator', Auth::user()->id)->where('status', 'invoiced')->where('creator', Auth::user()->id)->with('sales_log')->orderBy('id', 'DESC')->paginate(10);
         } else {
-            $datas = Deliverynote::where('creator',Auth::user()->id)->orderBy('id','DESC')->where('creator',Auth::user()->id)->with('sales_log')->orderBy('id','DESC')->paginate(10);
+            $datas = Deliverynote::where('creator', Auth::user()->id)->orderBy('id', 'DESC')->where('creator', Auth::user()->id)->with('sales_log')->orderBy('id', 'DESC')->paginate(10);
         }
 
-        $all_count = Deliverynote::where('creator',Auth::user()->id)->where('creator',Auth::user()->id)->count();
-        $not_invoiced_count = Deliverynote::where('creator',Auth::user()->id)->where('status', 'not invoiced')->where('creator',Auth::user()->id)->count();
-        $invoiced_count = Deliverynote::where('creator',Auth::user()->id)->where('status', 'invoiced')->where('creator',Auth::user()->id)->count();
+        $all_count = Deliverynote::where('creator', Auth::user()->id)->where('creator', Auth::user()->id)->count();
+        $not_invoiced_count = Deliverynote::where('creator', Auth::user()->id)->where('status', 'not invoiced')->where('creator', Auth::user()->id)->count();
+        $invoiced_count = Deliverynote::where('creator', Auth::user()->id)->where('status', 'invoiced')->where('creator', Auth::user()->id)->count();
 
         return response()->json([
             'datas' => $datas,
@@ -62,23 +62,23 @@ class DeliverynoeteController extends Controller
 
     public function not_invoiced_delivery_notes(Request $request, $customer_id)
     {
-        if($request->has('delivery_address_id')){
-            $invoices = Deliverynote::where('creator',Auth::user()->id)
+        if ($request->has('delivery_address_id')) {
+            $invoices = Deliverynote::where('creator', Auth::user()->id)
                 ->where('status', 'not invoiced')
-                ->where('creator',Auth::user()->id)
-                ->where('customer_id',$customer_id)
-                ->where('delivery_address_id',$request->delivery_address_id)
-                ->select('id','code')
-                ->orderBy('id','DESC')
+                ->where('creator', Auth::user()->id)
+                ->where('customer_id', $customer_id)
+                ->where('delivery_address_id', $request->delivery_address_id)
+                ->select('id', 'code')
+                ->orderBy('id', 'DESC')
                 ->get();
-        }else{
-            $invoices = Deliverynote::where('creator',Auth::user()->id)
-                                ->where('status', 'not invoiced')
-                                ->where('creator',Auth::user()->id)
-                                ->where('customer_id',$customer_id)
-                                ->select('id','code')
-                                ->orderBy('id','DESC')
-                                ->get();
+        } else {
+            $invoices = Deliverynote::where('creator', Auth::user()->id)
+                ->where('status', 'not invoiced')
+                ->where('creator', Auth::user()->id)
+                ->where('customer_id', $customer_id)
+                ->select('id', 'code')
+                ->orderBy('id', 'DESC')
+                ->get();
         }
 
         return $invoices;
@@ -86,6 +86,7 @@ class DeliverynoeteController extends Controller
 
     public function create(Request $request)
     {
+
         $validatedData = $request->validate([
             'customer' => 'required |max:255 ',
             'selected_products' => 'required',
@@ -95,13 +96,9 @@ class DeliverynoeteController extends Controller
             'customer.max' => 'customer can only be 255 characters.',
         ]);
 
-        // echo "<pre>";
-        // var_dump($request->request);
-
         $products = $request->selected_products;
 
-        $requestData = $request->except(['files', 'attachments','status']);
-        $requestData['code'] = NULL;
+        $requestData = $request->except(['files', 'attachments', 'status']);
         $requestData['status'] = 'not invoiced';
         $requestData['creator'] = Auth::user()->id;
 
@@ -116,7 +113,8 @@ class DeliverynoeteController extends Controller
         $delivery_note = Deliverynote::create($requestData);
         $delivery_note->save();
 
-        CommonController::related_product_insert($products,'delivery_note',$delivery_note->id);
+        // save delivery note related products
+        CommonController::related_product_insert($products, 'delivery_note', $delivery_note->id);
 
         CommonController::insert_customer_log([
             'creator' => Auth::user()->id,
@@ -125,30 +123,50 @@ class DeliverynoeteController extends Controller
             'type_id' => $delivery_note->id
         ]);
 
-        if($request->has('sales_order_sales_log_id')){
+        if ($request->has('sales_order_sales_log_id')) {
             $sales_log = SalesLog::find($request->sales_order_sales_log_id);
             $sales_log->is_delivery_note = 1;
             $sales_log->delivery_note_id = $delivery_note->id;
             $sales_log->delivery_note_code = $delivery_note->code;
-            $sales_log->delivery_note_description= 'sales order to delivery note';
+            $sales_log->delivery_note_description = 'sales order to delivery note';
+
+            $deliver_note_list = json_decode($sales_log->sales_order_to_deliver_note_list);
+            array_push($deliver_note_list, $delivery_note->id);
+            $sales_log->sales_order_to_deliver_note_list = json_encode($deliver_note_list);
+
             $sales_log->save();
 
-            Saleorders::where('id',$sales_log->sales_order_id)->update([
-                'status' => 'delivered',
-                'is_ordered' => 1,
-            ]);
+            $sales_order = Saleorders::where('id', $sales_log->sales_order_id)->first();
+            $delivery_list_info = $sales_order->delivery_list_info != "" ? json_decode($sales_order->delivery_list_info) : [];
+            $delivery_note_info = [
+                "id" => $delivery_note->id,
+                "code" => $delivery_note->code,
+                "related_product" => $request->edited_sales_order_related_product_qty,
+            ];
+            array_push($delivery_list_info, $delivery_note_info);
 
-        }else if($request->has('invoice_sales_log_id')){
+            if($request->check_all_product_converted_to_note){
+                $sales_order->status = 'delivered';
+                $sales_order->is_delivered = 1;
+            }else{
+                $sales_order->delivery_list_info = json_encode($delivery_list_info);
+                $sales_order->is_delivered = 0;
+                $sales_order->status = 'pertially delivered';
+            }
+
+            $sales_order->save();
+
+        } else if ($request->has('invoice_sales_log_id')) {
             $sales_log = SalesLog::find($request->invoice_sales_log_id);
             $sales_log->is_delivery_note = 1;
             $sales_log->delivery_note_id = $delivery_note->id;
             $sales_log->delivery_note_code = $delivery_note->code;
-            $sales_log->delivery_note_description= 'invoice to delivery note';
+            $sales_log->delivery_note_description = 'invoice to delivery note';
             $sales_log->save();
 
             $delivery_note->status = 'invoiced';
             $delivery_note->save();
-        }else{
+        } else {
             $fields = [
                 'creator' => Auth::user()->id,
                 'customer_id' => $delivery_note->customer_id,
@@ -201,8 +219,8 @@ class DeliverynoeteController extends Controller
         $delivery_note->fill($input)->save();
 
         $products = $request->selected_products;
-        RelatedProduct::where('type_name','delivery_note')->where('type_id',$delivery_note->id)->delete();
-        CommonController::related_product_insert($products,'delivery_note',$delivery_note->id);
+        RelatedProduct::where('type_name', 'delivery_note')->where('type_id', $delivery_note->id)->delete();
+        CommonController::related_product_insert($products, 'delivery_note', $delivery_note->id);
 
         // CommonController::delete_customer_log([
         //     'creator' => Auth::user()->id,
@@ -220,7 +238,7 @@ class DeliverynoeteController extends Controller
 
         $requestImage = $request->all();
         if (isset($requestImage['files'])) {
-            ImageFile::where('type', 'delivery_note')->where('type_id',$delivery_note->id)->delete();
+            ImageFile::where('type', 'delivery_note')->where('type_id', $delivery_note->id)->delete();
 
             CommonController::file_upload_to_image_files(
                 [
@@ -238,7 +256,7 @@ class DeliverynoeteController extends Controller
     public function delete(Request $request, $id)
     {
         $delivery_note = Deliverynote::findOrFail($id);
-        RelatedProduct::where('type_name','delivery_note')->where('type_id',$delivery_note->id)->delete();
+        RelatedProduct::where('type_name', 'delivery_note')->where('type_id', $delivery_note->id)->delete();
 
         CommonController::delete_customer_log([
             'creator' => Auth::user()->id,
@@ -252,7 +270,7 @@ class DeliverynoeteController extends Controller
 
     public function delivery_notes_products($id)
     {
-        return RelatedProduct::where('type_name','delivery_note')->where('type_id',$id)->get();
+        return RelatedProduct::where('type_name', 'delivery_note')->where('type_id', $id)->get();
     }
 
     public function delivery_sort(Request $request)
