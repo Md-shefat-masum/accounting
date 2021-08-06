@@ -121,6 +121,8 @@ import { mapGetters, mapMutations } from 'vuex';
                 that.loaded = true;
             },
 
+            // asdfasd
+
             createDeliverynote: function() {
                 // this.form.selected_products = this.selected_products;
                 if(this.get_converting_sales_order_to_deliver_note){
