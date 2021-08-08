@@ -4,7 +4,7 @@
         <sub-header></sub-header>
 
         <section class="content content-menu content_setting">
-            <div class="container-fluid">
+            <div class="container-fluid" style="padding-bottom: 100px;">
                 <!-- breadcumbs -->
 
                 <div class="block-header">
@@ -378,6 +378,15 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="navbar navbar-fixed-bottom navbar-custom A54VNK-be-c formfooter" type="basic">
+                <div class="A54VNK-Vf-d">
+                    <div class="A54VNK-Vf-e"></div>
+                    <div class="btn-toolbar A54VNK-Vf-c">
+                        <button type="button" class="btn btn-default btn-danger" style="line-height:0;">Cancel</button>
+                        <button type="submit" class="btn btn-primary done_btn active">Done</button>
                     </div>
                 </div>
             </div>
