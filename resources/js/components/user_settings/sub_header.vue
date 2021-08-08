@@ -4,6 +4,9 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs tab-nav-right text-center">
                 <li>
+                    <router-link to="/settings/company-settings">Company Settings</router-link>
+                </li>
+                <li>
                     <router-link to="/settings/profile">Profile</router-link>
                 </li>
                 <li>

@@ -135,6 +135,7 @@ import NewaccountingReceipt from './components/accounting/accountingReceipt/acco
 
 
 // USER SETTINGS MODULES START
+import companySettings from './components/user_settings/companySettings'
 import Profile from './components/user_settings/profile'
 import Notifications from './components/user_settings/notifications'
 import Preferences from './components/user_settings/preferences'
@@ -156,6 +157,7 @@ const routes = [
         path: '/settings', component: LayoutBasic,
         children: [
             //Users Management
+            {path: 'company-settings', component: companySettings},
             {path: 'profile', component: Profile},
             {path: 'notifications', component: Notifications},
             {path: 'preferences', component: Preferences},
