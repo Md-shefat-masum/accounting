@@ -3,51 +3,376 @@
     <div>
         <sub-header></sub-header>
 
-        <section class="content content-menu">
+        <section class="content content-menu content_setting">
             <div class="container-fluid">
                 <!-- breadcumbs -->
 
                 <div class="block-header">
-                    <div class="row">
-                        <div class="col-md-8 offset-2">
+                    <div class="row" style="justify-content:center;">
+                        <div class="col-md-10">
                             <div class="card" style="margin-bottom: 13px; padding-top: 30px;">
                                 <div class="body">
                                     <div class="A54VNK-Mc-e">
                                         <div class="row">
                                             <div class="col-sm-4 offset-1">
                                                 <h4>
-                                                    <div class="">Company Logo</div>
+                                                    <div class="">Company Information</div>
                                                 </h4>
                                             </div>
-                                            <div class="col-sm-6 A54VNK-Nd-d">
-                                                <form action="" name="logo_pic_form" id="logo_pic_form">
-                                                    <input type="file" @change="upload_logo" name="logo_image" class="form-control form-component" autocomplete="off" />
-                                                    <img :src="'/'+this.get_auth_user_info.logo" alt="" style="height: 40px;margin: 10px;">
-                                                </form>
-                                                <p>
-                                                    Your company logo will be used on quotes, invoices, and other printable documents.
-                                                    You can also drag and drop a picture from your computer.
-                                                    Recommended file types: .GIF, .PNG, or .JPG less than 1 MB.
-                                                </p>
-                                            </div>
-                                            
-                                            <div class="col-sm-4 offset-1">
-                                                <h4>
-                                                    <div class="">Change Email</div>
-                                                </h4>
-                                            </div>
-                                            <div class="col-sm-6 A54VNK-Nd-d">
-                                                <div class="form-group">
-                                                    <div class="form-group floating-label focused">
-                                                        <input type="email" class="form-control form-component email_body" v-model="email" placeholder="Email" id="gwt-uid-253" />
-                                                        <label class="control-label form-question ellipsis" for="gwt-uid-253">Email</label>
-                                                        <div class="error-panel"></div>
+
+                                            <div class="col-12">
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="gwt-uid-137" style="font-weight: normal;">Company Name</label>
+                                                        <span class="text-danger bold">*</span>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" id="gwt-uid-137" />
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <button type="button" @click.prevent="change_email" class="btn btn-primary">Save Email</button>
+
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Address</label>
+
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" placeholder="line-1" />
+                                                        <input type="text" class="form-control" placeholder="line-2" />
+                                                        <input type="text" class="form-control" placeholder="line-3" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">City</label>
+
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" placeholder="city" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">State</label>
+
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" placeholder="state" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Zip code</label>
+
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" placeholder="Zip code" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Country</label>
+
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" placeholder="Country" />
+                                                    </div>
+                                                </div>
+
+                                                <hr>
+
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Phone</label>
+
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" placeholder="Phone" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Fax</label>
+
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" placeholder="Fax" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Email</label>
+
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" placeholder="Email" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Website</label>
+
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" placeholder="Website" />
+                                                    </div>
+                                                </div>
+
+                                                <hr>
+
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">EIN</label>
+
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" placeholder="EIN" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Sales Tax Number</label>
+
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" placeholder="Sales Tax Number" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-12">
+                                                <h4>Document Settings</h4>
+
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Document Language</label>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" placeholder="Document Language" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Document Format</label>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" placeholder="Document Format" />
+                                                    </div>
+                                                </div>
+
+                                                <!-- <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Document Templates</label>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" placeholder="Document Format" />
+                                                    </div>
+                                                </div> -->
+
+                                            </div>
+
+                                            <div class="col-12">
+                                                <hr>
+
+                                                <h4>sales Settings</h4>
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Default Quote Expiration (days)</label>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" value="30" />
+                                                    </div>
+                                                </div>
+
+                                                <hr>
+
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Late payments penalties fees</label>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" value="0.00" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Late payments penalties interest rate</label>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" value="0.00" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Cash Drawer Management</label>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <div class="A54VNK-pe-b A54VNK-pe-d" style="width: 22%;">
+                                                            <div aria-atomic="true" tabindex="0" class="btn-group A54VNK-Cc-c switch-button">
+                                                                <a href="#" aria-pressed="true" role="button" class="btn active btn-primary">On</a>
+                                                                <a href="#" aria-pressed="false" role="button" class="btn btn-default">Off</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <h4>Finance Settings</h4>
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Accounting basis</label>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <div class="A54VNK-pe-b A54VNK-pe-d" style="width: 22%;">
+                                                            <div aria-atomic="true" tabindex="0" class="btn-group A54VNK-Cc-c switch-button">
+                                                                <a href="#" aria-pressed="true" role="button" class="btn active btn-primary">Cash</a>
+                                                                <a href="#" aria-pressed="false" role="button" class="btn btn-default">Accrual</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Tax Management</label>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <div class="A54VNK-pe-b A54VNK-pe-d" style="width: 22%;">
+                                                            <div aria-atomic="true" tabindex="0" class="btn-group A54VNK-Cc-c switch-button">
+                                                                <a href="#" aria-pressed="true" role="button" class="btn active btn-primary">Yes</a>
+                                                                <a href="#" aria-pressed="false" role="button" class="btn btn-default">No</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Sales Tax Basis</label>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <div class="A54VNK-pe-b A54VNK-pe-d" style="width: 22%;">
+                                                            <div aria-atomic="true" tabindex="0" class="btn-group A54VNK-Cc-c switch-button">
+                                                                <a href="#" aria-pressed="true" role="button" class="btn active btn-primary">Cash</a>
+                                                                <a href="#" aria-pressed="false" role="button" class="btn btn-default">Accrual</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">
+                                                            Track Customer/Vendor for Sales Receipt and Expenses
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <div class="A54VNK-pe-b A54VNK-pe-d" style="width: 22%;">
+                                                            <div aria-atomic="true" tabindex="0" class="btn-group A54VNK-Cc-c switch-button">
+                                                                <a href="#" aria-pressed="true" role="button" class="btn active btn-primary">Yes</a>
+                                                                <a href="#" aria-pressed="false" role="button" class="btn btn-default">No</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">
+                                                            Working Period Start
+                                                        </label>
+                                                        <span class="text-danger bold">*</span>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="date" class="form-control" >
+                                                    </div>
+                                                </div>
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">
+                                                            Working Period Emd
+                                                        </label>
+                                                        <span class="text-danger bold">*</span>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="date" class="form-control" >
+                                                    </div>
+                                                </div>
+                                                <hr>
+
+                                            </div>
+
+                                            <div class="col-12">
+                                                <h4>Product and Service Settings</h4>
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">
+                                                            Pack Units for Sales and Purchases
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <div class="A54VNK-pe-b A54VNK-pe-d" style="width: 22%;">
+                                                            <div aria-atomic="true" tabindex="0" class="btn-group A54VNK-Cc-c switch-button">
+                                                                <a href="#" aria-pressed="true" role="button" class="btn active btn-primary">Yes</a>
+                                                                <a href="#" aria-pressed="false" role="button" class="btn btn-default">No</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">
+                                                            Default Storage Location
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" >
+                                                    </div>
                                                 </div>
                                             </div>
+
+                                            <div class="col-12">
+                                                <h4>Auto Numbering</h4>
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">
+                                                            Select an Object
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" >
+                                                    </div>
+                                                </div>
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">
+                                                            Prefix
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" value="QOT-" >
+                                                    </div>
+                                                </div>
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">
+                                                            Last Code Used
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" class="form-control" value="000">
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
