@@ -27,19 +27,18 @@
                                                         <span class="text-danger bold">*</span>
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" id="gwt-uid-137" />
+                                                        <input type="text" v-model="form.company" class="form-control" id="gwt-uid-137" />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group SimpleTextQuestion row">
                                                     <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
                                                         <label class="m-0" for="" style="font-weight: normal;">Address</label>
-
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" placeholder="line-1" />
-                                                        <input type="text" class="form-control" placeholder="line-2" />
-                                                        <input type="text" class="form-control" placeholder="line-3" />
+                                                        <input type="text" v-model="address.line1" class="form-control" placeholder="line-1" />
+                                                        <input type="text" v-model="address.line2" class="form-control" placeholder="line-2" />
+                                                        <input type="text" v-model="address.line3" class="form-control" placeholder="line-3" />
                                                     </div>
                                                 </div>
 
@@ -49,7 +48,7 @@
 
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" placeholder="city" />
+                                                        <input type="text" v-model="form.city" class="form-control" placeholder="city" />
                                                     </div>
                                                 </div>
 
@@ -59,7 +58,7 @@
 
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" placeholder="state" />
+                                                        <input v-model="form.state" type="text" class="form-control" placeholder="state" />
                                                     </div>
                                                 </div>
 
@@ -69,7 +68,7 @@
 
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" placeholder="Zip code" />
+                                                        <input type="text" v-model="form.zip" class="form-control" placeholder="Zip code" />
                                                     </div>
                                                 </div>
 
@@ -79,7 +78,10 @@
 
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" placeholder="Country" />
+                                                        <!-- <input type="text" v-model="form.country" class="form-control" placeholder="Country" /> -->
+                                                        <select v-model="form.country" class="form-control">
+                                                            <option :value="country.name" v-for="country in get_countries" :key="country.id">{{ country.name }}</option>
+                                                        </select>
                                                     </div>
                                                 </div>
 
@@ -87,11 +89,21 @@
 
                                                 <div class="form-group SimpleTextQuestion row">
                                                     <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Mobile</label>
+
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <input type="text" v-model="form.mobile" class="form-control" placeholder="Mobile Number" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
                                                         <label class="m-0" for="" style="font-weight: normal;">Phone</label>
 
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" placeholder="Phone" />
+                                                        <input type="text" v-model="form.phone" class="form-control" placeholder="Phone" />
                                                     </div>
                                                 </div>
 
@@ -101,7 +113,7 @@
 
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" placeholder="Fax" />
+                                                        <input type="text" v-model="form.fax" class="form-control" placeholder="Fax" />
                                                     </div>
                                                 </div>
 
@@ -111,7 +123,7 @@
 
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" placeholder="Email" />
+                                                        <input type="text" v-model="form.company_email" class="form-control" placeholder="Email" />
                                                     </div>
                                                 </div>
 
@@ -121,7 +133,7 @@
 
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" placeholder="Website" />
+                                                        <input type="text" v-model="form.website" class="form-control" placeholder="Website" />
                                                     </div>
                                                 </div>
 
@@ -133,7 +145,7 @@
 
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" placeholder="EIN" />
+                                                        <input type="text"  v-model="form.ein" class="form-control" placeholder="EIN" />
                                                     </div>
                                                 </div>
 
@@ -143,20 +155,43 @@
 
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" placeholder="Sales Tax Number" />
+                                                        <input type="text"  v-model="form.sales_tax_number" class="form-control" placeholder="Sales Tax Number" />
                                                     </div>
                                                 </div>
 
                                             </div>
                                             <div class="col-12">
-                                                <h4>Document Settings</h4>
+                                                <h4 style="margin-bottom: 20px;">Document Settings</h4>
 
                                                 <div class="form-group SimpleTextQuestion row">
                                                     <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
                                                         <label class="m-0" for="" style="font-weight: normal;">Document Language</label>
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" placeholder="Document Language" />
+                                                        <!-- <input type="text" v-model="form.document_language" class="form-control" placeholder="Document Language" /> -->
+                                                        <select v-model="form.document_language" class="form-control">
+                                                            <!-- <option :value="country.name" v-for="country in get_countries" :key="country.id">{{ country.name }}</option> -->
+                                                            <!-- <option value=""></option> -->
+                                                            <option value="English (United States)">English (United States)</option>
+                                                            <option value="Chinese">Chinese</option>
+                                                            <option value="Croatian">Croatian</option>
+                                                            <option value="Dutch">Dutch</option>
+                                                            <option value="English (United Kingdom)">English (United Kingdom)</option>
+                                                            <option value="French">French</option>
+                                                            <option value="German">German</option>
+                                                            <option value="Greek">Greek</option>
+                                                            <option value="Icelandic">Icelandic</option>
+                                                            <option value="Italian">Italian</option>
+                                                            <option value="Polish">Polish</option>
+                                                            <option value="Portuguese (Brazil)">Portuguese (Brazil)</option>
+                                                            <option value="Romanian">Romanian</option>
+                                                            <option value="Russian">Russian</option>
+                                                            <option value="Slovenian">Slovenian</option>
+                                                            <option value="Spanish (Latin America)">Spanish (Latin America)</option>
+                                                            <option value="Spanish (Spain)">Spanish (Spain)</option>
+                                                            <option value="Swedish">Swedish</option>
+                                                            <option value="Turkish">Turkish</option>
+                                                        </select>
                                                     </div>
                                                 </div>
 
@@ -165,7 +200,11 @@
                                                         <label class="m-0" for="" style="font-weight: normal;">Document Format</label>
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" placeholder="Document Format" />
+                                                        <!-- <input type="text" v-model="form.document_format" class="form-control" placeholder="Document Format" /> -->
+                                                        <select class="form-control" v-model="form.document_format" >
+                                                            <option value="Letter">Letter</option>
+                                                            <option value="A4">A4</option>
+                                                        </select>
                                                     </div>
                                                 </div>
 
@@ -183,13 +222,13 @@
                                             <div class="col-12">
                                                 <hr>
 
-                                                <h4>sales Settings</h4>
+                                                <h4 style="margin-bottom: 20px;">sales Settings</h4>
                                                 <div class="form-group SimpleTextQuestion row">
                                                     <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
                                                         <label class="m-0" for="" style="font-weight: normal;">Default Quote Expiration (days)</label>
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" value="30" />
+                                                        <input type="text" v-model="form.default_qoute_expiration_days" class="form-control" value="30" />
                                                     </div>
                                                 </div>
 
@@ -200,7 +239,7 @@
                                                         <label class="m-0" for="" style="font-weight: normal;">Late payments penalties fees</label>
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" value="0.00" />
+                                                        <input type="text" v-model="form.late_payment_fees" class="form-control" value="0.00" />
                                                     </div>
                                                 </div>
                                                 <div class="form-group SimpleTextQuestion row">
@@ -208,7 +247,7 @@
                                                         <label class="m-0" for="" style="font-weight: normal;">Late payments penalties interest rate</label>
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" value="0.00" />
+                                                        <input type="text" v-model="form.late_payment_interest" class="form-control" value="0.00" />
                                                     </div>
                                                 </div>
                                                 <div class="form-group SimpleTextQuestion row">
@@ -217,9 +256,9 @@
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
                                                         <div class="A54VNK-pe-b A54VNK-pe-d" style="width: 22%;">
-                                                            <div aria-atomic="true" tabindex="0" class="btn-group A54VNK-Cc-c switch-button">
-                                                                <a href="#" aria-pressed="true" role="button" class="btn active btn-primary">On</a>
-                                                                <a href="#" aria-pressed="false" role="button" class="btn btn-default">Off</a>
+                                                            <div class="btn-group A54VNK-tc-c switch-button" aria-atomic="true">
+                                                                <button type="button" class="btn btn-default" v-bind:class="{ active: form.cash_drawer_management=='Yes' }" v-on:click="form.cash_drawer_management = 'Yes'" aria-pressed="true" style="text-transform: capitalize;">Yes</button>
+                                                                <button type="button" class="btn btn-default" v-bind:class="{ active: form.cash_drawer_management=='No' }" v-on:click="form.cash_drawer_management = 'No'" aria-pressed="false" style="text-transform: capitalize;" >No</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -235,9 +274,9 @@
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
                                                         <div class="A54VNK-pe-b A54VNK-pe-d" style="width: 22%;">
-                                                            <div aria-atomic="true" tabindex="0" class="btn-group A54VNK-Cc-c switch-button">
-                                                                <a href="#" aria-pressed="true" role="button" class="btn active btn-primary">Cash</a>
-                                                                <a href="#" aria-pressed="false" role="button" class="btn btn-default">Accrual</a>
+                                                            <div class="btn-group A54VNK-tc-c switch-button" aria-atomic="true">
+                                                                <button type="button" class="btn btn-default" v-bind:class="{ active: form.accounting_basis=='Cash' }" aria-pressed="true" style="text-transform: capitalize;" v-on:click="form.accounting_basis = 'Cash'">Cash</button>
+                                                                <button type="button" class="btn btn-default" v-bind:class="{ active: form.accounting_basis=='Accural' }" aria-pressed="false" style="text-transform: capitalize;" v-on:click="form.accounting_basis = 'Accural'">Accrual</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -248,9 +287,9 @@
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
                                                         <div class="A54VNK-pe-b A54VNK-pe-d" style="width: 22%;">
-                                                            <div aria-atomic="true" tabindex="0" class="btn-group A54VNK-Cc-c switch-button">
-                                                                <a href="#" aria-pressed="true" role="button" class="btn active btn-primary">Yes</a>
-                                                                <a href="#" aria-pressed="false" role="button" class="btn btn-default">No</a>
+                                                            <div class="btn-group A54VNK-tc-c switch-button" aria-atomic="true">
+                                                                <button type="button" class="btn btn-default" v-bind:class="{ active: form.tax_management=='Yes' }" aria-pressed="true" style="text-transform: capitalize;" v-on:click="form.tax_management = 'Yes'">Yes</button>
+                                                                <button type="button" class="btn btn-default" v-bind:class="{ active: form.tax_management=='No' }" aria-pressed="false" style="text-transform: capitalize;" v-on:click="form.tax_management = 'No'">No</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -261,9 +300,9 @@
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
                                                         <div class="A54VNK-pe-b A54VNK-pe-d" style="width: 22%;">
-                                                            <div aria-atomic="true" tabindex="0" class="btn-group A54VNK-Cc-c switch-button">
-                                                                <a href="#" aria-pressed="true" role="button" class="btn active btn-primary">Cash</a>
-                                                                <a href="#" aria-pressed="false" role="button" class="btn btn-default">Accrual</a>
+                                                            <div class="btn-group A54VNK-tc-c switch-button" aria-atomic="true">
+                                                                <button type="button" class="btn btn-default" v-bind:class="{ active: form.sales_tax_basis=='Cash' }" aria-pressed="true" style="text-transform: capitalize;" v-on:click="form.sales_tax_basis = 'Cash'">Cash</button>
+                                                                <button type="button" class="btn btn-default" v-bind:class="{ active: form.sales_tax_basis=='Accural' }" aria-pressed="false" style="text-transform: capitalize;" v-on:click="form.sales_tax_basis = 'Accural'">Accrual</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -276,9 +315,9 @@
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
                                                         <div class="A54VNK-pe-b A54VNK-pe-d" style="width: 22%;">
-                                                            <div aria-atomic="true" tabindex="0" class="btn-group A54VNK-Cc-c switch-button">
-                                                                <a href="#" aria-pressed="true" role="button" class="btn active btn-primary">Yes</a>
-                                                                <a href="#" aria-pressed="false" role="button" class="btn btn-default">No</a>
+                                                            <div class="btn-group A54VNK-tc-c switch-button" aria-atomic="true">
+                                                                <button type="button" class="btn btn-default" v-bind:class="{ active: form.track_customer_vendor=='Yes' }" aria-pressed="true" style="text-transform: capitalize;" v-on:click="form.track_customer_vendor = 'Yes'">Yes</button>
+                                                                <button type="button" class="btn btn-default" v-bind:class="{ active: form.track_customer_vendor=='No' }" aria-pressed="false" style="text-transform: capitalize;" v-on:click="form.track_customer_vendor = 'No'">No</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -292,7 +331,7 @@
                                                         <span class="text-danger bold">*</span>
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="date" class="form-control" >
+                                                        <input v-model="form.working_period_start" type="date" class="form-control" >
                                                     </div>
                                                 </div>
                                                 <div class="form-group SimpleTextQuestion row">
@@ -303,7 +342,7 @@
                                                         <span class="text-danger bold">*</span>
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="date" class="form-control" >
+                                                        <input v-model="form.working_period_end" type="date" class="form-control" >
                                                     </div>
                                                 </div>
                                                 <hr>
@@ -311,7 +350,7 @@
                                             </div>
 
                                             <div class="col-12">
-                                                <h4>Product and Service Settings</h4>
+                                                <h4 style="margin-bottom: 20px;">Product and Service Settings</h4>
                                                 <div class="form-group SimpleTextQuestion row">
                                                     <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
                                                         <label class="m-0" for="" style="font-weight: normal;">
@@ -320,9 +359,9 @@
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
                                                         <div class="A54VNK-pe-b A54VNK-pe-d" style="width: 22%;">
-                                                            <div aria-atomic="true" tabindex="0" class="btn-group A54VNK-Cc-c switch-button">
-                                                                <a href="#" aria-pressed="true" role="button" class="btn active btn-primary">Yes</a>
-                                                                <a href="#" aria-pressed="false" role="button" class="btn btn-default">No</a>
+                                                            <div class="btn-group A54VNK-tc-c switch-button" aria-atomic="true">
+                                                                <button type="button" class="btn btn-default" v-bind:class="{ active: form.pack_unit_for_sales=='Yes' }" aria-pressed="true" style="text-transform: capitalize;" v-on:click="form.pack_unit_for_sales = 'Yes'">Yes</button>
+                                                                <button type="button" class="btn btn-default" v-bind:class="{ active: form.pack_unit_for_sales=='No' }" aria-pressed="false" style="text-transform: capitalize;" v-on:click="form.pack_unit_for_sales = 'No'">No</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -334,7 +373,10 @@
                                                         </label>
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" >
+                                                        <!-- <input v-model="form.default_storage_location" type="text" class="form-control" > -->
+                                                        <select v-model="form.default_storage_location" class="form-control">
+                                                            <option value="main location">Main Location</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -348,7 +390,12 @@
                                                         </label>
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" >
+                                                        <!-- <input v-model="auto_numbering.select_object" type="text" class="form-control" > -->
+                                                        <select v-model="selected_numbering.name" @change="set_auto_numbering($event)" class="form-control">
+                                                            <option :value="auto_numbering.name" v-for="(auto_numbering,index) in auto_numberings" :key="index">
+                                                                {{ auto_numbering.name }}
+                                                            </option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group SimpleTextQuestion row">
@@ -358,7 +405,7 @@
                                                         </label>
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" value="QOT-" >
+                                                        <input v-model="selected_numbering.prefix" type="text" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="form-group SimpleTextQuestion row">
@@ -368,7 +415,7 @@
                                                         </label>
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
-                                                        <input type="text" class="form-control" value="000">
+                                                        <input v-model="selected_numbering.code" type="text" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -386,7 +433,14 @@
                     <div class="A54VNK-Vf-e"></div>
                     <div class="btn-toolbar A54VNK-Vf-c">
                         <button type="button" class="btn btn-default btn-danger" style="line-height:0;">Cancel</button>
-                        <button type="submit" class="btn btn-primary done_btn active">Done</button>
+                        <form id="temp_form">
+                            <input type="hidden" name="aliyen">
+                        </form>
+                        <button type="button"
+                            @click.prevent="save_company_settings()"
+                            class="btn btn-primary done_btn active">
+                            Done
+                        </button>
                     </div>
                 </div>
             </div>
@@ -403,14 +457,158 @@ import { mapActions, mapGetters } from 'vuex';
             SubHeader,
         },
 
-        name: 'Profile',
+        name: 'CompanySettings',
 
         data: function () {
             return {
                 form: new Form({
                     "id": "",
                     "is_company": true,
+                    "company": '',
+                    "address": '',
+                    "city": '',
+                    "state": '',
+                    "zip": '',
+                    "country": '',
+                    "fax": '',
+                    "company_email": '',
+                    "ein": '',
+                    "sales_tax_number": '',
+                    "document_language": '',
+                    "document_format": '',
+                    "default_qoute_expiration_days": '',
+                    "late_payment_fees": '',
+                    "late_payment_interest": '',
+                    "cash_drawer_management": '',
+                    "accounting_basis": '',
+                    "tax_management": '',
+                    "sales_tax_basis": '',
+                    "track_customer_vendor": '',
+                    "working_period_start": '',
+                    "working_period_end": '',
+                    "pack_unit_for_sales": '',
+                    "default_storage_location": '',
+                    "auto_numbering": '',
                 }),
+                auto_numberings:[
+                    {
+                        name: 'Customer',
+                        prefix: 'CUS-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Employee',
+                        prefix: 'EMP-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Quote',
+                        prefix: 'QOT-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Sales Order',
+                        prefix: 'CORD-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Delivery Note',
+                        prefix: 'DEN-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Invoice',
+                        prefix: 'INV-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Product or Service',
+                        prefix: 'PRO-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Sales Receipt',
+                        prefix: 'IPAY-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Bank Deposit',
+                        prefix: 'BDP-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Receiving Note',
+                        prefix: 'REC-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Accounting Transaction',
+                        prefix: 'MVT-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Bill',
+                        prefix: 'VINV-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Customer Credit Memo',
+                        prefix: 'CCN-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Expense',
+                        prefix: 'OPAY-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Inventory Entry',
+                        prefix: 'SEF-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Inventory Transfer',
+                        prefix: 'STN-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Inventory Withdrawal',
+                        prefix: 'SRN-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Picking List',
+                        prefix: 'PICK-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Purchase Order',
+                        prefix: 'SORD-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Vendor',
+                        prefix: 'VEN-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Vendor Credit Memo',
+                        prefix: 'SCN-',
+                        code: '000',
+                    },
+                    {
+                        name: 'Vendor Quote',
+                        prefix: 'SCN-',
+                        code: '000',
+                    },
+                ],
+                selected_numbering: {},
+
+                address: {
+                    line1: '',
+                    line2: '',
+                    line3: '',
+                },
                 email: '',
                 old_pass: '',
                 new_pass: '',
@@ -418,71 +616,119 @@ import { mapActions, mapGetters } from 'vuex';
             }
         },
         created: function () {
-            this.email =  this.get_auth_user_info.email;
+            // this.fetch_user_information();
+            this.fetch_countries();
+
+            this.form = this.get_auth_user_info;
+
+            if(!this.get_auth_user_info.company_email){
+                this.form.company_email = this.get_auth_user_info.email;
+            }
+
+            if(!this.get_auth_user_info.document_format){
+                this.form.document_format = 'Letter';
+            }
+
+            if(!this.get_auth_user_info.document_language){
+                this.form.document_language = 'English (United States)';
+            }
+
+            if(!this.get_auth_user_info.default_qoute_expiration_days){
+                this.form.default_qoute_expiration_days = 30;
+            }
+
+            if(!this.get_auth_user_info.late_payment_fees){
+                this.form.late_payment_fees = 0.00;
+            }
+
+            if(!this.get_auth_user_info.late_payment_interest){
+                this.form.late_payment_interest = 0.00;
+            }
+
+            if(!this.get_auth_user_info.cash_drawer_management){
+                this.form.cash_drawer_management = "No";
+            }
+
+            if(!this.get_auth_user_info.accounting_basis){
+                this.form.accounting_basis = "Accural";
+            }
+
+            if(!this.get_auth_user_info.tax_management){
+                this.form.tax_management = "No";
+            }
+
+            if(!this.get_auth_user_info.sales_tax_basis){
+                this.form.sales_tax_basis = "Accural";
+            }
+
+            if(!this.get_auth_user_info.track_customer_vendor){
+                this.form.track_customer_vendor = "No";
+            }
+
+            if(!this.get_auth_user_info.pack_unit_for_sales){
+                this.form.pack_unit_for_sales = "No";
+            }
+
+            if(!this.get_auth_user_info.default_storage_location){
+                this.form.default_storage_location = "main location";
+            }
+
+            if(!this.get_auth_user_info.working_period_start){
+                this.form.working_period_start = new Date().getFullYear()+'-01-01';
+            }
+
+            if(!this.get_auth_user_info.working_period_end){
+                this.form.working_period_end = new Date().getFullYear()+'-12-01';
+            }
+
+            if(this.get_auth_user_info.address_json.line1){
+                this.address = this.get_auth_user_info.address_json;
+            }
+
+            if(this.get_auth_user_info.auto_numbering){
+                this.auto_numberings = this.get_auth_user_info.auto_numbering_json;
+            }
+
+            this.selected_numbering = this.auto_numberings[0];
+
         },
         methods: {
-            ...mapActions(['fetch_user_information']),
-            upload_image: function(){
-               let form_data = new FormData($('#profile_pic_form')[0]);
-               axios.post('/api/user-profile-update',form_data)
+            ...mapActions([
+                'fetch_user_information',
+                'fetch_countries',
+            ]),
+            set_auto_numbering: function(event){
+                // console.log(event.target.value);
+                let auto_numbering_index = this.auto_numberings.findIndex(item=>item.name==event.target.value);
+
+                this.selected_numbering = this.auto_numberings[auto_numbering_index];
+                this.auto_numberings[auto_numbering_index].prefix = this.selected_numbering.prefix;
+                this.auto_numberings[auto_numbering_index].code = this.selected_numbering.code;
+            },
+
+            save_company_settings: function(){
+                let form_data = new FormData($('#temp_form')[0]);
+                form_data.append('form', JSON.stringify(this.form) );
+                form_data.append('address', JSON.stringify(this.address) );
+                form_data.append('auto_numbering', JSON.stringify(this.auto_numberings) );
+
+                axios.post('/api/company-settings-update',form_data)
                     .then((res)=>{
+                        // console.log(res.data);
+                        this.fetch_user_information();
                         Toast.fire({
                             icon: 'success',
-                            title: 'Profile Image Updated'
+                            title: 'Information Updated.'
                         });
-                        this.fetch_user_information();
                     })
-            },
-            upload_logo: function(){
-               let form_data = new FormData($('#logo_pic_form')[0]);
-               axios.post('/api/user-logo-update',form_data)
-                    .then((res)=>{
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'logo Updated'
-                        });
-                        this.fetch_user_information();
-                    })
-            },
-            change_email: function(){
-                axios.post('/api/user-email-update',{email: this.email})
-                        .then((res)=>{
-                            Toast.fire({
-                                icon: 'success',
-                                title: 'Email Updated'
-                            });
-                        })
-                        .catch(err => {
-                            let error = err.response.data;
-                            $('.email_body').addClass('text-danger');
-                            // console.log(error);
-                            Toast.fire({
-                                icon: 'error',
-                                title: error.errors.email
-                            });
-                        })
-            },
-            change_password: function(){
-                axios.post('/api/user-password-update',{
-                    old_pass: this.old_pass,
-                    new_pass: this.new_pass,
-                    new_pass_confirmation: this.new_psss_confirmation,
-                })
-                .then((res)=>{
-                    console.log(res);
-                })
-                .catch(err => {
-                    let error = err.response.data;
-                    console.log(error);
-                    Toast.fire({
-                        icon: 'error',
-                        title: error.errors.old_pass&&error.errors.old_pass + ' ' + error.errors.new_pass&&error.errors.new_pass
-                    });
-                })
             }
+
         },
         computed: {
-            ...mapGetters(['get_auth_user_info']),
+            ...mapGetters([
+                'get_auth_user_info',
+                'get_countries'
+            ]),
         }
     }
 </script>

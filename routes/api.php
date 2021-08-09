@@ -41,6 +41,7 @@ Route::group([
     Route::post('/user-email-update','UserController@email_update');
     Route::post('/user-password-update','UserController@password_update');
     Route::put('/user-preference-update','UserController@preference_update');
+    Route::post('/company-settings-update','UserController@company_settings_update');
     Route::get('/user-information','UserController@get_user_info');
     // profile settings end
 

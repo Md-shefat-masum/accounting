@@ -16,11 +16,25 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name','company','mobile','country', 'email', 'password',
-    ];
+    // protected $fillable = [
+    //     'name','company','mobile','country', 'email', 'password',
+    // ];
 
     protected $guarded = [];
+    protected $appends = [
+        'address_json',
+        'auto_numbering_json',
+    ];
+
+    public function getAddressJsonAttribute()
+    {
+        return json_decode($this->address);
+    }
+
+    public function getAutoNumberingJsonAttribute()
+    {
+        return json_decode($this->auto_numbering);
+    }
 
     /**
      * The attributes that should be hidden for arrays.

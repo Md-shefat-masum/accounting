@@ -49,11 +49,12 @@
                             <li class="body">
                                 <ul class="user_dw_menu">
                                     <li>
-                                        <a href='#' onClick="return false;">
-                                            Company Settings
-                                        </a>
+                                        <router-link to="/settings/company-settings">Company Settings</router-link>
                                     </li>
                                     <li>
+                                        <router-link to="/settings/tax-and-vat">Tax And Vat</router-link>
+                                    </li>
+                                    <!-- <li>
                                         <a href="#" onClick="return false;">
                                             Genareal Settings
                                         </a>
@@ -72,7 +73,7 @@
                                         <a href="#" onClick="return false;">
                                             Manage Subscription
                                         </a>
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </li>
                         </ul>

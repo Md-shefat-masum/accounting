@@ -108,4 +108,18 @@ class UserController extends Controller
 
         return 'success';
     }
+
+    public function company_settings_update(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $form = json_decode($request->form);
+        unset($form->address_json);
+        unset($form->auto_numbering_json);
+        $form->address = $request->address;
+        $form->auto_numbering = $request->auto_numbering;
+        $user->fill((array) $form);
+        $user->save();
+
+        return 'success';
+    }
 }

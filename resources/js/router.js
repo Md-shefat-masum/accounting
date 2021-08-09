@@ -140,6 +140,7 @@ import Profile from './components/user_settings/profile'
 import Notifications from './components/user_settings/notifications'
 import Preferences from './components/user_settings/preferences'
 import employee from './components/user_settings/employee/employee'
+import taxAndVAt from './components/user_settings/employee/taxAndVAt'
 // USER SETTINGS MODULES END
 
 Vue.use(VueRouter);
@@ -157,6 +158,7 @@ const routes = [
         path: '/settings', component: LayoutBasic,
         children: [
             //Users Management
+            {path: 'tax-and-vat', component: taxAndVAt},
             {path: 'company-settings', component: companySettings},
             {path: 'profile', component: Profile},
             {path: 'notifications', component: Notifications},

@@ -51,5 +51,6 @@
         <script src="{{ asset('backend/assets/js/pages/medias/carousel.js') }}"></script>
         <script src="{{ asset('vue/app.js') }}"></script>
         <script src="{{ asset('backend/assets/custom.js') }}"></script>
+
     </body>
 </html>

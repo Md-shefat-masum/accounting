@@ -4,12 +4,15 @@ import axios from 'axios';
 const state = {
     basic_information:{},
     auth_user_info: {},
+    countries: {},
 }
 
 // get state
 const getters = {
     get_basic_information: state => state.basic_information,
     get_auth_user_info: state => state.auth_user_info,
+    get_auth_user_info: state => state.auth_user_info,
+    get_countries: state => state.countries,
 }
 
 // actions
@@ -29,6 +32,14 @@ const actions = {
                 this.commit('set_user_information',res.data);
             })
     },
+
+    fetch_countries: function(state){
+        axios.get('/api/country-list')
+            .then((res)=>{
+                // console.log(res.data);
+                this.commit('set_countries',res.data);
+            })
+    },
 }
 
 // mutators
@@ -38,6 +49,9 @@ const mutations = {
     },
     set_user_information: function(state,auth_user_info){
         state.auth_user_info = auth_user_info;
+    },
+    set_countries: function(state,countries){
+        state.countries = countries;
     },
 }
 
