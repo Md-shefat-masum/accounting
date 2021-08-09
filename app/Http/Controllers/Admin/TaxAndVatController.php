@@ -22,9 +22,11 @@ class TaxAndVatController extends Controller
 
     public function create(Request $request)
     {
-
+        // return dd($request->all());
         $validatedData = $request->validate([
-            'name' => 'required |max:255 ',
+            'tax_name' => 'required |max:255 ',
+            'abbreviation' => 'required',
+            'tax_rate' => 'required',
         ], [
             'name.required' => 'name is a required field.',
             'name.max' => 'name can only be 255 characters.',
@@ -36,25 +38,27 @@ class TaxAndVatController extends Controller
         return $tax_and_vat;
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
 
         $validatedData = $request->validate([
-            'name' => 'required |max:255 ',
+            'tax_name' => 'required |max:255 ',
+            'abbreviation' => 'required',
+            'tax_rate' => 'required',
         ], [
             'name.required' => 'name is a required field.',
             'name.max' => 'name can only be 255 characters.',
         ]);
 
-        $tax_and_vat = TaxAndVat::findOrFail($id);
+        $tax_and_vat = TaxAndVat::find($request->id);
         $input = $request->all();
         $tax_and_vat->fill($input)->save();
         return $tax_and_vat;
     }
 
-    public function delete(Request $request, $id)
+    public function delete(Request $request)
     {
-        $tax_and_vat = TaxAndVat::findOrFail($id);
+        $tax_and_vat = TaxAndVat::findOrFail($request->id);
         $tax_and_vat->delete();
     }
 }

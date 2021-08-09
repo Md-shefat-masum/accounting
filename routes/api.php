@@ -216,8 +216,8 @@ Route::group([
     Route::get('vat-and-tax', 'TaxAndVatController@list');
     Route::get('vat-and-tax/{id}', 'TaxAndVatController@get');
     Route::post('vat-and-tax', 'TaxAndVatController@create');
-    Route::put('vat-and-tax/{id}', 'TaxAndVatController@update');
-    Route::delete('vat-and-tax/{id}', 'TaxAndVatController@delete');
+    Route::post('vat-and-tax-update', 'TaxAndVatController@update');
+    Route::post('vat-and-tax-delete', 'TaxAndVatController@delete');
 
     Route::get('productrecivelocation', 'ProductrecivinglocationController@list');
     Route::get('productrecivelocation/{id}', 'ProductrecivinglocationController@get');

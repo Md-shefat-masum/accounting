@@ -5,6 +5,7 @@ const state = {
     basic_information:{},
     auth_user_info: {},
     countries: {},
+    tax_and_vat: [],
 }
 
 // get state
@@ -13,6 +14,7 @@ const getters = {
     get_auth_user_info: state => state.auth_user_info,
     get_auth_user_info: state => state.auth_user_info,
     get_countries: state => state.countries,
+    get_tax_and_vat: state => state.tax_and_vat,
 }
 
 // actions
@@ -40,6 +42,14 @@ const actions = {
                 this.commit('set_countries',res.data);
             })
     },
+
+    fetch_tax_and_vat: function(state){
+        axios.get('/api/vat-and-tax')
+            .then((res)=>{
+                // console.log(res.data);
+                this.commit('set_tax_and_vat',res.data);
+            })
+    },
 }
 
 // mutators
@@ -52,6 +62,9 @@ const mutations = {
     },
     set_countries: function(state,countries){
         state.countries = countries;
+    },
+    set_tax_and_vat: function(state,tax_and_vat){
+        state.tax_and_vat = tax_and_vat;
     },
 }
 
