@@ -248,11 +248,27 @@
                         <hr>
                     </div>
 
+                    <!-- <div class="col-sm-12" v-for="(vats,index) in get_total_vat_information" :key="index">
+                        <div class="form-horizontal">
+                            <div class="form-group row" style="margin-bottom: 15px !important;">
+                                <div class="col-sm-4 col-4 control-label">
+                                    <label style="font-weight: normal;">{{ vats.name }}</label>
+                                </div>
+                                <div class="col-sm-8 col-8">
+                                    <input type="text"
+                                            class="form-control"
+                                            disabled=""
+                                            v-model="vats.value" style="text-align: right;">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div> -->
                     <div class="col-sm-12">
                         <div class="form-horizontal">
                             <div class="form-group row" style="margin-bottom: 15px !important;">
                                 <div class="col-sm-4 col-4 control-label">
-                                    <label style="font-weight: normal;">VAT</label>
+                                    <label style="font-weight: normal;">Vat</label>
                                 </div>
                                 <div class="col-sm-8 col-8">
                                     <input type="text"
@@ -264,6 +280,7 @@
                         </div>
                         <hr>
                     </div>
+
                     <div class="col-sm-12">
                         <div class="form-horizontal">
                             <div class="form-group row" style="margin-bottom: 15px !important;">
@@ -309,7 +326,7 @@
 <script>
     import ListOfProductOrService from '../../modal_contents/listOfProductOrService.vue';
     import Select2 from 'v-select2-component';
-import { mapActions, mapGetters, mapMutations } from 'vuex';
+    import { mapActions, mapGetters, mapMutations } from 'vuex';
 
     export default {
         props: ['set_selected_product_info','currency_rate','old_data','old_document_note'],
@@ -383,6 +400,8 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
             ...mapMutations([
                 'set_edited_sales_order_related_products_for_delivery_note',
                 'set_saved_selected_sales_order_related_products',
+                'set_total_vat_information',
+                'set_form_product_list_info',
             ]),
             productListRender: function(){
                 this.product_random_number++;
@@ -552,9 +571,32 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
                 this.discount_amount = discount_amount;
                 this.vat = vat_info_total.vat.toFixed(2);
                 this.source_tax = vat_info_total.source_tax.toFixed(2);
-                this.vat_info_total = vat_info_total;
+                // this.vat_info_total = vat_info_total;
                 total = subtotal - discount_amount + parseFloat(this.vat) + parseFloat(this.source_tax);
                 this.total = parseFloat(total).toFixed(2);
+
+                // this.set_form_product_list_info({
+                //     discount_rate: discount_rate,
+                //     discount_amount: discount_amount,
+                //     vat: vat_info_total.vat.toFixed(2),
+                //     source_tax: vat_info_total.source_tax.toFixed(2),
+                //     source_tax: vat_info_total.source_tax.toFixed(2),
+                // });
+
+                // let temp_total_info = [];
+                // for (const key in vat_info_total) {
+                //     if (Object.hasOwnProperty.call(vat_info_total, key)) {
+                //         const element = vat_info_total[key];
+                //         // console.log(element);
+                //         temp_total_info.push({
+                //             name: key,
+                //             value: element,
+                //         })
+                //     }
+                // }
+                // this.vat_info_totals = temp_total_info;
+                // this.set_total_vat_information(temp_total_info);
+                // console.log(temp_total_info);
             },
 
             calculate_discount_rate_after_some_time:function(){
@@ -586,7 +628,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
             },
 
             mySelectEvent: function({id, text}, selected_product, index){
-                // console.log('selected value',{id, text, index, selected_product});
+                console.log('selected value',{id, text, index, selected_product});
 
                 const found_id = selected_product.selected_select2_tax_and_vat.find(el => el == id);
                 const slected_vat = this.tax_and_vats_for_select2.find(el => el.id == id);
@@ -605,6 +647,8 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
                     // selected_product['vat_info'][slected_vat.tax_name] = slected_vat.tax_rate;
                 }
 
+                this.calculateTotal();
+
             },
         },
         computed: {
@@ -612,7 +656,9 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
                 return this.subtotal.toFixed(2);
             },
             ...mapGetters([
-                'get_converting_sales_order_to_deliver_note'
+                'get_converting_sales_order_to_deliver_note',
+                'get_total_vat_information',
+                'get_form_product_list_info',
             ]),
         }
     }
