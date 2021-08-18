@@ -71,10 +71,10 @@
                         </tr>
                     </thead>
 
-                    <tbody v-if="selected_products.length > 0">
+                    <tbody v-if="get_old_data.length > 0">
                         <tr @click="product_selected_row(selected_product.id,index,$event)"
                             class="A54VNK-Ff-r product_seleted_row"
-                            v-for="(selected_product, index) in show_selected_products"
+                            v-for="(selected_product, index) in get_old_data"
                             :key="index">
                             <td class="A54VNK-Ff-a A54VNK-Ff-s A54VNK-Ff-d">
                                 <div style="outline-style: none;" data-row="1" data-column="0">
@@ -192,7 +192,8 @@
                         </div>
                         <div class="col-sm-8 col-8">
                             <textarea class="form-control" rows="3"
-                                v-model="document_note" style="resize: vertical; min-height: 50px;"></textarea>
+                                @keyup="set_old_document_note"
+                                :value="get_old_document_note" style="resize: vertical; min-height: 50px;"></textarea>
                         </div>
                     </div>
                 </div>
@@ -248,7 +249,7 @@
                         <hr>
                     </div>
 
-                    <!-- <div class="col-sm-12" v-for="(vats,index) in get_total_vat_information" :key="index">
+                    <div class="col-sm-12" v-for="(vats,index) in get_total_vat_information" :key="index">
                         <div class="form-horizontal">
                             <div class="form-group row" style="margin-bottom: 15px !important;">
                                 <div class="col-sm-4 col-4 control-label">
@@ -263,8 +264,9 @@
                             </div>
                         </div>
                         <hr>
-                    </div> -->
-                    <div class="col-sm-12">
+                    </div>
+
+                    <!-- <div class="col-sm-12">
                         <div class="form-horizontal">
                             <div class="form-group row" style="margin-bottom: 15px !important;">
                                 <div class="col-sm-4 col-4 control-label">
@@ -296,7 +298,7 @@
                             </div>
                         </div>
                         <hr>
-                    </div>
+                    </div> -->
 
                     <div class="col-sm-12">
                         <div class="form-horizontal">
@@ -329,24 +331,24 @@
     import { mapActions, mapGetters, mapMutations } from 'vuex';
 
     export default {
-        props: ['set_selected_product_info','currency_rate','old_data','old_document_note'],
+        // props: ['set_selected_product_info','currency_rate','old_data','old_document_note'],
         components: {
             ListOfProductOrService,
             Select2,
         },
         updated: function(){
-            let info = {
-                discount_rate: this.discount_rate,
-                discount_amount: this.discount_amount,
-                subtotal: this.subtotal,
-                vat: this.vat,
-                total: this.total,
-                selected_products: this.selected_products,
-                document_note: this.document_note,
-            }
+            // let info = {
+            //     discount_rate: this.discount_rate,
+            //     discount_amount: this.discount_amount,
+            //     subtotal: this.subtotal,
+            //     vat: this.vat,
+            //     total: this.total,
+            //     selected_products: this.selected_products,
+            //     document_note: this.document_note,
+            // }
 
-            this.calculateTotal();
-            this.set_selected_product_info(info);
+            // this.calculateTotal();
+            // this.set_selected_product_info(info);
 
             // if(parseFloat(this.currency_rate) > 0 ){
 
@@ -371,6 +373,7 @@
         },
         created: function(){
             this.get_tax_and_vat();
+            this.calculateTotal();
 
             // this.$watch('currency_rate', (newVal, oldVal) => {
             //     this.selected_products = JSON.parse(localStorage.getItem('selected_products'));
@@ -402,6 +405,8 @@
                 'set_saved_selected_sales_order_related_products',
                 'set_total_vat_information',
                 'set_form_product_list_info',
+                'set_old_document_note',
+                'remove_product_form_old_data',
             ]),
             productListRender: function(){
                 this.product_random_number++;
@@ -462,98 +467,51 @@
                     source_tax: 0,
                 };
 
-                if(parseFloat(this.currency_rate)>0){
-                    // console.log(JSON.parse(localStorage.getItem('selected_products')));
-                    // this.edited_currency_price_products = [...JSON.parse(localStorage.getItem('selected_products'))];
-                    for (const key in this.edited_currency_price_products) {
-                        if (Object.hasOwnProperty.call(this.edited_currency_price_products, key)) {
-                            const element = this.edited_currency_price_products[key];
+                let selected_products = this.get_old_data;
 
-                            // let sales_price = (parseFloat(element.sales_price)/parseFloat(this.currency_rate)).toFixed(3);
-                            let sales_price = parseFloat(element.sales_price).toFixed(3);
-                            element.total_price = (sales_price*element.qty).toFixed(3);
+                selected_products.forEach(element => {
+                    let sales_price = parseFloat(element.sales_price);
+                    element.total_price = parseInt(sales_price*element.qty);
 
-                            // console.log(element.qty, element.sales_price , element.total_price);
-
-                            let disc = element.disc;
-
-                            if(disc > 0){
-
-                                /* discount rate jodi percentage e hoy */
-                                // let dis = disc / 100;
-                                // sales_price = sales_price - ( sales_price * dis );
-                                // sales_price = sales_price.toFixed(3);
-                                // element.total_price = sales_price*element.qty;
-
-
-                                /* discount rate flat rate er jonno, no change*/
-                                sales_price = parseFloat(disc).toFixed(2);
-                                element.total_price = sales_price*element.qty;
-                            }
-
-                            subtotal += parseFloat(element.total_price);
-                            subtotal.toFixed(3);
-
-                            if(element.vat_on_sales > 0){
-                                vat += (sales_price / 100) * (element.vat_on_sales+100) - sales_price;
-                            }
-
-                            // element.sales_price = (parseFloat(element.sales_price)/parseFloat(this.currency_rate)).toFixed(3);
-                        }
+                    let disc = element.disc;
+                    if(disc > 0){
+                        let dis = disc / 100;
+                        sales_price = sales_price - ( sales_price * dis );
+                        sales_price = sales_price.toFixed(3);
+                        element.total_price = sales_price*element.qty;
                     }
-                    this.show_selected_products = this.edited_currency_price_products;
 
-                }else{
+                    subtotal += parseFloat(element.total_price);
 
-                    for (const key in this.selected_products) {
-                        if (Object.hasOwnProperty.call(this.selected_products, key)) {
-                            const element = this.selected_products[key];
+                    if(element.vat_info){
+                        for (const key in element.vat_info) {
+                            if (Object.hasOwnProperty.call(element.vat_info, key)) {
+                                const data = element.vat_info[key];
 
-                            let sales_price = element.sales_price;
-                            element.total_price = sales_price*element.qty;
+                                let sales_price_with_qty = element.sales_price * element.qty;
 
-                            // console.log(element.qty, element.sales_price , element.total_price);
-
-                            let disc = element.disc;
-                            if(disc > 0){
-                                let dis = disc / 100;
-                                sales_price = sales_price - ( sales_price * dis );
-                                sales_price = sales_price.toFixed(3);
-                                element.total_price = sales_price*element.qty;
-                            }
-
-                            subtotal += parseFloat(element.total_price);
-
-                            if(element.vat_info){
-                                for (const key in element.vat_info) {
-                                    if (Object.hasOwnProperty.call(element.vat_info, key)) {
-                                        const data = element.vat_info[key];
-
-                                        let sales_price_with_qty = element.sales_price * element.qty;
-
-                                        if(vat_info_total[key]){
-                                            // vat_info_total[key] += (element.sales_price / 100) * (data+100) - element.sales_price;
-                                            vat_info_total[key] += (sales_price_with_qty / 100) * (data+100) - sales_price_with_qty;
-                                        }else{
-                                            vat_info_total[key] = (sales_price_with_qty / 100) * (data+100) - sales_price_with_qty;
-                                        }
-
-                                    }
+                                if(vat_info_total[key]){
+                                    // vat_info_total[key] += (element.sales_price / 100) * (data+100) - element.sales_price;
+                                    vat_info_total[key] += (sales_price_with_qty / 100) * (data+100) - sales_price_with_qty;
+                                }else{
+                                    vat_info_total[key] = (sales_price_with_qty / 100) * (data+100) - sales_price_with_qty;
                                 }
-                                // console.log(vat_info_total);
-                                // if(element.vat_on_sales > 0){
-                                //     vat += (element.sales_price / 100) * (element.vat_on_sales+100) - element.sales_price;
-                                // }
+
                             }
-
                         }
+                        // console.log(vat_info_total);
+                        // if(element.vat_on_sales > 0){
+                        //     vat += (element.sales_price / 100) * (element.vat_on_sales+100) - element.sales_price;
+                        // }
                     }
+                })
 
-                    this.show_selected_products = this.selected_products;
 
-                }
+                this.show_selected_products = selected_products;
+
 
                 this.subtotal = subtotal;
+                console.log(discount_rate);
                 if(discount_rate > 0){
                     /* discount rate jodi percentage e hoy */
 
@@ -569,39 +527,43 @@
 
                 this.discount_rate = discount_rate;
                 this.discount_amount = discount_amount;
-                this.vat = vat_info_total.vat.toFixed(2);
-                this.source_tax = vat_info_total.source_tax.toFixed(2);
+                this.vat = parseFloat(vat_info_total.vat).toFixed(2);
+                this.source_tax = parseFloat(vat_info_total.source_tax).toFixed(2);
                 // this.vat_info_total = vat_info_total;
                 total = subtotal - discount_amount + parseFloat(this.vat) + parseFloat(this.source_tax);
                 this.total = parseFloat(total).toFixed(2);
 
-                // this.set_form_product_list_info({
-                //     discount_rate: discount_rate,
-                //     discount_amount: discount_amount,
-                //     vat: vat_info_total.vat.toFixed(2),
-                //     source_tax: vat_info_total.source_tax.toFixed(2),
-                //     source_tax: vat_info_total.source_tax.toFixed(2),
-                // });
+                // console.log(vat_info_total);
 
-                // let temp_total_info = [];
-                // for (const key in vat_info_total) {
-                //     if (Object.hasOwnProperty.call(vat_info_total, key)) {
-                //         const element = vat_info_total[key];
-                //         // console.log(element);
-                //         temp_total_info.push({
-                //             name: key,
-                //             value: element,
-                //         })
-                //     }
-                // }
+                this.set_form_product_list_info({
+                    discount_rate: discount_rate,
+                    discount_amount: discount_amount,
+                    vat: parseFloat(vat_info_total.vat).toFixed(2),
+                    source_tax: parseFloat(vat_info_total.source_tax).toFixed(2),
+                    subtotal: parseFloat(subtotal).toFixed(2),
+                    total: parseFloat(total).toFixed(2),
+                });
+
+                let temp_total_info = [];
+                for (const key in vat_info_total) {
+                    if (Object.hasOwnProperty.call(vat_info_total, key)) {
+                        const element = vat_info_total[key];
+                        // console.log(element);
+                        temp_total_info.push({
+                            name: key,
+                            value: element,
+                        })
+                    }
+                }
                 // this.vat_info_totals = temp_total_info;
-                // this.set_total_vat_information(temp_total_info);
+                this.set_total_vat_information(temp_total_info);
                 // console.log(temp_total_info);
             },
 
             calculate_discount_rate_after_some_time:function(){
-                // console.log();
-                window._.debounce(()=>{this.calculateTotal()},300);
+                console.log('hi');
+                let that = this;
+                that.calculateTotal();
             },
 
             product_selected_row: function(product_id,index,event){
@@ -612,10 +574,13 @@
 
             removeProductFormList: function(){
                 let index = this.product_selected_row_id;
-                if (index > -1) {
-                    this.selected_products.splice(index, 1);
-                }
-                localStorage.setItem('selected_products',JSON.stringify(this.selected_products));
+                this.remove_product_form_old_data(index);
+
+                // if (index > -1) {
+                //     this.selected_products.splice(index, 1);
+                // }
+                // localStorage.setItem('selected_products',JSON.stringify(this.selected_products));
+
                 this.calculateTotal();
             },
 
@@ -659,6 +624,9 @@
                 'get_converting_sales_order_to_deliver_note',
                 'get_total_vat_information',
                 'get_form_product_list_info',
+                'get_old_data',
+                'get_old_document_note',
+                'get_currency_rate',
             ]),
         }
     }

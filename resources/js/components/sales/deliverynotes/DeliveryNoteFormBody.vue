@@ -408,9 +408,11 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
             form: {
                 handler: function(val,oldVal){
                     this.setFormData(this.form);
+                    this.set_currency_rate( this.form.currency_rate );
+                    this.set_old_document_note( this.form.document_note );
                 },
                 deep: true,
-            }
+            },
         },
         data: function () {
             return {
@@ -496,6 +498,8 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
             }
 
             this.basicinfo();
+
+
         },
         methods: {
             ...mapMutations([
@@ -504,6 +508,9 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
                 'set_converting_sales_order_to_deliver_note',
                 'set_checked_all_sale_order_qty_converted_to_delivery_note',
                 'set_selected_sales_order_all_delivery_notes',
+                'set_old_data',
+                'set_old_document_note',
+                'set_currency_rate',
             ]),
             basicinfo: function(){
                 var today = new Date();
@@ -605,6 +612,10 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
                         that.selected_products = response.data.selected_products;
                         that.form.selected_products = response.data.selected_products;
                         that.loaded = true;
+
+                        // call store function
+                        this.set_old_data(response.data.selected_products);
+                        this.set_old_document_note(response.data.document_note);
 
                         that.sales_logs = response.data.delivery_note.sales_log;
 

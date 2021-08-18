@@ -177,6 +177,7 @@
     import ProductFamilyVue from './ProductFamily.vue';
     import newFooterVue from '../../layouts/partials/new_footer.vue';
     import ProductServiceFormBody from '../sales/productServices/productServiceFormBody.vue';
+    import { mapGetters, mapMutations } from 'vuex';
 
     export default {
         components: {
@@ -238,8 +239,8 @@
         created: function(){
 
             // initiatlise old selected products
-            if(this.selected_products && Object.keys(this.selected_products).length > 0){
-                this.temp_slected_products = [...this.selected_products];
+            if(this.get_old_data && Object.keys(this.get_old_data).length > 0){
+                this.temp_slected_products = [...this.get_old_data];
                 // this.temp_slected_products.map((item)=>(item.selected=true,item.product_id && (item.id=item.product_id)));
             }
 
@@ -247,6 +248,9 @@
             this.getProductservice();
         },
         methods: {
+            ...mapMutations([
+                'set_old_data',
+            ]),
             getResults(page = 1) {
                 let that = this;
                 let status = this.data_get_url_status;
@@ -332,7 +336,8 @@
             },
             saveProductList: function(){
                 this.temp_slected_products = this.temp_slected_products.concat(this.new_selected_products);
-                this.resetSelectedProductList(this.temp_slected_products);
+                // this.resetSelectedProductList(this.temp_slected_products);
+                this.set_old_data(this.temp_slected_products);
                 $('.modal').modal('hide');
             },
             createProductservice: function(){
@@ -361,6 +366,11 @@
             setFormData: function(form_data){
                 this.form = form_data;
             },
+        },
+        computed: {
+            ...mapGetters([
+                'get_old_data',
+            ]),
         }
     }
 </script>
