@@ -11,7 +11,7 @@
                     <div class="row">
                         <div class="col-xs-12 card-body">
                             <div class="report-header-kpi-label">Balance:</div>
-                            <div class="report-header-kpi-amount">-Tk {{present_balance}}</div>
+                            <div class="report-header-kpi-amount">Tk {{present_balance}}</div>
                         </div>
                     </div>
                 </div>

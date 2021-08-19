@@ -265,9 +265,13 @@ export default {
         },
 
         check_for_bank_name: function(){
-            if( this.payment_method_info.payment_method.toLowerCase() != 'cash'.toLowerCase() &&
+            // if( this.payment_method_info.payment_method.toLowerCase() != 'cash'.toLowerCase() &&
+            //     this.payment_method_info.payment_method.toLowerCase() != 'mobile banking'.toLowerCase()
+            // ){
+            if(
                 this.payment_method_info.payment_method.toLowerCase() != 'mobile banking'.toLowerCase()
-            ){
+            )
+            {
                 return true;
             }else{
                 return false;

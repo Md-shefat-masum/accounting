@@ -57,11 +57,15 @@
                             autocomplete="off" data-toggle="dropdown">
                             <label class="control-label form-question ellipsis active" style="top:-6px; color:#26a69a;" for="gwt-uid-1df3">vat</label>
                             <ul class="dropdown-menu A54VNK-ge-d" >
-                                <li> <a @click="setVat(0,split.id)" href="#">None</a> </li>
+                                <li v-for="vat_and_tax in vat_and_taxs" :key="vat_and_tax.id">
+                                    <a @click="setVat(vat_and_tax.tax_rate,split.id)" href="#">{{ vat_and_tax.text }}</a>
+                                </li>
+
+                                <!-- <li> <a @click="setVat(0,split.id)" href="#">None</a> </li>
                                 <li> <a @click="setVat(20,split.id)" href="#">20.0% Standard rate (Collected)</a> </li>
                                 <li> <a @click="setVat(5,split.id)" href="#">5.0% Lower rate (Collected)</a> </li>
                                 <li> <a @click="setVat(0,split.id)" href="#">0.0% Zero-rated (Collected)</a> </li>
-                                <li> <a @click="setVat(0,split.id)" href="#">0.0% Exempt (Collected)</a> </li>
+                                <li> <a @click="setVat(0,split.id)" href="#">0.0% Exempt (Collected)</a> </li> -->
                             </ul>
                             <div class="error-panel"></div>
                         </div>
@@ -96,7 +100,7 @@
 
         <set-receipt-payment-method
             :set_payment_method = "set_payment_method"
-            ></set-receipt-payment-method>
+        ></set-receipt-payment-method>
         <hr>
         <div class="row">
             <div class="col-sm-12 A54VNK-qi-c">
@@ -157,6 +161,7 @@ export default {
         this.addSplit();
         this.getProject();
         this.basicInfo();
+        this.get_vat_and_tax();
 
         if(this.type == 'edit'){
             this.getReceipt();
@@ -184,6 +189,7 @@ export default {
             split_id: 0,
             projects: [],
             customer_list_random_number: 0,
+            vat_and_taxs: [],
 
             form: new Form({
                 "id": "",
@@ -233,6 +239,12 @@ export default {
                     that.split_id = that.splits[that.splits.length-1].id;
                     // that.loaded = true;
             });
+        },
+        get_vat_and_tax: function(){
+            axios.get('/api/vat-and-tax')
+                .then((res)=>{
+                    this.vat_and_taxs = res.data;
+                })
         },
         basicInfo: function(){
             var today = new Date();

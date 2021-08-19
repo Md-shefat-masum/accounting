@@ -89,7 +89,7 @@
                             </td>
                         </tr>
                     </tbody>
-                    <tfoot>
+                    <tfoot v-if="sales_order.vat">
                         <tr>
                             <td></td>
                             <td colspan="2"><b>Subtoal:</b></td>
@@ -100,11 +100,21 @@
                             <td colspan="2">Source Tax 4%:</td>
                             <td>6,90,15265</td>
                         </tr> -->
-                        <tr v-if="sales_order.vat > 0">
+                        <tr v-for="(taxs,index) in JSON.parse(sales_order.vat)" :key="index">
                             <td></td>
-                            <td colspan="2">Vat {{ 100*sales_order.vat/sales_order.subtotal }}%:</td>
-                            <td>৳ {{sales_order.vat}}</td>
+                            <td colspan="2">{{ taxs.name }} :</td>
+                            <td>৳ {{taxs.value}}</td>
                         </tr>
+                        <tr v-if="sales_order.discount_amount>0">
+                            <td></td>
+                            <td colspan="2">
+                                <b>Flat Amount:</b>
+                            </td>
+                            <td>
+                                ৳ -{{sales_order.discount_amount}}
+                            </td>
+                        </tr>
+
                         <tr>
                             <td></td>
                             <td colspan="2">

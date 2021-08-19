@@ -1,12 +1,12 @@
 <template>
     <div class="main print_view" v-if="load">
         <div class="row">
-            <div class="logo pl-0">
+            <div class="logo">
                 <img src="http://akaunter.com/pdflogo.png" alt="" style="height: 50px;">
             </div>
             <div class="address">
                 <div class="flex-container" style="padding:5px">
-                    <div class="address-details">
+                    <div class="address-details" style="text-align: right;">
                         <h2>DELIVERY NOTE</h2>
                         <p>no. <b>{{delivery_note.code}}</b></p>
                         <p> {{delivery_note.date}} </p>
@@ -14,19 +14,9 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12 pl-0">
-                <div class="flex-container">
-                    <div class="address-details" style="text-align:left">
-                        <h4>Orika Corporation</h4>
-                        <p>218/3/A (3rd floor) West Kafrul,</p>
-                        <p>Begum Rokeya Ave,Shwerapara</p>
-                        <p>Dhaka 1216</p>
-                        <p>Phone: +8809638786786</p>
-                        <p>Mobile: +8801712662245</p>
-                        <p>www.orika.com.bd</p>
-                    </div>
-                </div>
+        <div class="flex-container">
+            <div class="address-details">
+                <print-top-bar-address></print-top-bar-address>
             </div>
         </div>
 
@@ -65,11 +55,7 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-12">
-                <p class="text-right"><b>PO#: {{delivery_note.po_number}}</b></p>
-            </div>
-        </div>
+        <p style="text-align:right; padding-right: 15px;"><b>PO#: {{delivery_note.po_number}}</b></p>
 
         <div class="row">
             <div class="col-12" style="width: 100%;padding:0">
@@ -91,8 +77,8 @@
                             <td>
                                 {{ product.product_details && product.product_details.unit }}
                             </td>
-                            <td>
-                                {{ product.ordered_qty }}
+                            <td style="text-align:center;">
+                                {{ product.ordered_qty>0?product.ordered_qty:product.qty }}
                             </td>
                             <td>
                                 {{ product.qty }}
@@ -126,12 +112,16 @@
             </div>
         </div>
 
+        <p style="position: fixed; left:15px; bottom:15px;">this is software generated</p>
+
         <span style="display: none">{{selected_data.id}}</span>
     </div>
 </template>
 
 <script>
+import printTopBarAddress from '../components/printTopBarAddress.vue';
 export default {
+    components: { printTopBarAddress },
     props:['selected_data'],
     data: function(){
         return {

@@ -19,6 +19,7 @@
 </template>
 
 <script>
+    import { mapGetters, mapMutations } from 'vuex'
     import NewFooter from '../../../layouts/partials/new_footer'
     import InvoiceFormData from '../invoices/invoiceFormData.vue'
 
@@ -80,8 +81,12 @@
             setTimeout(() => {
                 $('.edit_head_text').text('Delivery Notes to invoice.');
             }, 300);
+            this.reset_form_product_list_store();
         },
         methods: {
+            ...mapMutations([
+                'reset_form_product_list_store',
+            ]),
             getDeliverynote: function (Deliverynote) {
                 var that = this;
                 this.form.get('/api/delivery-note/' + this.$route.params.id)
@@ -94,9 +99,17 @@
                         that.sales_logs = response.data.delivery_note.sales_log;
                     });
             },
-             createInvoice: function(){
+            createInvoice: function(){
                 this.form.selected_select2_delivery_notes = [];
                 $('.done_btn').addClass('loading').prop("disabled",true);
+                // get data from store
+                this.form.selected_products = this.get_old_data;
+                this.form.vat = JSON.stringify(this.get_total_vat_information);
+                this.form.discount_amount = this.get_form_product_list_info.discount_amount;
+                this.form.discount_rate = this.get_form_product_list_info.discount_rate;
+                this.form.subtotal = this.get_form_product_list_info.subtotal;
+                this.form.total = this.get_form_product_list_info.total;
+
                 this.form.post('/api/invoices?delivery_note_sales_log_id='+this.sales_logs.id).then(() => {
                     this.form.reset();
                     Toast.fire({
@@ -115,6 +128,13 @@
             setFormData: function(form_data){
                 this.form = form_data;
             },
+        },
+        computed: {
+            ...mapGetters([
+                'get_form_product_list_info',
+                'get_old_data',
+                'get_total_vat_information',
+            ]),
         }
     }
 </script>

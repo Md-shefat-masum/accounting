@@ -59,8 +59,6 @@ Route::group( ['namespace'=>'Admin','middleware'=>['auth'] ],function(){
 
 });
 
-
-
 Route::get('/test',function(){
     $customer_logs = CustomerLog::get();
     $log_details = [];

@@ -195,6 +195,7 @@
                                                 <!-- <div class="label-light-success" v-if="saleorder.status == 'open'">not prepared</div> -->
                                                 <div class="label-light-success" v-if="saleorder.status == 'open'">{{ saleorder.expired_day_number }} days left</div>
                                                 <div class="label-light-danger" v-else-if="saleorder.status == 'closed'">closed</div>
+                                                <div class="label-light-danger" v-else-if="saleorder.status == 'pertially delivered'" title="pertially delivered">pertially delivered</div>
                                                 <div v-else>
                                                     <span class="label-light-success">delivered</span>
                                                     <span class="label-light-info" v-if="saleorder.sales_log && saleorder.sales_log.is_delivery_note">ordered</span>
@@ -218,7 +219,7 @@
                                                             <a class="dropdown-item waves-effect waves-light" href="#" @click.prevent="convertToInvoice(saleorder.id)">Convert to Invoice</a>
                                                         </span> -->
 
-                                                        <span v-if="!saleorder.is_delivered">
+                                                        <span v-if="saleorder.status != 'invoiced' && saleorder.status != 'delivered' ">
                                                             <hr style="margin: 2px 0;">
                                                             <a class="dropdown-item waves-effect waves-light" href="#" @click.prevent="convertToDeliveryNote(saleorder.id)">Convert to Delivery</a>
                                                             <a class="dropdown-item waves-effect waves-light" href="#" @click.prevent="convertToInvoice(saleorder.id)">Convert to Invoice</a>

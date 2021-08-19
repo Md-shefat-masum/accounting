@@ -21,9 +21,9 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="sendSmsModalLabel">Send SMS To customer</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
-                        </button>
+                        </button> -->
                     </div>
                     <div class="modal-body">
                         <send-sms-by-choose
@@ -43,11 +43,12 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+    import { mapActions, mapGetters, mapMutations } from 'vuex'
 
     import NewFooter from '../../../layouts/partials/new_footer'
     import SendSmsByChoose from '../components/sendSmsByChoose.vue'
     import DeliveryNoteFormBody from './DeliveryNoteFormBody.vue'
+
 
     export default {
         components: {
@@ -118,7 +119,6 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
                 this.form.discount_rate = this.get_form_product_list_info.discount_rate;
                 this.form.subtotal = this.get_form_product_list_info.subtotal;
                 this.form.total = this.get_form_product_list_info.total;
-                this.form.document_note = this.get_old_document_note;
 
                 this.form.post('/api/delivery-note').then(() => {
                     Toast.fire({
@@ -126,7 +126,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
                         title: 'Created successfully'
                     });
                     // this.sms(this.form);
-                    // $('#sendSmsModal').modal('show');
+                    $('#sendSmsModal').modal('show');
                 }).catch(() => {
                     $('.done_btn').removeClass('loading').prop("disabled",false);
                     Toast.fire({
@@ -174,7 +174,6 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
             ...mapGetters([
                 'get_form_product_list_info',
                 'get_old_data',
-                'get_old_document_note',
                 'get_total_vat_information',
             ]),
             get_all_selected_product_name: function(){

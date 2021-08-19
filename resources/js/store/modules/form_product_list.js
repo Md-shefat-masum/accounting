@@ -9,7 +9,7 @@ const state = {
         vat: '',
         subtotal: '',
         total: '',
-        selected_products: '',
+        selected_products: [],
         document_note: '',
     },
 
@@ -41,7 +41,7 @@ const mutations = {
     },
     set_form_product_list_info: function (state, form_product_list_info_value) {
         state.form_product_list_info[form_product_list_info_value.key] = form_product_list_info_value.value;
-        // console.log(form_product_list_info);
+        // console.log(form_product_list_info_value);
     },
     set_old_data: function (state, old_data) {
         state.old_data = old_data;
@@ -52,15 +52,6 @@ const mutations = {
             state.old_data.splice(old_data_index, 1);
         }
     },
-    set_old_document_note: function (state, old_document_note) {
-        // console.log(typeof old_document_note);
-        if (typeof old_document_note == 'object') {
-            state.old_document_note = old_document_note.target && old_document_note.target.value;
-        } else {
-            state.old_document_note = old_document_note;
-        }
-        // console.log(old_document_note.target && old_document_note.target.value);
-    },
     reset_form_product_list_store: function (state) {
         state.total_vat_information = [];
         state.form_product_list_info = {
@@ -69,7 +60,7 @@ const mutations = {
             vat: '',
             subtotal: '',
             total: '',
-            selected_products: '',
+            selected_products: [],
             document_note: '',
         };
 

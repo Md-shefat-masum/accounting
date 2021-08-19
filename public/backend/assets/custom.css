@@ -649,3 +649,6 @@ input[type=file] {
 .navbar-nav .dropdown-menu {
   margin-top: 28px !important;
 }
+.contacts .select2-container {
+  width: 100% !important;
+}

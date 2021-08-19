@@ -1,7 +1,7 @@
 <template>
     <div class="row" v-if="customer_id>0">
         <div class="col-12">
-            <table class="A54VNK-Sb-y table table-striped table-hover table-link customer_table" cellspacing="0">
+            <!-- <table class="A54VNK-Sb-y table table-striped table-hover table-link customer_table" cellspacing="0">
                 <colgroup>
                     <col />
                     <col />
@@ -25,12 +25,26 @@
                     </tr>
                 </tbody>
                 <tfoot aria-hidden="true" style="display: none;"></tfoot>
-            </table>
+            </table> -->
+
+            <div class="row">
+                <div class="col-12">
+                    <label for=""><b>Select Contacts</b></label>
+                    <div class="form-group contacts" style="w-100">
+                        <Select2 v-model="selected_select2_contacts"
+                                    :options="customer_contacts"
+                                    :settings="{multiple:true}"
+                                    @change="myChangeEvent($event)"
+                                    @select="mySelectEvent($event)"></Select2>
+                    </div>
+                </div>
+            </div>
+
             <div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for=""><b>Mobile Number</b></label>
                     <input type="text" class="form-control customer_number_input" placeholder="Select from list or type" v-model="customer_number">
-                </div>
+                </div> -->
                 <div class="form-group">
                     <label for=""><b>Text</b></label>
                     <textarea name="" id="" class="form-control" style="height:224px" v-model="sms_body"></textarea>
@@ -46,7 +60,9 @@
 </template>
 
 <script>
+import Select2 from 'v-select2-component';
 export default {
+    components:{Select2},
     props:['customer_id','form_data','go_to_note_list','modal_name'],
     watch: {
         customer_id: {
@@ -78,6 +94,10 @@ export default {
             customer_contacts: [],
             customer_number: '',
             sms_body: ``,
+
+            selected_select2_contacts: '',
+            customer_delivery_notes_for_select2: [],
+            contact_count: 0,
         }
     },
     methods: {
@@ -106,40 +126,61 @@ export default {
         sms_send: function(){
             let delivery_info = this.form_data;
 
-            let data = new FormData();
-            data.append('product',this.get_all_selected_product_name);
-            data.append('method',delivery_info.delivery_method);
-            data.append('vehicle_number',delivery_info.vehicle_number);
-            data.append('driver',delivery_info.operator_phone_number);
-            data.append('driver_number',delivery_info.operator_phone_number);
+            this.selected_select2_contacts.forEach(item => {
+                axios.get('/api/contacts/'+item)
+                    .then((res)=>{
+                        this.contact_count++;
 
-            data.append('number',this.customer_number);
-            data.append('message',this.sms_body);
+                        // console.log(res.data);
+                        let data = new FormData();
+                        data.append('product',this.get_all_selected_product_name);
+                        data.append('method',delivery_info.delivery_method);
+                        data.append('vehicle_number',delivery_info.vehicle_number);
+                        data.append('driver',delivery_info.operator_phone_number);
+                        data.append('driver_number',delivery_info.operator_phone_number);
 
-            let that = this;
-            axios.post('/Sms_gateway/send-single-sms.php',data)
-                .then(function(response) {
-                    // handle success
-                    // console.log(response.data);
-                    if (response.data.api_response_message == 'SUCCESS') {
-                        $('#'+that.modal_name).modal('hide');
-                        that.go_to_note_list();
-                    } else {
-                        swal({
-                            title: 'Error',
-                            text: 'Enter a valid phone number with country code.',
-                            type: 'error',
-                            timer: 3000
-                        });
-                    }
-                })
-                .catch(function(error) {
-                    console.log(error);
-                })
+                        data.append('number',res.data.phone);
+                        data.append('message',this.sms_body);
+
+                        let that = this;
+                        axios.post('/Sms_gateway/send-single-sms.php',data)
+                            .then(function(response) {
+                                // handle success
+                                // console.log(response.data);
+                                if (response.data.api_response_message == 'SUCCESS') {
+                                    if(that.contact_count == that.selected_select2_contacts.length){
+                                        $('#'+that.modal_name).modal('hide');
+                                        that.go_to_note_list();
+                                    }
+                                } else {
+                                    swal({
+                                        title: 'Error',
+                                        text: 'Enter a valid phone number with country code.',
+                                        type: 'error',
+                                        timer: 3000
+                                    });
+                                }
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });
+
+
+                    })
+            });
+
         },
         close_modal: function(){
             $('#'+this.modal_name).modal('hide');
             this.go_to_note_list();
+        },
+        myChangeEvent: function(val){
+            // console.log(val);
+            // console.log(this.selected_select2_contacts);
+        },
+
+        mySelectEvent: function({id, text}){
+            // console.log('selected value',{id, text});
         }
     },
     computed: {
@@ -171,5 +212,8 @@ export default {
     }
     .customer_table tr td{
         cursor: pointer;
+    }
+    .select2-container{
+        width: 100%!important;
     }
 </style>

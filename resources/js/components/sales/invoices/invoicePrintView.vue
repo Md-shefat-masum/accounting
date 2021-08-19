@@ -6,7 +6,7 @@
             </div>
             <div class="address">
                 <div class="flex-container" style="padding:5px">
-                    <div class="address-details">
+                    <div class="address-details" style="text-align: right;">
                         <h2>Invoice</h2>
                         <print-top-bar-address></print-top-bar-address>
                     </div>
@@ -87,7 +87,7 @@
                             </td>
                         </tr>
                     </tbody>
-                    <tfoot>
+                    <tfoot v-if="quote.vat">
                         <tr>
                             <td></td>
                             <td colspan="2"><b>Subtoal:</b></td>
@@ -98,11 +98,21 @@
                             <td colspan="2">Source Tax 4%:</td>
                             <td>6,90,15265</td>
                         </tr> -->
-                        <tr>
+                        <tr v-for="(taxs,index) in JSON.parse(quote.vat)" :key="index">
                             <td></td>
-                            <td colspan="2">Vat {{ 100*quote.vat/quote.subtotal }}%:</td>
-                            <td>৳ {{quote.vat}}</td>
+                            <td colspan="2">{{ taxs.name }} :</td>
+                            <td>৳ {{taxs.value}}</td>
                         </tr>
+                        <tr v-if="quote.discount_amount>0">
+                            <td></td>
+                            <td colspan="2">
+                                <b>Flat Amount:</b>
+                            </td>
+                            <td>
+                                ৳ -{{quote.discount_amount}}
+                            </td>
+                        </tr>
+
                         <tr>
                             <td></td>
                             <td colspan="2">

@@ -409,8 +409,6 @@
             form: {
                 handler: function(val,oldVal){
                     this.setFormData(this.form);
-                    this.set_currency_rate( this.form.currency_rate );
-                    this.set_old_document_note( this.form.document_note );
                 },
                 deep: true,
             },
@@ -492,10 +490,12 @@
             else if(this.type == 'sale_order_to_delivery_note'){
                 this.set_converting_sales_order_to_deliver_note(true);
                 this.getSales();
+                this.basicinfo();
             }
 
             else if(this.type == 'invoice_to_delivery_note'){
                 this.getInvoice();
+                this.basicinfo();
             }
             else{
                 this.basicinfo();
@@ -510,10 +510,9 @@
                 'set_checked_all_sale_order_qty_converted_to_delivery_note',
                 'set_selected_sales_order_all_delivery_notes',
                 'set_old_data',
-                'set_old_document_note',
-                'set_currency_rate',
+                'set_form_product_list_info',
             ]),
-            
+
             basicinfo: function(){
                 var today = new Date();
                 var dd = String(today.getDate()).padStart(2, '0');
@@ -544,6 +543,10 @@
 
                         that.form.selected_products = response.data.selected_products;
 
+                        that.set_form_product_list_info({key: "discount_rate", value: response.data.orders.discount_rate});
+                        that.set_form_product_list_info({key: "discount_amount", value: response.data.orders.discount_amount});
+                        that.set_form_product_list_info({key: "document_note", value: response.data.orders.document_note});
+
                         if(response.data.orders.delivery_list_info != null){
                             let list = response.data.orders.delivery_list_info_json;
                             // console.log(list);
@@ -553,12 +556,14 @@
                             that.set_saved_selected_sales_order_related_products( list );
                             that.set_selected_sales_order_all_delivery_notes( response.data.orders.delivery_list_info_json );
                             that.form.selected_products = list;
+                            that.set_old_data(list);
                         }else{
                             that.selected_products = response.data.selected_products;
                             that.set_selected_sales_order_related_products( response.data.selected_products );
                             that.set_saved_selected_sales_order_related_products(response.data.selected_products);
                             that.set_selected_sales_order_all_delivery_notes( [] );
                             that.form.selected_products = response.data.selected_products;
+                            that.set_old_data(response.data.selected_products);
                         }
 
                         that.set_checked_all_sale_order_qty_converted_to_delivery_note();
@@ -596,6 +601,11 @@
                     that.loaded = true;
 
                     that.sales_logs = response.data.invoice.sales_log;
+                    // call store function
+                    that.set_old_data(response.data.selected_products);
+                    that.set_form_product_list_info({key: "discount_rate", value: response.data.invoice.discount_rate});
+                    that.set_form_product_list_info({key: "discount_amount", value: response.data.invoice.discount_amount});
+                    that.set_form_product_list_info({key: "document_note", value: response.data.invoice.document_note});
 
                     that.basicinfo();
 
@@ -617,10 +627,13 @@
 
                         // call store function
                         that.set_old_data(response.data.selected_products);
-                        that.set_old_document_note(response.data.document_note);
+                        that.set_form_product_list_info({key: "discount_rate", value: response.data.delivery_note.discount_rate});
+                        that.set_form_product_list_info({key: "discount_amount", value: response.data.delivery_note.discount_amount});
+                        that.set_form_product_list_info({key: "document_note", value: response.data.delivery_note.document_note});
 
                         that.sales_logs = response.data.delivery_note.sales_log;
                         // console.log(that.sales_logs);
+
 
                         setTimeout(() => {
                             that.get_customer_data(response.data.delivery_note.customer_id);

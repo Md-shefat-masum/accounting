@@ -390,6 +390,7 @@
             }
             else if(this.type == 'quote_to_sales_order'){
                 this.getQuote();
+                this.basicInfo();
             }else{
                 this.basicInfo();
             }
@@ -442,11 +443,18 @@
                     that.loaded = true;
 
                     that.set_selected_sales_order_all_delivery_notes( response.data.orders.delivery_list_info_json );
+                    // call store function
+                    that.set_old_data(response.data.selected_products);
+                    that.set_form_product_list_info({key: "discount_rate", value: response.data.orders.discount_rate});
+                    that.set_form_product_list_info({key: "discount_amount", value: response.data.orders.discount_amount});
+                    that.set_form_product_list_info({key: "document_note", value: response.data.orders.document_note});
 
                     that.sales_logs = response.data.orders.sales_log;
                     setTimeout(() => {
                         that.get_customer_data(response.data.orders.customer_id);
-                        that.basicInfo();
+                        if(that.type != 'edit'){
+                            that.basicInfo();
+                        }
                         if(that.form.status === 'delivered' || that.form.status === 'invoiced'){
                             $('input').attr('disabled',true);
                             $('textarea').attr('disabled',true);

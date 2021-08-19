@@ -79,7 +79,6 @@
             ]),
             createSales: function(){
                 $('.done_btn').addClass('loading').prop("disabled",true);
-                // get data from store
                 this.form.selected_products = this.get_old_data;
                 this.form.vat = JSON.stringify(this.get_total_vat_information);
                 this.form.discount_amount = this.get_form_product_list_info.discount_amount;

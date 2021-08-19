@@ -93,6 +93,7 @@ import { mapGetters, mapMutations } from 'vuex';
         },
         created: function () {
             this.getSales();
+            this.reset_form_product_list_store();
             setTimeout(() => {
                 $('.edit_head_text').text('Convert Sales Order to Delivery Note');
             }, 300);
@@ -100,6 +101,7 @@ import { mapGetters, mapMutations } from 'vuex';
         methods: {
             ...mapMutations([
                 'set_converting_sales_order_to_deliver_note',
+                'reset_form_product_list_store',
             ]),
 
             getSales: function () {
@@ -131,6 +133,14 @@ import { mapGetters, mapMutations } from 'vuex';
                 }
 
                 $('.done_btn').addClass('loading').prop("disabled",true);
+                this.form.selected_products = this.get_old_data;
+                this.form.vat = JSON.stringify(this.get_total_vat_information);
+                this.form.discount_amount = this.get_form_product_list_info.discount_amount;
+                this.form.subtotal = this.get_form_product_list_info.subtotal;
+                this.form.total = this.get_form_product_list_info.total;
+                this.form.discount_rate = this.get_form_product_list_info.discount_rate;
+                this.form.document_note = this.get_form_product_list_info.document_note;
+
                 this.form.post('/api/delivery-note?sales_order_sales_log_id='+this.sales_logs.id)
                     .then(() => {
                         Toast.fire({
@@ -158,6 +168,10 @@ import { mapGetters, mapMutations } from 'vuex';
                 'get_edited_sales_order_related_products_for_delivery_note',
                 'get_converting_sales_order_to_deliver_note',
                 'get_checked_all_sale_order_qty_converted_to_delivery_note',
+
+                'get_form_product_list_info',
+                'get_old_data',
+                'get_total_vat_information',
             ]),
         }
     }

@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
     import NewFooter from '../../../layouts/partials/new_footer'
     import DeliveryNoteFormBody from './DeliveryNoteFormBody.vue'
@@ -81,8 +81,12 @@ import { mapGetters } from 'vuex'
             }
         },
         created: function () {
+            this.reset_form_product_list_store();
         },
         methods: {
+            ...mapMutations([
+                'reset_form_product_list_store',
+            ]),
             updateDeliverynote: function () {
                 $('.done_btn').addClass('loading').prop("disabled",true);
 
@@ -93,7 +97,6 @@ import { mapGetters } from 'vuex'
                 this.form.discount_rate = this.get_form_product_list_info.discount_rate;
                 this.form.subtotal = this.get_form_product_list_info.subtotal;
                 this.form.total = this.get_form_product_list_info.total;
-                this.form.document_note = this.get_old_document_note;
 
                 var that = this;
                 this.form.put('/api/delivery-note/' + this.$route.params.id).then(function (response) {
@@ -115,7 +118,6 @@ import { mapGetters } from 'vuex'
             ...mapGetters([
                 'get_form_product_list_info',
                 'get_old_data',
-                'get_old_document_note',
                 'get_total_vat_information',
             ]),
         }

@@ -19,10 +19,11 @@
                                         <a href="#" @click.prevent="editOrder(sales_logs.sales_order_id)" >{{sales_logs.sales_order_code}}</a>
                                     </span>
 
-                                    <!-- <span style="font-weight: bold;color:#1d0062;" v-if="sales_logs.is_delivery_note">
+                                    <span style="font-weight: bold;color:#1d0062;" v-if="type=='delivery_note_to_invoice'">
                                         &nbsp;&nbsp;&nbsp;Delivery Note :
                                         <a href="#" >{{sales_logs.delivery_note_code}}</a>
-                                    </span> -->
+                                    </span>
+
                                     <span v-if="( type == 'sale_order_to_delivery_note' || type=='sales_order_edit' ) && get_selected_sales_order_all_delivery_notes.length > 0">
                                         <span style="font-weight: bold;color:#1d0062;" v-for="note_code in get_selected_sales_order_all_delivery_notes" :key="note_code.id">
                                             &nbsp;&nbsp;&nbsp;Delivery Note :

@@ -130,7 +130,11 @@ class DeliverynoeteController extends Controller
             $sales_log->delivery_note_code = $delivery_note->code;
             $sales_log->delivery_note_description = 'sales order to delivery note';
 
-            $deliver_note_list = json_decode($sales_log->sales_order_to_deliver_note_list);
+            if($sales_log->sales_order_to_deliver_note_list){
+                $deliver_note_list = json_decode($sales_log->sales_order_to_deliver_note_list);
+            }else{
+                $deliver_note_list = [];
+            }
             array_push($deliver_note_list, $delivery_note->id);
             $sales_log->sales_order_to_deliver_note_list = json_encode($deliver_note_list);
 

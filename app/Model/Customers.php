@@ -41,7 +41,6 @@ class Customers extends Model
         return $this->hasMany(Projects::class, 'creator', 'user_id');
     }
 
-
     public function files(){
         return $this->hasMany(ImageFile::class, 'customer_id', 'id')->select(['id', 'customer_id', 'name', 'image']);
     }

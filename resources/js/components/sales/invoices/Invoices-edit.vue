@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
     import NewFooter from '../../../layouts/partials/new_footer'
     import InvoiceFormData from './invoiceFormData.vue'
 
@@ -74,13 +75,24 @@
             }
         },
         created: function () {
-            // this.getInvoice();
+            this.reset_form_product_list_store();
         },
         methods: {
+            ...mapMutations([
+                'reset_form_product_list_store',
+            ]),
             updateInvoice: function () {
                 // this.form.selected_products = this.selected_products;
                 // this.form.invoice_no = this.form.code;
                 // this.form.payment_date = this.set_payment_terms(this.form.payment_terms);
+
+                this.form.selected_products = this.get_old_data;
+                this.form.vat = JSON.stringify(this.get_total_vat_information);
+                this.form.discount_amount = this.get_form_product_list_info.discount_amount;
+                this.form.subtotal = this.get_form_product_list_info.subtotal;
+                this.form.total = this.get_form_product_list_info.total;
+                this.form.discount_rate = this.get_form_product_list_info.discount_rate;
+                this.form.document_note = this.get_form_product_list_info.document_note;
 
                 var that = this;
                 this.form.put('/api/invoices/' + this.$route.params.id).then(function (response) {
@@ -96,6 +108,13 @@
             setFormData: function(form_data){
                 this.form=form_data;
             }
+        },
+        computed: {
+            ...mapGetters([
+                'get_form_product_list_info',
+                'get_old_data',
+                'get_total_vat_information',
+            ]),
         }
     }
 </script>

@@ -479,20 +479,26 @@
                                 if(vat_info_total[key]){
                                     // vat_info_total[key] += (element.sales_price / 100) * (data+100) - element.sales_price;
                                     vat_info_total[key] += (sales_price_with_qty / 100) * (data+100) - sales_price_with_qty;
-                                    total_vat_amount += vat_info_total[key];
                                 }else{
                                     vat_info_total[key] = (sales_price_with_qty / 100) * (data+100) - sales_price_with_qty;
-                                    total_vat_amount += vat_info_total[key];
                                 }
-
                             }
                         }
-                        // console.log(vat_info_total);
-                        // if(element.vat_on_sales > 0){
-                        //     vat += (element.sales_price / 100) * (element.vat_on_sales+100) - element.sales_price;
-                        // }
                     }
-                })
+                });
+
+                let temp_total_info = [];
+                for (const key in vat_info_total) {
+                    if (Object.hasOwnProperty.call(vat_info_total, key)) {
+                        const element = vat_info_total[key];
+                        total_vat_amount += parseFloat(element);
+                        temp_total_info.push({
+                            name: key,
+                            value: element,
+                        })
+                    }
+                }
+                this.set_total_vat_information(temp_total_info);
 
                 this.show_selected_products = selected_products;
 
@@ -511,29 +517,21 @@
                    discount_amount = 0;
                 }
 
+                // console.log({
+                //     subtotal,
+                //     discount_amount,
+                //     total_vat_amount,
+                //     total: parseFloat(subtotal) - parseFloat(discount_amount) + parseFloat(total_vat_amount)
+                // });
                 this.discount_rate = discount_rate;
                 this.discount_amount = discount_amount;
-                total = subtotal - discount_amount + parseFloat(total_vat_amount);
+                total = parseFloat(subtotal) - parseFloat(discount_amount) + parseFloat(total_vat_amount);
                 this.total = parseFloat(total).toFixed(2);
 
-                // console.log(vat_info_total);
                 this.set_form_product_list_info({key: "subtotal", value: parseFloat(subtotal).toFixed(2)});
                 this.set_form_product_list_info({key: "total", value: parseFloat(total).toFixed(2)});
 
-                let temp_total_info = [];
-                for (const key in vat_info_total) {
-                    if (Object.hasOwnProperty.call(vat_info_total, key)) {
-                        const element = vat_info_total[key];
-                        // console.log(element);
-                        temp_total_info.push({
-                            name: key,
-                            value: element,
-                        })
-                    }
-                }
-                // this.vat_info_totals = temp_total_info;
-                this.set_total_vat_information(temp_total_info);
-                // console.log(temp_total_info);
+
             },
 
             calculate_discount_rate_after_some_time:function(value){

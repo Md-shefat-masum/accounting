@@ -19,7 +19,9 @@ class CustomersController extends Controller
 {
     public function get(Request $request, $id)
     {
-        $customers = Customers::where('user_id',Auth::user()->id)->where('id', $id)->with(['delivery_address', 'country_name', 'contacts', 'files','sale_receipts','projects'])->first();
+        $customers = Customers::where('user_id',Auth::user()->id)->where('id', $id)
+                                ->with(['delivery_address', 'country_name', 'contacts', 'files','sale_receipts','projects'])
+                                ->first();
         return $customers;
     }
 

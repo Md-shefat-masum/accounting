@@ -86,7 +86,8 @@ body {
   flex-direction: column;
 }
 .print_view .flex-container .address-details {
-  text-align: right;
+  text-align: left;
+  padding-left: 15px;
 }
 .print_view .flex-container .address-details h2 {
   margin: 0px 0px 0px 0px;
@@ -99,6 +100,7 @@ body {
 }
 .print_view .flex-container .address-details p {
   margin: 3px 0px;
+  font-size: 14px;
 }
 .print_view .bill-address {
   justify-content: right;
@@ -335,7 +337,7 @@ body {
 .print_view .prepared_by h5 {
   text-transform: capitalize;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 16px;
   margin: 2px 0px;
 }
 .print_view .prepared_by h6 {
@@ -343,6 +345,7 @@ body {
   position: relative;
   display: inline-block;
   margin: 2px 0px;
+  font-size: 14px;
 }
 .print_view .prepared_by h6::before {
   position: absolute;
@@ -395,10 +398,11 @@ body {
 }
 .print_view2 .flex-container .address-details h4 {
   margin: 10px 0px 0px 0px;
-  font-size: 19px;
+  font-size: 16px;
 }
 .print_view2 .flex-container .address-details p {
   margin: 3px 0px;
+  font-size: 16px;
 }
 .print_view2.main {
   overflow: hidden;
@@ -513,7 +517,7 @@ body {
 @media print {
   @page {
     size: A4;
-    margin: 0;
+    margin: 0!important;
   }
   .inv_table thead {
     background: #21ca3d !important;
@@ -522,9 +526,7 @@ body {
   }
   html,
   body {
-    width: 210mm;
     /* height: 297mm; */
-    height: 282mm;
     font-size: 11px;
     background: #FFF;
     overflow: visible;
@@ -547,6 +549,9 @@ body {
   table tfoot tr td:nth-child(3),
   table tfoot tr td:nth-child(4) {
     border-bottom: 1px solid #acacac78;
+  }
+  .flex-container .address-details {
+    padding-left: 30px!important;
   }
   .print_view {
     background: white;

@@ -157,7 +157,7 @@
         </div>
 
         <sales-status v-if="sales_logs && ( type == 'edit' || type == 'quote_to_invoice' || type == 'sales_order_to_invoice' || type == 'delivery_note_to_invoice' )"
-            :sales_logs="sales_logs">
+            :sales_logs="sales_logs" :type="'delivery_note_to_invoice'">
         </sales-status>
 
         <list-of-product-table
@@ -304,7 +304,7 @@ import ProjectDropdown from '../components/projectDropdown.vue'
 import FileUploadField from '../components/fileUploadField.vue'
 import Select2 from 'v-select2-component';
 import SalesStatus from '../components/sales_status.vue'
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
     props: ['setFormData','type'],
@@ -480,6 +480,12 @@ export default {
                     // console.log(response.data,response.data.orders.customer_id);
                     that.sales_logs = response.data.orders.sales_log;
 
+                    // call store function
+                    that.set_old_data(response.data.selected_products);
+                    that.set_form_product_list_info({key: "discount_rate", value: response.data.orders.discount_rate});
+                    that.set_form_product_list_info({key: "discount_amount", value: response.data.orders.discount_amount});
+                    that.set_form_product_list_info({key: "document_note", value: response.data.orders.document_note});
+
                     setTimeout(() => {
                         that.get_customer_data(response.data.orders.customer_id);
                         that.form.get('/api/get-latest-code-id/invoice/INV').then(function (response) {
@@ -502,6 +508,12 @@ export default {
                     // that.calculateTotal();
                     that.sales_logs = response.data.delivery_note.sales_log;
 
+                    // call store function
+                    that.set_old_data(response.data.selected_products);
+                    that.set_form_product_list_info({key: "discount_rate", value: response.data.delivery_note.discount_rate});
+                    that.set_form_product_list_info({key: "discount_amount", value: response.data.delivery_note.discount_amount});
+                    that.set_form_product_list_info({key: "document_note", value: response.data.delivery_note.document_note});
+
                     setTimeout(() => {
                         that.get_customer_data(response.data.delivery_note.customer_id);
                         that.form.get('/api/get-latest-code-id/invoice/INV').then(function (response) {
@@ -522,6 +534,12 @@ export default {
                 that.loaded = true;
 
                 that.sales_logs = response.data.invoice.sales_log;
+
+                // call store function
+                that.set_old_data(response.data.selected_products);
+                that.set_form_product_list_info({key: "discount_rate", value: response.data.invoice.discount_rate});
+                that.set_form_product_list_info({key: "discount_amount", value: response.data.invoice.discount_amount});
+                that.set_form_product_list_info({key: "document_note", value: response.data.invoice.document_note});
 
                 setTimeout(() => {
                     that.get_customer_data(response.data.invoice.customer_id);
@@ -700,18 +718,26 @@ export default {
 
         mySelectEvent: function({id, text}){
             // console.log('selected value',{id, text});
-            const found = this.selected_products.some(el => el.type_id == id);
+            let selected_products = this.get_form_product_list_info.selected_products;
+            const found = selected_products.some(el => el.type_id == id);
             if(found){
-                this.selected_products = this.selected_products.filter((item)=>item.type_id != id);
+                selected_products = selected_products.filter((item)=>item.type_id != id);
             }else{
                 axios.get('/api/delivery-note-products/' +id)
                     .then((res)=>{
                         // console.log(res.data);
-                        res.data.map((item)=>this.selected_products.push(item));
+                        res.data.map((item)=>selected_products.push(item));
+                        this.set_form_product_list_info({ key:'selected_products',value:selected_products });
+                        this.set_old_data(selected_products);
                     })
             }
         }
     },
+    computed: {
+        ...mapGetters([
+            'get_form_product_list_info',
+        ]),
+    }
 }
 </script>
 
