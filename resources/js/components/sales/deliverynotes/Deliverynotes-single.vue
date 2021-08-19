@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
     import NewFooter from '../../../layouts/partials/new_footer'
     import SendSmsByChoose from '../components/sendSmsByChoose.vue'
@@ -58,7 +59,6 @@
         data: function () {
             return {
                 loaded: false,
-
                 form: new Form({
                     "id": "",
                     "customer": "",
@@ -101,16 +101,32 @@
                 })
             }
         },
+        created: function(){
+            this.reset_form_product_list_store();
+        },
         methods: {
+            ...mapMutations([
+                'reset_form_product_list_store',
+            ]),
             createDeliverynote: function() {
                 $('.done_btn').addClass('loading').prop("disabled",true);
+
+                // get data from store
+                this.form.selected_products = this.get_old_data;
+                this.form.vat = JSON.stringify(this.get_total_vat_information);
+                this.form.discount_amount = this.get_form_product_list_info.discount_amount;
+                this.form.discount_rate = this.get_form_product_list_info.discount_rate;
+                this.form.subtotal = this.get_form_product_list_info.subtotal;
+                this.form.total = this.get_form_product_list_info.total;
+                this.form.document_note = this.get_old_document_note;
+
                 this.form.post('/api/delivery-note').then(() => {
                     Toast.fire({
                         icon: 'success',
                         title: 'Created successfully'
                     });
                     // this.sms(this.form);
-                    $('#sendSmsModal').modal('show');
+                    // $('#sendSmsModal').modal('show');
                 }).catch(() => {
                     $('.done_btn').removeClass('loading').prop("disabled",false);
                     Toast.fire({
@@ -155,6 +171,12 @@
             }
         },
         computed: {
+            ...mapGetters([
+                'get_form_product_list_info',
+                'get_old_data',
+                'get_old_document_note',
+                'get_total_vat_information',
+            ]),
             get_all_selected_product_name: function(){
                 let name = this.form.selected_products.reduce((name,item)=>{
                     return name + item.name + ' ' + (item.description!=null?item.description+ ', ':'')

@@ -250,6 +250,7 @@
         methods: {
             ...mapMutations([
                 'set_old_data',
+                'set_form_product_list_info',
             ]),
             getResults(page = 1) {
                 let that = this;
@@ -336,8 +337,13 @@
             },
             saveProductList: function(){
                 this.temp_slected_products = this.temp_slected_products.concat(this.new_selected_products);
-                // this.resetSelectedProductList(this.temp_slected_products);
                 this.set_old_data(this.temp_slected_products);
+                this.set_form_product_list_info({
+                    key: "selected_products",
+                    value: this.temp_slected_products,
+                });
+
+                this.resetSelectedProductList();
                 $('.modal').modal('hide');
             },
             createProductservice: function(){

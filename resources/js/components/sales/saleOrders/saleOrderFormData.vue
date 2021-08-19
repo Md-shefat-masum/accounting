@@ -295,7 +295,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+    import { mapGetters, mapMutations } from 'vuex'
     import addCustomerOrLead from '../../modal_contents/add_customer_or_lead.vue'
     import listOfCustomerOrLeadVue from '../../modal_contents/listOfCustomerOrLead.vue'
     import listOfProductOrServiceVue from '../../modal_contents/listOfProductOrService.vue'
@@ -307,288 +307,296 @@ import { mapGetters, mapMutations } from 'vuex'
     import ProjectDropdown from '../components/projectDropdown.vue'
     import SalesStatus from '../components/sales_status.vue'
     import SelectCustomerDropdown from '../components/selectCustomerDropdown.vue'
-export default {
-    props: ['setFormData','type'],
-    components: {
-        addCustomerOrLead,
-        listOfCustomerOrLeadVue,
-        listOfProductOrServiceVue,
-        FileUploadField,
-        SelectCustomerDropdown,
-        SalesStatus,
-        ListOfProductTable,
-        PaymentTermsDropdown,
-        DeliveryContact,
-        DeliveryAddress,
-        ProjectDropdown,
-    },
-    data: function () {
-        return {
-            loaded: false,
-            selected_products: [],
-            today_date: '',
-            delivery_date: '',
-            vat_on_sales: '',
-            product_selected_row_id: '',
-            status: 'open',
-            customer_list_random_number: 0,
-            product_random_number: 0,
-
-            sales_logs:[],
-
-            customer_delivery_addresses:[],
-
-            errors:[],
-            recipients: [],
-            customer_contacts:[],
-            customer_delivery_addresses:[],
-            projects:[],
-
-            product_receive_location: [],
-
-            form: new Form({
-                "id": "",
-                "customer": "",
-                "customer_id": "",
-                "code": "",
-                "recipient": "",
-                "currency": "TK",
-                "currency_rate": '',
-                "address": "",
-                "po_number": "",
-                "date": "",
-                "status": "open",
-                "paid_satus": "not_delivered",
-                "delivery_date": "",
-                "payment_terms": "Due on receipt",
-                "payment_date": "",
-                "selected_products":'',
-                "product": "",
-                "document_note": "",
-                "sub_total": "",
-                "discount_amount": "",
-                "vat": "",
-                "total": "",
-                "delivery_contact": "",
-                "delivery_address": "",
-                "delivery_address_id": "",
-                "delivery_notes": "",
-                "project": "",
-                "delivery_phone_number": "",
-                "private_note": "",
-                "attachments": "",
-                "files": [],
-                "created_at": "",
-                "updated_at": "",
-            })
-        }
-    },
-    created: function () {
-        // this.getInvoice();
-        if(this.type == 'edit'){
-            this.getSales();
-        }
-        else if(this.type == 'quote_to_sales_order'){
-            this.getQuote();
-        }else{
-            this.basicInfo();
-        }
-    },
-    watch: {
-        form: {
-            handler: function(val,oldVal){
-                this.setFormData(this.form);
-            },
-            deep: true,
+    export default {
+        props: ['setFormData','type'],
+        components: {
+            addCustomerOrLead,
+            listOfCustomerOrLeadVue,
+            listOfProductOrServiceVue,
+            FileUploadField,
+            SelectCustomerDropdown,
+            SalesStatus,
+            ListOfProductTable,
+            PaymentTermsDropdown,
+            DeliveryContact,
+            DeliveryAddress,
+            ProjectDropdown,
         },
-    },
-    methods: {
-        ...mapMutations([
-            'set_selected_sales_order_related_products',
-            'set_edited_sales_order_related_products_for_delivery_note',
-            'set_selected_sales_order_all_delivery_notes',
-        ]),
-        basicInfo: function(){
-            var today = new Date();
-            var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-            var yyyy = today.getFullYear();
-            this.today_date =  yyyy+'-'+ mm +'-'+dd ;
-            this.form.date = this.today_date;
+        data: function () {
+            return {
+                loaded: false,
+                selected_products: [],
+                today_date: '',
+                delivery_date: '',
+                vat_on_sales: '',
+                product_selected_row_id: '',
+                status: 'open',
+                customer_list_random_number: 0,
+                product_random_number: 0,
 
-            let next_month = new Date(today.getFullYear(), today.getMonth()+2, 1);
-            next_month = String(next_month.getMonth()).padStart(2,0);
-            this.delivery_date =  yyyy+'-'+ (next_month) +'-'+dd ;
-            this.form.delivery_date = this.delivery_date;
+                sales_logs:[],
 
-            var that = this;
-            this.form.get('/api/get-latest-code-id/sales_order/CORD').then(function (response) {
-                that.form.code = response.data;
-            });
+                customer_delivery_addresses:[],
 
-            this.form.get('/api/productrecivelocation').then(function (response) {
-                that.productrecivelocation = response.data;
-            });
-        },
+                errors:[],
+                recipients: [],
+                customer_contacts:[],
+                customer_delivery_addresses:[],
+                projects:[],
 
-        getSales: function () {
-            var that = this;
-            this.form.get('/api/saleorders/' + this.$route.params.id).then(function (response) {
-                that.form.fill(response.data.orders);
-                that.form.selected_products = response.data.selected_products;
-                that.selected_products = response.data.selected_products;
-                that.loaded = true;
+                product_receive_location: [],
 
-                that.set_selected_sales_order_all_delivery_notes( response.data.orders.delivery_list_info_json );
-
-                that.sales_logs = response.data.orders.sales_log;
-                setTimeout(() => {
-                    that.get_customer_data(response.data.orders.customer_id);
-                    that.basicInfo();
-                    if(that.form.status === 'delivered' || that.form.status === 'invoiced'){
-                        $('input').attr('disabled',true);
-                        $('textarea').attr('disabled',true);
-                        $('select').attr('disabled',true);
-                        $('button').attr('disabled',true);
-                    }
-                }, 2000);
-            });
-            that.loaded = true;
-        },
-
-        get_customer_data:function(id){
-            axios.get('/api/customers/'+id)
-                .then((res)=>{
-                    // console.log(res.data);
-                    this.customer_contacts = res.data.contacts;
-                    this.customer_delivery_addresses = res.data.delivery_address;
-                    this.customer_sale_receipts = res.data.sale_receipts;
-                    this.recipients = res.data.contacts;
-                    this.projects = res.data.projects;
+                form: new Form({
+                    "id": "",
+                    "customer": "",
+                    "customer_id": "",
+                    "code": "",
+                    "recipient": "",
+                    "currency": "TK",
+                    "currency_rate": '',
+                    "address": "",
+                    "po_number": "",
+                    "date": "",
+                    "status": "open",
+                    "paid_satus": "not_delivered",
+                    "delivery_date": "",
+                    "payment_terms": "Due on receipt",
+                    "payment_date": "",
+                    "selected_products":'',
+                    "product": "",
+                    "document_note": "",
+                    "sub_total": "",
+                    "discount_amount": "",
+                    "vat": "",
+                    "total": "",
+                    "delivery_contact": "",
+                    "delivery_address": "",
+                    "delivery_address_id": "",
+                    "delivery_notes": "",
+                    "project": "",
+                    "delivery_phone_number": "",
+                    "private_note": "",
+                    "attachments": "",
+                    "files": [],
+                    "created_at": "",
+                    "updated_at": "",
                 })
+            }
         },
+        created: function () {
+            // this.getInvoice();
+            if(this.type == 'edit'){
+                this.getSales();
+            }
+            else if(this.type == 'quote_to_sales_order'){
+                this.getQuote();
+            }else{
+                this.basicInfo();
+            }
+        },
+        watch: {
+            form: {
+                handler: function(val,oldVal){
+                    this.setFormData(this.form);
+                },
+                deep: true,
+            },
+        },
+        methods: {
+            ...mapMutations([
+                'set_selected_sales_order_related_products',
+                'set_edited_sales_order_related_products_for_delivery_note',
+                'set_selected_sales_order_all_delivery_notes',
+                'set_old_data',
+                'set_form_product_list_info',
+            ]),
+            basicInfo: function(){
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var yyyy = today.getFullYear();
+                this.today_date =  yyyy+'-'+ mm +'-'+dd ;
+                this.form.date = this.today_date;
 
-        getQuote: function (Quote) {
-            var that = this;
-            axios.get('/api/quotes/' + this.$route.params.id)
-                .then(function (response) {
-                    that.form.fill(response.data.quotes);
+                let next_month = new Date(today.getFullYear(), today.getMonth()+2, 1);
+                next_month = String(next_month.getMonth()).padStart(2,0);
+                this.delivery_date =  yyyy+'-'+ (next_month) +'-'+dd ;
+                this.form.delivery_date = this.delivery_date;
+
+                var that = this;
+                this.form.get('/api/get-latest-code-id/sales_order/CORD').then(function (response) {
+                    that.form.code = response.data;
+                });
+
+                this.form.get('/api/productrecivelocation').then(function (response) {
+                    that.productrecivelocation = response.data;
+                });
+            },
+
+            getSales: function () {
+                var that = this;
+                this.form.get('/api/saleorders/' + this.$route.params.id).then(function (response) {
+                    that.form.fill(response.data.orders);
                     that.form.selected_products = response.data.selected_products;
                     that.selected_products = response.data.selected_products;
                     that.loaded = true;
-                    that.sales_logs = response.data.quotes.sales_log;
 
-                    // console.log(that.form_data, response.data.quotes);
+                    that.set_selected_sales_order_all_delivery_notes( response.data.orders.delivery_list_info_json );
+
+                    that.sales_logs = response.data.orders.sales_log;
                     setTimeout(() => {
-                        that.get_customer_data(response.data.quotes.customer_id);
+                        that.get_customer_data(response.data.orders.customer_id);
                         that.basicInfo();
-                        if(that.form.status != 'open'){
+                        if(that.form.status === 'delivered' || that.form.status === 'invoiced'){
                             $('input').attr('disabled',true);
                             $('textarea').attr('disabled',true);
                             $('select').attr('disabled',true);
                             $('button').attr('disabled',true);
                         }
-                    }, 1000);
+                    }, 2000);
                 });
+                that.loaded = true;
+            },
 
-        },
+            get_customer_data:function(id){
+                axios.get('/api/customers/'+id)
+                    .then((res)=>{
+                        // console.log(res.data);
+                        this.customer_contacts = res.data.contacts;
+                        this.customer_delivery_addresses = res.data.delivery_address;
+                        this.customer_sale_receipts = res.data.sale_receipts;
+                        this.recipients = res.data.contacts;
+                        this.projects = res.data.projects;
+                    })
+            },
 
-        createSales: function(){
-            this.form.selected_products = this.selected_products;
-            this.form.status = this.status;
-            this.form.post('/api/saleorders').then(() => {
-                this.form.reset();
-                this.selected_products = [];
-                this.basicInfo();
-                Toast.fire({
-                    icon: 'success',
-                    title: 'Created successfully'
+            getQuote: function (Quote) {
+                var that = this;
+                axios.get('/api/quotes/' + this.$route.params.id)
+                    .then(function (response) {
+                        that.form.fill(response.data.quotes);
+                        that.form.selected_products = response.data.selected_products;
+                        that.selected_products = response.data.selected_products;
+                        that.loaded = true;
+                        that.sales_logs = response.data.quotes.sales_log;
+
+                        // call store function
+                        that.set_old_data(response.data.selected_products);
+                        that.set_form_product_list_info({key: "discount_rate", value: response.data.quotes.discount_rate});
+                        that.set_form_product_list_info({key: "discount_amount", value: response.data.quotes.discount_amount});
+                        that.set_form_product_list_info({key: "document_note", value: response.data.quotes.document_note});
+
+                        // console.log(that.form_data, response.data.quotes);
+                        setTimeout(() => {
+                            that.get_customer_data(response.data.quotes.customer_id);
+                            that.basicInfo();
+                            if(that.form.status != 'open'){
+                                $('input').attr('disabled',true);
+                                $('textarea').attr('disabled',true);
+                                $('select').attr('disabled',true);
+                                $('button').attr('disabled',true);
+                            }
+                        }, 1000);
+                    });
+
+            },
+
+            createSales: function(){
+                this.form.selected_products = this.selected_products;
+                this.form.status = this.status;
+                this.form.post('/api/saleorders').then(() => {
+                    this.form.reset();
+                    this.selected_products = [];
+                    this.basicInfo();
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Created successfully'
+                    });
+                    this.$router.replace({name: 'salesOrderList'})
+                }).catch(() => {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Created error'
+                    });
                 });
-                this.$router.replace({name: 'salesOrderList'})
-            }).catch(() => {
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Created error'
-                });
-            });
-        },
+            },
 
-        updateSales: function () {
-            var that = this;
-            this.form.put('/api/saleorders/' + this.$route.params.id).then(function (response) {
-                that.form.fill(response.data);
-            })
-        },
-
-        getCustomerNameId: function(name, id, address){
-            this.form.customer = name;
-            this.form.id = id;
-            this.form.customer_id = id;
-            this.form.address = address;
-
-            axios.get('/api/customers/'+id)
-                .then((res)=>{
-                    // console.log(res.data);
-                    this.customer_contacts = res.data.contacts;
-                    this.customer_delivery_addresses = res.data.delivery_address;
-                    this.projects = res.data.projects;
+            updateSales: function () {
+                var that = this;
+                this.form.put('/api/saleorders/' + this.$route.params.id).then(function (response) {
+                    that.form.fill(response.data);
                 })
-        },
+            },
 
-        getCustomerRecipent: function(recipient){
-            this.recipients = recipient;
-        },
+            getCustomerNameId: function(name, id, address){
+                this.form.customer = name;
+                this.form.id = id;
+                this.form.customer_id = id;
+                this.form.address = address;
 
-        toggleProductServiceOrExpense: function(type){
-            if(type == 'porduct_service'){
-                this.form.is_product_and_service = true;
-                this.form.is_expense = false;
-            }
-            if(type == 'expense'){
-                this.form.is_product_and_service = false;
-                this.form.is_expense = true;
-            }
-        },
+                axios.get('/api/customers/'+id)
+                    .then((res)=>{
+                        // console.log(res.data);
+                        this.customer_contacts = res.data.contacts;
+                        this.customer_delivery_addresses = res.data.delivery_address;
+                        this.projects = res.data.projects;
+                    })
+            },
 
-        set_selected_product_info: function(info){
-            // console.log(info);
-            this.form.selected_products = info.selected_products;
-            this.form.discount_amount = info.discount_amount;
-            this.form.discount_rate = info.discount_rate;
-            this.form.document_note = info.document_note;
-            this.form.subtotal = info.subtotal;
-            this.form.total = info.total;
-            this.form.vat = info.vat;
-        },
+            getCustomerRecipent: function(recipient){
+                this.recipients = recipient;
+            },
 
-        set_files: function(file_info){
-            // console.log(file_info);
-            this.form.files = file_info.files;
-            this.form.attachments = file_info.attachments;
-        },
+            toggleProductServiceOrExpense: function(type){
+                if(type == 'porduct_service'){
+                    this.form.is_product_and_service = true;
+                    this.form.is_expense = false;
+                }
+                if(type == 'expense'){
+                    this.form.is_product_and_service = false;
+                    this.form.is_expense = true;
+                }
+            },
 
-        set_payment_terms: function(payment_term_info){
-            this.form.payment_terms = payment_term_info.payment_terms;
-            this.form.payment_date = payment_term_info.payment_date;
-        },
+            set_selected_product_info: function(info){
+                // console.log(info);
+                this.form.selected_products = info.selected_products;
+                this.form.discount_amount = info.discount_amount;
+                this.form.discount_rate = info.discount_rate;
+                this.form.document_note = info.document_note;
+                this.form.subtotal = info.subtotal;
+                this.form.total = info.total;
+                this.form.vat = info.vat;
+            },
 
-        setDeliveryContact: function(delivery_contact){
-            this.form.delivery_contact = delivery_contact;
-        },
+            set_files: function(file_info){
+                // console.log(file_info);
+                this.form.files = file_info.files;
+                this.form.attachments = file_info.attachments;
+            },
 
-        setCustomerDeliverAddress: function(delivery_address,address_id){
-            this.form.delivery_address = delivery_address;
-            this.form.delivery_address_id = address_id;
-        },
+            set_payment_terms: function(payment_term_info){
+                this.form.payment_terms = payment_term_info.payment_terms;
+                this.form.payment_date = payment_term_info.payment_date;
+            },
 
-        set_customer_project: function(project_name){
-            this.form.project = project_name;
-        },
-    },
-    computed: {
+            setDeliveryContact: function(delivery_contact){
+                this.form.delivery_contact = delivery_contact;
+            },
 
+            setCustomerDeliverAddress: function(delivery_address,address_id){
+                this.form.delivery_address = delivery_address;
+                this.form.delivery_address_id = address_id;
+            },
+
+            set_customer_project: function(project_name){
+                this.form.project = project_name;
+            },
+        },
+        computed: {
+
+        }
     }
-}
 </script>
 
 <style>

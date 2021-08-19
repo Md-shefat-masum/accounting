@@ -225,8 +225,9 @@
             </div>
         </div>
 
-        <salesStatusVue v-if="sales_logs && ( type == 'edit' || type == 'invoice_to_delivery_note' || type == 'sale_order_to_delivery_note' ) "
-            :sales_logs="sales_logs" :type="'sale_order_to_delivery_note'">
+        <salesStatusVue v-if="sales_logs && ( type == 'delivery_note_edit' || type == 'invoice_to_delivery_note' || type == 'sale_order_to_delivery_note' ) "
+            :sales_logs="sales_logs" :type="type">
+            <!-- sale_order_to_delivery_note -->
         </salesStatusVue>
 
         <list-of-product-table
@@ -391,7 +392,7 @@
     import salesStatusVue from '../components/sales_status.vue'
     import ProjectDropdown from '../components/projectDropdown.vue'
     import FileUploadField from '../components/fileUploadField.vue'
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+    import { mapActions, mapGetters, mapMutations } from 'vuex'
 
     export default {
         props: ['setFormData','type'],
@@ -482,23 +483,23 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
             }
         },
         created: function () {
+            this.set_converting_sales_order_to_deliver_note(false);
 
-            if(this.type == 'edit'){
+            if(this.type == 'delivery_note_edit'){
                 this.getDeliverynote();
             }
 
-            this.set_converting_sales_order_to_deliver_note(false);
-            if(this.type == 'sale_order_to_delivery_note'){
-                this.getSales();
+            else if(this.type == 'sale_order_to_delivery_note'){
                 this.set_converting_sales_order_to_deliver_note(true);
+                this.getSales();
             }
 
-            if(this.type == 'invoice_to_delivery_note'){
+            else if(this.type == 'invoice_to_delivery_note'){
                 this.getInvoice();
             }
-
-            this.basicinfo();
-
+            else{
+                this.basicinfo();
+            }
 
         },
         methods: {
@@ -512,6 +513,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
                 'set_old_document_note',
                 'set_currency_rate',
             ]),
+            
             basicinfo: function(){
                 var today = new Date();
                 var dd = String(today.getDate()).padStart(2, '0');
@@ -544,7 +546,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
 
                         if(response.data.orders.delivery_list_info != null){
                             let list = response.data.orders.delivery_list_info_json;
-                            console.log(list);
+                            // console.log(list);
                             list = list[ list.length-1 ].related_product;
                             that.selected_products = list;
                             that.set_selected_sales_order_related_products( list );
@@ -608,16 +610,17 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
                 this.form.get('/api/delivery-note/' + this.$route.params.id)
                     .then(function (response) {
                         that.form.fill(response.data.delivery_note);
-                        that.form.selected_products = response.data.selected_products;
-                        that.selected_products = response.data.selected_products;
-                        that.form.selected_products = response.data.selected_products;
+                        // that.form.selected_products = response.data.selected_products;
+                        // that.selected_products = response.data.selected_products;
+                        // that.form.selected_products = response.data.selected_products;
                         that.loaded = true;
 
                         // call store function
-                        this.set_old_data(response.data.selected_products);
-                        this.set_old_document_note(response.data.document_note);
+                        that.set_old_data(response.data.selected_products);
+                        that.set_old_document_note(response.data.document_note);
 
                         that.sales_logs = response.data.delivery_note.sales_log;
+                        // console.log(that.sales_logs);
 
                         setTimeout(() => {
                             that.get_customer_data(response.data.delivery_note.customer_id);
@@ -643,22 +646,23 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
             },
 
             createDeliverynote: function(){
-                this.form.selected_products = this.selected_products;
-                this.form.post('/api/delivery-note').then(() => {
-                    this.form.reset();
-                    this.selected_products = [];
-                    this.basicinfo();
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Created successfully'
-                    });
-                    // this.$router.replace({name: 'customerLists'})
-                }).catch(() => {
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'Created error'
-                    });
-                });
+                // this.form.selected_products = this.selected_products;
+                console.log(this.get_form_product_list_info);
+                // this.form.post('/api/delivery-note').then(() => {
+                //     this.form.reset();
+                //     this.selected_products = [];
+                //     this.basicinfo();
+                //     Toast.fire({
+                //         icon: 'success',
+                //         title: 'Created successfully'
+                //     });
+                //     // this.$router.replace({name: 'customerLists'})
+                // }).catch(() => {
+                //     Toast.fire({
+                //         icon: 'error',
+                //         title: 'Created error'
+                //     });
+                // });
             },
 
             updateDeliverynote: function(){

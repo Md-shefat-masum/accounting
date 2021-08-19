@@ -192,8 +192,9 @@
                         </div>
                         <div class="col-sm-8 col-8">
                             <textarea class="form-control" rows="3"
-                                @keyup="set_old_document_note"
-                                :value="get_old_document_note" style="resize: vertical; min-height: 50px;"></textarea>
+                                @keyup="set_form_product_list_info({key:'document_note',value:$event.target.value})"
+                                :value="get_form_product_list_info.document_note"
+                                style="resize: vertical; min-height: 50px;"></textarea>
                         </div>
                     </div>
                 </div>
@@ -228,8 +229,8 @@
                                 <div class="col-sm-8 col-8">
                                     <!-- discount rate e flat amount hobe. percentage er jaygay tkar amount hobe -->
                                     <input type="text"
-                                            v-model="discount_rate"
-                                            @keyup="calculate_discount_rate_after_some_time()"
+                                            :value="get_form_product_list_info.discount_rate"
+                                            @keyup="calculate_discount_rate_after_some_time($event.target.value)"
                                             class="form-control" style="text-align: right;">
                                 </div>
                             </div>
@@ -240,7 +241,7 @@
                                 <div class="col-sm-8 col-8">
                                     <input type="text"
                                             class="form-control"
-                                            v-model="discount_amount"
+                                            :value="get_form_product_list_info.discount_amount"
                                             disabled=""
                                             style="text-align: right;">
                                 </div>
@@ -250,7 +251,7 @@
                     </div>
 
                     <div class="col-sm-12" v-for="(vats,index) in get_total_vat_information" :key="index">
-                        <div class="form-horizontal">
+                        <div class="form-horizontal" v-if="vats.value>0">
                             <div class="form-group row" style="margin-bottom: 15px !important;">
                                 <div class="col-sm-4 col-4 control-label">
                                     <label style="font-weight: normal;">{{ vats.name }}</label>
@@ -263,6 +264,9 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="col-12">
                         <hr>
                     </div>
 
@@ -360,27 +364,14 @@
         watch: {
             old_data: {
                 handler: function(val){
+                    console.log('hi');
                     this.selected_products = this.old_data;
                 },
                 deep: true
             },
-            old_document_note: {
-                handler: function(val){
-                    this.document_note = this.old_document_note;
-                },
-                deep: true
-            }
         },
         created: function(){
             this.get_tax_and_vat();
-            this.calculateTotal();
-
-            // this.$watch('currency_rate', (newVal, oldVal) => {
-            //     this.selected_products = JSON.parse(localStorage.getItem('selected_products'));
-            //     this.edited_currency_price_products = JSON.parse(localStorage.getItem('selected_products'));
-            //     this.set_currency_price();
-            //     this.calculateTotal();
-            // })
         },
         data: function(){
             return {
@@ -405,9 +396,9 @@
                 'set_saved_selected_sales_order_related_products',
                 'set_total_vat_information',
                 'set_form_product_list_info',
-                'set_old_document_note',
                 'remove_product_form_old_data',
             ]),
+
             productListRender: function(){
                 this.product_random_number++;
             },
@@ -416,13 +407,11 @@
                 axios.get('/api/vat-and-tax')
                     .then((res)=>{
                         this.tax_and_vats_for_select2 = res.data;
+                        this.calculateTotal();
                     })
             },
 
-            resetSelectedProductList: function(products){
-                localStorage.setItem('selected_products',JSON.stringify(products));
-                this.selected_products = products;
-                this.edited_currency_price_products = products;
+            resetSelectedProductList: function(){
                 this.calculateTotal();
             },
 
@@ -458,14 +447,11 @@
             calculateTotal: function(related_product_id=null){
                 // console.log(product_id, qty);
                 let subtotal = 0;
-                let discount_rate = this.discount_rate;
-                let discount_amount = this.discount_amount;
-                let vat = 0;
+                let discount_rate = this.get_form_product_list_info.discount_rate;
+                let discount_amount = this.get_form_product_list_info.discount_amount;
                 let total = 0;
-                let vat_info_total = {
-                    vat: 0,
-                    source_tax: 0,
-                };
+                let vat_info_total = {};
+                let total_vat_amount = 0;
 
                 let selected_products = this.get_old_data;
 
@@ -493,8 +479,10 @@
                                 if(vat_info_total[key]){
                                     // vat_info_total[key] += (element.sales_price / 100) * (data+100) - element.sales_price;
                                     vat_info_total[key] += (sales_price_with_qty / 100) * (data+100) - sales_price_with_qty;
+                                    total_vat_amount += vat_info_total[key];
                                 }else{
                                     vat_info_total[key] = (sales_price_with_qty / 100) * (data+100) - sales_price_with_qty;
+                                    total_vat_amount += vat_info_total[key];
                                 }
 
                             }
@@ -506,12 +494,10 @@
                     }
                 })
 
-
                 this.show_selected_products = selected_products;
 
-
                 this.subtotal = subtotal;
-                console.log(discount_rate);
+                // console.log(discount_rate);
                 if(discount_rate > 0){
                     /* discount rate jodi percentage e hoy */
 
@@ -527,22 +513,12 @@
 
                 this.discount_rate = discount_rate;
                 this.discount_amount = discount_amount;
-                this.vat = parseFloat(vat_info_total.vat).toFixed(2);
-                this.source_tax = parseFloat(vat_info_total.source_tax).toFixed(2);
-                // this.vat_info_total = vat_info_total;
-                total = subtotal - discount_amount + parseFloat(this.vat) + parseFloat(this.source_tax);
+                total = subtotal - discount_amount + parseFloat(total_vat_amount);
                 this.total = parseFloat(total).toFixed(2);
 
                 // console.log(vat_info_total);
-
-                this.set_form_product_list_info({
-                    discount_rate: discount_rate,
-                    discount_amount: discount_amount,
-                    vat: parseFloat(vat_info_total.vat).toFixed(2),
-                    source_tax: parseFloat(vat_info_total.source_tax).toFixed(2),
-                    subtotal: parseFloat(subtotal).toFixed(2),
-                    total: parseFloat(total).toFixed(2),
-                });
+                this.set_form_product_list_info({key: "subtotal", value: parseFloat(subtotal).toFixed(2)});
+                this.set_form_product_list_info({key: "total", value: parseFloat(total).toFixed(2)});
 
                 let temp_total_info = [];
                 for (const key in vat_info_total) {
@@ -560,10 +536,11 @@
                 // console.log(temp_total_info);
             },
 
-            calculate_discount_rate_after_some_time:function(){
-                console.log('hi');
-                let that = this;
-                that.calculateTotal();
+            calculate_discount_rate_after_some_time:function(value){
+                // console.log(value);
+                this.set_form_product_list_info({key: "discount_rate", value: value});
+                this.set_form_product_list_info({key: "discount_amount", value: value});
+                this.calculateTotal();
             },
 
             product_selected_row: function(product_id,index,event){
@@ -575,12 +552,6 @@
             removeProductFormList: function(){
                 let index = this.product_selected_row_id;
                 this.remove_product_form_old_data(index);
-
-                // if (index > -1) {
-                //     this.selected_products.splice(index, 1);
-                // }
-                // localStorage.setItem('selected_products',JSON.stringify(this.selected_products));
-
                 this.calculateTotal();
             },
 
@@ -593,7 +564,7 @@
             },
 
             mySelectEvent: function({id, text}, selected_product, index){
-                console.log('selected value',{id, text, index, selected_product});
+                // console.log('selected value',{id, text, index, selected_product});
 
                 const found_id = selected_product.selected_select2_tax_and_vat.find(el => el == id);
                 const slected_vat = this.tax_and_vats_for_select2.find(el => el.id == id);
@@ -625,8 +596,6 @@
                 'get_total_vat_information',
                 'get_form_product_list_info',
                 'get_old_data',
-                'get_old_document_note',
-                'get_currency_rate',
             ]),
         }
     }

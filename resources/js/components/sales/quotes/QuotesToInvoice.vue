@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex';
     import NewFooter from '../../../layouts/partials/new_footer'
     import InvoiceFormData from '../invoices/invoiceFormData.vue'
 
@@ -33,6 +34,7 @@
                 $('.edit_head_text').text('Convert Quotation to Invoice');
             }, 300);
             this.getQuote();
+            this.reset_form_product_list_store();
         },
         data: function () {
             return {
@@ -80,6 +82,10 @@
         },
         methods: {
 
+            ...mapMutations([
+                'reset_form_product_list_store',
+            ]),
+
             getQuote: function () {
                 var that = this;
                 axios.get('/api/quotes/' + this.$route.params.id)
@@ -94,6 +100,13 @@
                 // this.form.selected_products = this.selected_products;
                 this.form.selected_select2_delivery_notes = [];
                 // this.form.payment_date = this.set_payment_terms(this.form.payment_terms);
+                this.form.selected_products = this.get_old_data;
+                this.form.vat = JSON.stringify(this.get_total_vat_information);
+                this.form.discount_amount = this.get_form_product_list_info.discount_amount;
+                this.form.subtotal = this.get_form_product_list_info.subtotal;
+                this.form.total = this.get_form_product_list_info.total;
+                this.form.discount_rate = this.get_form_product_list_info.discount_rate;
+                this.form.document_note = this.get_form_product_list_info.document_note;
 
                 $('.done_btn').addClass('loading').prop("disabled",true);
 
@@ -116,6 +129,12 @@
                 this.form=form_data;
             }
         },
-
+        computed: {
+            ...mapGetters([
+                'get_form_product_list_info',
+                'get_old_data',
+                'get_total_vat_information',
+            ]),
+        }
     }
 </script>

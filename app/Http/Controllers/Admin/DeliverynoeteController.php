@@ -86,7 +86,7 @@ class DeliverynoeteController extends Controller
 
     public function create(Request $request)
     {
-
+        // return dd($request->all());
         $validatedData = $request->validate([
             'customer' => 'required |max:255 ',
             'selected_products' => 'required',

@@ -304,6 +304,7 @@ import ProjectDropdown from '../components/projectDropdown.vue'
 import FileUploadField from '../components/fileUploadField.vue'
 import Select2 from 'v-select2-component';
 import SalesStatus from '../components/sales_status.vue'
+import { mapMutations } from 'vuex'
 
 export default {
     props: ['setFormData','type'],
@@ -390,16 +391,21 @@ export default {
         if(this.type=='edit'){
             this.getInvoice();
         }
-        if(this.type=='quote_to_invoice'){
+        else if(this.type=='quote_to_invoice'){
             this.getQuote();
+            this.setDateAndCode();
         }
-        if(this.type=='sales_order_to_invoice'){
+        else if(this.type=='sales_order_to_invoice'){
             this.getSalesOrder();
+            this.setDateAndCode();
         }
-        if(this.type=='delivery_note_to_invoice'){
+        else if(this.type=='delivery_note_to_invoice'){
             this.getDeliverynote();
+            this.setDateAndCode();
+        }else{
+            this.setDateAndCode();
         }
-        this.setDateAndCode();
+
     },
     watch: {
         form: {
@@ -411,6 +417,11 @@ export default {
         },
     },
     methods: {
+        ...mapMutations([
+            'set_old_data',
+            'set_form_product_list_info',
+        ]),
+
         setDateAndCode: function (){
             var today = new Date();
             var dd = String(today.getDate()).padStart(2, '0');
@@ -437,6 +448,12 @@ export default {
                     that.sales_logs = response.data.quotes.sales_log;
 
                     // console.log(that.form_data, response.data.quotes);
+
+                    // call store function
+                    that.set_old_data(response.data.selected_products);
+                    that.set_form_product_list_info({key: "discount_rate", value: response.data.quotes.discount_rate});
+                    that.set_form_product_list_info({key: "discount_amount", value: response.data.quotes.discount_amount});
+                    that.set_form_product_list_info({key: "document_note", value: response.data.quotes.document_note});
 
                     setTimeout(() => {
                         that.get_customer_data(response.data.quotes.customer_id);

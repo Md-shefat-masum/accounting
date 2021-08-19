@@ -394,6 +394,11 @@ export default {
         }
     },
     methods: {
+        ...mapMutations([
+            'set_old_data',
+            'set_form_product_list_info',
+        ]),
+
         setInfo: function(){
             this.getQuoteCode();
             var today = new Date();
@@ -415,12 +420,17 @@ export default {
             axios.get('/api/quotes/' + this.$route.params.id)
                 .then(function (response) {
                     that.form_data = response.data.quotes;
-                    that.form_data.selected_products = response.data.selected_products;
-                    that.selected_products = response.data.selected_products;
+                    // that.form_data.selected_products = response.data.selected_products;
+                    // that.selected_products = response.data.selected_products;
                     that.loaded = true;
                     that.sales_logs = response.data.quotes.sales_log;
 
                     // console.log(that.form_data, response.data.quotes);
+                    // call store function
+                    that.set_old_data(response.data.selected_products);
+                    that.set_form_product_list_info({key: "discount_rate", value: response.data.quotes.discount_rate});
+                    that.set_form_product_list_info({key: "discount_amount", value: response.data.quotes.discount_amount});
+                    that.set_form_product_list_info({key: "document_note", value: response.data.quotes.document_note});
 
                     setTimeout(() => {
                         that.get_customer_data(response.data.quotes.customer_id);

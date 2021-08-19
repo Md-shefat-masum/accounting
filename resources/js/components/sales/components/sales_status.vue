@@ -30,6 +30,13 @@
                                         </span>
                                     </span>
 
+                                    <span v-if="(type=='delivery_note_edit' )             ">
+                                        <span style="font-weight: bold;color:#1d0062;">
+                                            &nbsp;&nbsp;&nbsp;Delivery Note :
+                                            <a href="#" >{{sales_logs.delivery_note_code}}</a>
+                                        </span>
+                                    </span>
+
 
                                     <span style="font-weight: bold;color:#1d0062;" v-if="sales_logs.is_invoice">
                                         &nbsp;&nbsp;&nbsp;Invoice :
