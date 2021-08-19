@@ -6,7 +6,7 @@
             </div>
             <div class="address">
                 <div class="flex-container" style="padding:5px">
-                    <div class="address-details">
+                    <div class="address-details" style="text-align: right;">
 
                         <h2>Sales Order</h2>
                         <print-top-bar-address></print-top-bar-address>
