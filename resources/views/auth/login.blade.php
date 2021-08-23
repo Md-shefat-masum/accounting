@@ -55,6 +55,7 @@
                             </div>
                         </form>
                     </div>
+
                     <div class="panel-footer text-center light">
                         <p class="small text-muted">or Sign in with Google</p>
                         <div class="row">

@@ -19,8 +19,10 @@ use App\Model\QuoteProduct;
 use App\Model\Quotes;
 use App\Model\Receipts;
 use App\Model\ReceiptSplit;
+use App\Model\RelatedProduct;
 use App\Model\SaleOrderProduct;
 use App\Model\Saleorders;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use PDF;
 
@@ -30,14 +32,31 @@ class PdfController extends Controller
     {
         $data = [];
         $quotes = Quotes::findOrfail($id);
-        $quotes_products = QuoteProduct::where('quote_id',$id)->with('product_details')->get();
+        $quotes_products = RelatedProduct::where('type_name','quotes')->where('type_id',$id)->with('product_details')->get();
         $data['quotes'] = $quotes;
         $data['customer'] = Customers::where('id',$quotes->customer_id)->firstOrFail();
         $data['related_products'] = $quotes_products;
 
+        // logo to base 64
+        $path = public_path().'/'.Auth::User()->logo;
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data_path = file_get_contents($path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data_path);
+        $data['logo'] = $base64;
+
+        // dd($data['quotes']);
+        // return view('invoice_layouts.quotes_invoice',compact('data'));
 
         $load_html = view('invoice_layouts.quotes_invoice',compact('data'))->render();
-        $pdf = PDF::loadHtml($load_html)->setOptions(['defaultFont' => 'sans-serif']);
+
+        // echo $load_html;
+        // return 0;
+
+        // $pdf = PDF::loadHtml($load_html)->setOptions([
+        //     'fontDir' => asset('').'fonts/Averta-Regular.woff2',
+        //     'defaultFont' => 'Averta'
+        // ]);
+        $pdf = PDF::loadHtml($load_html);
 
         $files = glob(public_path().'/invoice_pdf/*'); //get all file names
         foreach($files as $file){
@@ -54,6 +73,8 @@ class PdfController extends Controller
         // $stream = $pdf->stream('quotation.pdf');
         // $output = $pdf->output();
 
+        // return $pdf->download('invoice.pdf');
+        // echo "<iframe src='{$pdf->render()}'></iframe>";
         return $file_name;
     }
 
@@ -247,4 +268,3 @@ class PdfController extends Controller
 
 
 }
-?>

@@ -25,6 +25,13 @@
                                     <span class="A54VNK-Di-f"> Print </span>
                                 </button>
                                 <button
+                                    @click="download_pdf()"
+                                    type="button"
+                                    class="btn btn-default modal_print_btn modal_print_btn_sm btn-lg btn-block ellipsis A54VNK-Di-a" >
+                                    <span class="picto-font PMRVCW-kf-g">R</span>
+                                    <span class="A54VNK-Di-f"> Download </span>
+                                </button>
+                                <button
                                     @click="edit(print_quote_id)"
                                     type="button" style="margin-top: 6px;"
                                     class="btn btn-default modal_print_btn btn-lg btn-block ellipsis A54VNK-Di-a" >
@@ -109,6 +116,47 @@
                     newWin.print();
                 }, 200);
                 setTimeout(function(){newWin.close();},1000);
+            },
+            download_pdf: function(){
+                let url = null;
+                let file_name = '';
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var yyyy = today.getFullYear();
+                let today_date =  dd + '-' + mm + '-' + yyyy ;
+
+                if(this.type == 'quotation'){
+                    url = '/api/print-pdf/quotation/';
+                    file_name = `Quote- #${this.selected_data.code} ${today_date} ${parseInt(Math.random()*1000000)}`;
+                }
+                else if(this.type == 'sales_order'){
+                    url = '/api/print-pdf/saleorder/';
+                    file_name = `Sales Order- #${this.selected_data.code} ${today_date} ${parseInt(Math.random()*1000000)}`;
+                }
+                else if(this.type == 'deliverynote'){
+                    url = '/api/print-pdf/delivery_note/';
+                    file_name = `Delivery Note- #${this.selected_data.code} ${today_date} ${parseInt(Math.random()*1000000)}`;
+                }
+                else if(this.type == 'receipt'){
+                    url = '/api/print-pdf/receipt/';
+                    file_name = `Sales Recipts- #${this.selected_data.code} ${today_date} ${parseInt(Math.random()*1000000)}`;
+                }
+                else {
+                    url = null;
+                    file_name = '';
+                }
+
+                if(url){
+                    axios.get(url+this.selected_data.id)
+                        .then((res)=>{
+                            const link = document.createElement('a');
+                            link.href = res.data;
+                            link.setAttribute("download", file_name);
+                            link.click();
+                        })
+                }
+
             },
             trigger_show_mail: function(){
                 this.email_show = !this.email_show;

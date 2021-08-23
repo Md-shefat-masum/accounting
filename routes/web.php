@@ -98,6 +98,7 @@ Route::get('/test',function(){
     dd($log_details);
 })->name('route name');
 
-//Route::get('/', 'HomeController@index')->name('dashboard');
+Route::get('/views/{id}', 'Admin\PdfController@quotation_pdf');
+
 Route::get('/logout', 'HomeController@logout')->name('logout');
 Route::get('/{vue?}', 'HomeController@index')->where('vue', '[\/\w\.-]*')->name('super_admin');

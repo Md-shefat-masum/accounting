@@ -238,7 +238,6 @@ Route::group([
     Route::post('delivery-note', 'DeliverynoeteController@create');
     Route::put('delivery-note/{id}', 'DeliverynoeteController@update');
     Route::delete('delivery-note/{id}', 'DeliverynoeteController@delete');
-    Route::get('delivery_note_sort', 'DeliverynoeteController@delivery_sort');
     Route::get('delivery_by_day', 'DeliverynoeteController@delivery_by_day');
     Route::post('delivery_notes_search', 'DeliverynoeteController@delivery_notes_search');
 

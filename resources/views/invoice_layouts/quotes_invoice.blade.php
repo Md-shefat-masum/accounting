@@ -1,548 +1,412 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" >
+    <head>
+        <meta charset="U+09F3" />
+        <meta name="viewport"  content="width=device-width, initial-scale=1.0" />
+        {{-- <meta http-equiv="Content-Type" content="text/html; charset=U+09F3; "/> --}}
+        <title>Quotation</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<head>
-    <title>Quotation</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-        @font-face{
-            font-family: 'avarta';
-            src: url('/avarta.ttf');
-        }
-        body {
-            font-family: avarta;
-            margin: 0;
-            padding: 20px;
-
-        }
-        .main {
-            overflow: hidden;
-            display: block;
-        }
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .logo {
-            flex: 50%;
-            padding: 20px;
-        }
-        .address {
-            justify-content: right;
-            flex: 50%;
-            background-color: white;
-            padding: 20px;
-            padding-bottom: 0;
-            padding-right: 0;
-        }
-
-        .bill-details p,
-        .address p {
-            font-size: 14px;
-            line-height: 16px;
-        }
-
-        .flex-container {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .flex-container .address-details {
-            text-align: right;
-        }
-
-        .flex-container .address-details h2 {
-            margin: 0px 0px 0px 0px;
-            font-size: 36px;
-            font-weight: 400;
-        }
-
-        .flex-container .address-details h4 {
-            margin: 10px 0px 0px 0px;
-            font-size: 14px;
-        }
-
-        .flex-container .address-details p {
-            margin: 3px 0px
-        }
-
-        .bill-address {
-            justify-content: right;
-            flex: 31%;
-            background-color: white;
-            padding: 0px 10px 20px 0px;
-        }
-
-        .bill-address h2 {
-            margin: 10px 0px 5px 0px;
-            color: #8C959A;
-            font-size: 14px;
-            font-weight: 400;
-        }
-
-        .bill-address h4 {
-            margin: 5px 0px;
-            font-size: 12px;
-        }
-
-        .bill-address p {
-            margin: 0px;
-            font-size: 14px;
-            line-height: 16px;
-        }
-
-        .ship-address {
-            justify-content: right;
-            flex: 31%;
-            background-color: white;
-            padding: 0px 10px 20px 10px;
-        }
-
-        .ship-address h2 {
-            margin: 10px 0px 5px 0px;
-            color: #8C959A;
-            font-size: 14px;
-            font-weight: 400;
-        }
-
-        .ship-address h4 {
-            margin: 5px 0px;
-            font-size: 12px;
-        }
-
-        .ship-address p {
-            margin: 0px;
-            font-size: 14px;
-            line-height: 16px;
-        }
-
-        .order-date {
-            justify-content: right;
-            flex: 24%;
-            background-color: white;
-            padding: 27px 0px 20px;
-        }
-
-        .order-date h4 {
-            margin: 3px 0px;
-            font-size: 13px;
-        }
-
-        .order-date span:nth-child(2) {
-            color: #000000;
-            font-weight: 400;
-        }
-
-        .flex-container .order-date-details {
-            text-align: right;
-        }
-
-        .bill-item-1 {
-            justify-content: right;
-            flex: 40%;
-            padding: 0px 0px 20px 0px;
-        }
-
-        .bill-item-2 {
-            justify-content: right;
-            flex: 20%;
-        }
-
-        .bill-item-3 {
-            justify-content: right;
-            flex: 20%;
-        }
-
-        .bill-item-4 {
-            justify-content: right;
-            flex: 20%;
-        }
-
-        .bill-item h4 {
-            padding: 10px 10px;
-        }
-
-        .bill-item p {
-            margin: 10px 20px 0px 10px;
-        }
-
-        .bill-item h5 {
-            margin: 10px 20px 0px 10px;
-            font-size: 16px;
-        }
-
-        .terms {
-            justify-content: right;
-            flex: 60%;
-        }
-
-        .terms h4 {
-            margin: 10px 0px 5px 0px;
-        }
-
-        .terms p {
-            margin: 0px;
-            font-size: 13px;
-            width: 70%;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-            margin-bottom: 10px;
-        }
-
-        .terms p span:nth-child(1) {
-            width: 30px;
-        }
-
-        .terms p span:nth-child(2) {
-            width: 85%;
-        }
-
-        .subtotal {
-            justify-content: right;
-            flex: 20%;
-        }
-
-        .flex-container .subtotal-details {
-            text-align: left;
-        }
-
-        .subtotal-details h4 {
-            margin: 10px 0px 5px 0px;
-        }
-
-        .subtotal-details p {
-            margin: 10px 0px 5px 0px;
-        }
-
-        .total-ammount {
-            justify-content: right;
-            flex: 20%;
-        }
-
-        .total-ammount-details h4 {
-            margin: 10px 0px 5px 10px;
-        }
-
-        .total-ammount-details p {
-            margin: 10px 0px 5px 10px;
-        }
-
-        .inv_table {
-            width: 100%;
-        }
-
-        .inv_table thead {
-            background: #acacac78;
-        }
-
-        .inv_table thead th {
-            padding: 10px 15px;
-        }
-
-        .inv_table tfoot td,
-        .inv_table tbody td {
-            padding: 5px 15px;
-        }
-
-        .inv_table thead th:first-child {
-            text-align: left;
-        }
-
-        .inv_table tbody td:nth-child(2) {
-            text-align: center;
-        }
-
-        .inv_table tbody tr td {
-            border-bottom: 1px solid #acacac78;
-        }
-
-        .inv_table tfoot td:nth-child(2),
-        .inv_table tfoot td:nth-child(3),
-        .inv_table tbody td:nth-child(3),
-        .inv_table tbody td:nth-child(4),
-        .inv_table thead th:nth-child(3),
-        .inv_table thead th:nth-child(4) {
-            text-align: right;
-        }
-
-        table thead th {
-            font-size: 13px;
-        }
-
-        table tbody td,
-        table tbody td p {
-            font-size: 12px;
-            margin: 5px 0px;
-        }
-
-        table tbody td h5 {
-            font-size: 12px;
-            margin: 5px 0px;
-        }
-
-        table thead th:nth-child(2) {
-            width: 100px;
-        }
-
-        table thead th:nth-child(3) {
-            width: 120px;
-        }
-
-        table tfoot td {
-            font-size: 13px;
-            font-weight: 400;
-        }
-
-        /* @media screen and (max-width: 700px) {
-            .row {
-                flex-direction: column;
+        <style>
+            /* @font-face {
+                font-family: 'Averta';
+                font-weight: normal;
+                font-style: normal;
+                font-variant: normal;
+                src: url("{{asset('')}}fonts/Averta-Regular.woff2") format("woff2"), url("{{asset('')}}fonts/Averta-Regular.woff") format("woff");
+            } */
+            /* @font-face {
+                font-family: "Averta";
+                src: url("{{storage_path()}}/fonts/Averta-RegularItalic.woff2") format("woff2"), url("storage_path()}}/fonts/Averta-RegularItalic.woff") format("woff");
+                font-weight: normal;
+                font-style: italic;
+                font-display: swap;
+            } */
+            /* @font-face {
+                font-family: "Averta";
+                src: url("/fonts/Averta-Regular.woff2") format("woff2"), url("/fonts/Averta-Regular.woff") format("woff");
+                font-weight: normal;
+                font-style: normal;
+                font-display: swap;
+            } */
+            /*@font-face {
+                font-family: "Averta";
+                src: url("storage_path()}}/fonts/Averta-Semibold.woff2") format("woff2"), url("storage_path()}}/fonts/Averta-Semibold.woff") format("woff");
+                font-weight: 600;
+                font-style: normal;
+                font-display: swap;
             }
-        } */
-
-        .order-date-details{
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
-        .order-date-details span:nth-child(2){
-            width: 45%;
-            display: inline-block;
-        }
-
-        .hr {
-            width: 100%;
-            height: 1px !important;
-            background-color: #acacac78 !important;
-            -webkit-print-color-adjust: exact;
-        }
-
-        .line {
-            width: 768px;
-            height: 1px !important;
-            background-color: #acacac78 !important;
-            -webkit-print-color-adjust: exact;
-
-        }
-
-        @media print {
-            .inv_table thead {
-                background: #acacac78 !important;
-                -webkit-print-color-adjust: exact;
+            @font-face {
+                font-family: "Averta";
+                src: url("storage_path()}}/fonts/Averta-SemiboldItalic.woff2") format("woff2"), url("storage_path()}}/fonts/Averta-SemiboldItalic.woff") format("woff");
+                font-weight: 600;
+                font-style: italic;
+                font-display: swap;
+            }
+            @font-face {
+                font-family: "Averta";
+                src: url("storage_path()}}/fonts/Averta-Bold.woff2") format("woff2"), url("storage_path()}}/fonts/Averta-Bold.woff") format("woff");
+                font-weight: bold;
+                font-style: normal;
+                font-display: swap;
+            }
+            @font-face {
+                font-family: "Averta";
+                src: url("storage_path()}}/fonts/Averta-BoldItalic.woff2") format("woff2"), url("storage_path()}}/fonts/Averta-BoldItalic.woff") format("woff");
+                font-weight: bold;
+                font-style: italic;
+                font-display: swap;
+            } */
+            body {
+                padding: 0;
+                margin: 0;
+                outline: 0;
+                margin: 0 auto;
+                /* font-family: Averta; */
+                font-family: 'Heebo'!important;
             }
 
-            .line {
-                width: 768px;
-                height: 1px !important;
-                background-color: rgb(146, 146, 146) !important;
-                -webkit-print-color-adjust: exact;
+            .heading{
+                margin: 10px 0px 5px 0px;
+                color: #8C959A;
+                font-size: 14px;
+                line-height: 10px;
+                font-weight: 400;
+                text-transform: uppercase;
             }
 
-            table thead th:nth-child(2) {
-                border-right: 0;
+            .heading2{
+                margin: 5px 0px;
+                font-size: 14px;
+                text-transform: capitalize;
+                line-height: 10px;
             }
-        }
-    </style>
-</head>
+            .heading2p{
+                margin: 0px;
+                font-size: 14px;
+                line-height: 10px;
+            }
 
-<body>
-    <div class="main">
+            .heading3{
+                margin: 0px 0px;
+                font-size: 14px;
+                display: inline-block;
+                text-align: right;
+                width: 65%;
+            }
 
-        <div class="row">
-            <div class="logo">
-                <img src="http://akaunter.com/pdflogo.png" alt="" style="height: 50px;">
-            </div>
-            <div class="address">
-                <div class="flex-container" style="padding:5px">
-                    <div class="address-details">
+            .heading3Details{
+                font-weight: 400;
+                width: 35%;
+                font-size: 13px;
+                display: inline-block;
+                text-align: right;
+                float: right;
+            }
 
-                        <h2>QUOTATION</h2>
+            .heading4{
+                margin: 0px 0px;
+                display: block;
+                line-height: 12px;
+            }
 
-                        <h4>Orika Corporation</h4>
-                        <p>218/3/A (3rd floor) West Kafrul,</p>
-                        <p>Begum Rokeya Ave,Shwerapara</p>
-                        <p>Dhaka 1216</p>
-                        <p>Phone: +8809638786786</p>
-                        <p>Mobile: +8801712662245</p>
-                        <p>www.orika.com.bd</p>
+            .addressHeading2{
+                margin: 0px 0px 0px 0px;
+                font-size: 36px;
+                font-weight: 400;
+                line-height: 30px;
+            }
+
+            .addressHeading{
+                margin: 10px 0px 0px 0px;
+                font-size: 14px;
+                line-height: 10px;
+            }
+
+            .addressp{
+                margin: 3px 0px;
+                font-size: 14px;
+                line-height: 10px;
+            }
+
+            .inv_table{
+                width: 100%;
+                text-align: center;
+            }
+
+            .inv_table thead{
+                background-color: #444444;
+                color: white;
+                text-transform: uppercase;
+                font-size: 14px;
+                line-height: 10px;
+            }
+
+            .inv_table td{
+                border-bottom: 1px solid #d4dde3;
+            }
+
+            .inv_table th{
+                border-bottom: 0;
+            }
+
+            .inv_table tfoot td:first-child{
+                border-bottom: 0;
+            }
+            .inv_table tfoot td:nth-child(2){
+                text-align: right;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            .inv_table th{
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+            .inv_table tbody td,
+            .inv_table tfoot td{
+                padding-top: 5px;
+                padding-bottom: 5px;
+                font-size: 14px;
+            }
+
+            .inv_table th{
+                font-weight: 600;
+                font-family: sans-serif;
+            }
+            .inv_table td:first-child,
+            .inv_table th:first-child{
+                text-align: left;
+                padding-left: 30px;
+            }
+            .inv_table td:nth-child(2),
+            .inv_table th:nth-child(2){
+                width: 110px;
+            }
+            .inv_table td:nth-child(3),
+            .inv_table th:nth-child(3){
+                text-align: right;
+                padding-left: 15px;
+                padding-right: 15px;
+                width: 160px;
+                box-sizing: border-box;
+            }
+            .inv_table td:last-child,
+            .inv_table th:last-child{
+                width: 118px;
+                padding-right: 30px;
+                text-align: right;
+                box-sizing: border-box;
+            }
+
+            .inv_table tbody td h5{
+                /* font-weight: 600; */
+                text-align: left;
+                font-size: 14px;
+                line-height: 18px;
+                margin: 0;
+                text-transform: capitalize;
+            }
+
+            .inv_table tbody td:first-child p{
+                color: #4c5357;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 18px;
+                margin: 0;
+                text-align: left;
+            }
+
+            @page {
+                margin: 0px;
+                size: A4;
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <div class="main print_view" id="content">
+
+            <div style="padding: 16px 30px 0px 30px;">
+                <div class="logo" style="float:left; width: 48%; box-sizing: border-box;">
+                    <div style="
+                        height: 50px;
+                        width: 200px;
+                        background-repeat: no-repeat;
+                        background-size: 100%;
+                        background-position: left center;
+                        background-image: url('{{$data['logo']}}')">
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="line"></div>
-
-        <div class="row">
-            <div class="bill-address">
-                <div class="flex-container" style="padding:5px">
-                    <div class="bill-details">
-
-                        <h2>BILL To</h2>
-
-                        <p>Managing Director</p>
-
-                        <h4>Asian Paints Bangladesh Limited</h4>
-                        <p>cha-90/3,progoti sarani, north</p>
-                        <p>Badda</p>
-                        <p>dhaka-1209</p>
+                <div class="address" style="float:right;width: 48%; box-sizing: border-box;">
+                    <div class="address-details" style="text-align: right;">
+                        <h2 class="addressHeading2">QUOTATION</h2>
+                        <div>
+                            <h4 class="addressHeading">hungrycoder</h4>
+                            <p class="addressp">218/3/A (3rd floor) West Kafrul,</p>
+                            <p class="addressp">Begum Rokeya Ave,Shwerapara</p>
+                            <p class="addressp">Dhaka 1216</p>
+                            <p class="addressp">Phone: +8809638786786</p>
+                            <p class="addressp">Mobile: +8801712662245</p>
+                            <p class="addressp">www.orika.com.bd</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="ship-address">
-                <div class="flex-container" style="padding:5px">
-                    <div class="ship-details">
-
-                        <h2>SHIP To</h2>
-
-                        <p>Shuvo- 00000000</p>
-
-                        <h4>Asian Paints Bangladesh Limited</h4>
-                        <p>cha-90/3,progoti sarani, north</p>
-                        <p>Badda</p>
-                        <p>dhaka-1209</p>
-                    </div>
-                </div>
-            </div>
-            <div class="order-date">
-                <div class="flex-container" style="padding:5px">
-                    <div class="order-date-details">
-                        <h4><span>Quotation No:</span> <span>1928828</span></h4>
-                        <h4><span>Date:</span> <span>April 14, 2021</span></h4>
-                        <h4><span>Expires On:</span> <span>April 14, 2021</span></h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-12" style="width: 100%;">
-                <table class="inv_table" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Items</th>
-                            <th>Quantity</th>
-                            <th>Rate / Unit</th>
-                            <th>Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <h5>3/4" Meghalaya Crushed Stone Chips</h5>
-                                <p>This product</p>
-                            </td>
-                            <td>
-                                36,000
-                            </td>
-                            <td>
-                                192.00
-                            </td>
-                            <td>
-                                6,91,2000.00
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h5>3/4" Meghalaya Crushed Stone Chips</h5>
-                                <p>This product</p>
-                            </td>
-                            <td>
-                                36,000
-                            </td>
-                            <td>
-                                192.00
-                            </td>
-                            <td>
-                                6,91,2000.00
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h5>3/4" Meghalaya Crushed Stone Chips</h5>
-                                <p>This product</p>
-                            </td>
-                            <td>
-                                36,000
-                            </td>
-                            <td>
-                                192.00
-                            </td>
-                            <td>
-                                6,91,2000.00
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td></td>
-                            <td colspan="2"><b>Subtoal:</b></td>
-                            <td>6,90,15265</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td colspan="2">Source Tax 4%:</td>
-                            <td>6,90,15265</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td colspan="2">Vat 7.5%:</td>
-                            <td>90,15265</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td colspan="2">
-                                <b>Total:</b>
-                            </td>
-                            <td>
-                                90,15265
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td colspan="2">
-                                <b>Grand Total (BDT):</b>
-                            </td>
-                            <td>
-                                <b>90,15265</b>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+                <div style="clear: both;"></div>
             </div>
 
-        </div>
+            <div class="line"></div>
 
-        <div class="row">
-
-            <div class="terms">
-                <div class="flex-container">
-                    <div class="terms-details">
-                        <h4>Notes/Terms</h4>
-                        <p> <span>01.</span> <span>This Price Excluding All Kind of Tax</span></p>
-                        <p> <span>02.</span> <span>This Price Including Transport & Unloading Bill</span></p>
-                        <p>
-                            <span>03.</span>
-                            <span>The bill must be paid within 07 days from the date of submis extra charge
-                                at the rate of BDT 500.00 per day owing to the </span>
+            {{-- <div class="row" style="display: flex;"> --}}
+            <div style="padding: 20px 30px 0px 30px;">
+                <div class="bill-address" style="float: left; width:33%; box-sizing: border-box;">
+                    <h2 class="heading">BILL To</h2>
+                    <h4 class="heading2">humburger</h4>
+                    <span class="heading2p">
+                        <p class="heading2p">
+                            {!! nl2br( $data['quotes']->address ) !!}
                         </p>
-                        <p>
-                            <span>04.</span>
-                            <span>Insite measurement For every 23-foot long track th
-                                e height must be measured by adding an extra 2.5"-3" (inch) for the jumping
-                                shake.</span>
-                        </p>
+                        {{-- <p class="heading2p">jatrabari</p> --}}
+                    </span>
+                </div>
+                <div class="ship-address" style="float: left; width:33%; box-sizing: border-box;">
+                    @if ($data['quotes']->delivery_address)
+                        <h2 class="heading">Ship To</h2>
+                        <h4 class="heading2">humburger</h4>
+                        <span>
+                            <p class="heading2p">
+                                {!! nl2br( $data['quotes']->delivery_address ) !!}
+                            </p>
+                            {{-- <p class="heading2p">jatrabari</p> --}}
+                        </span>
+                    @endif
+
+                </div>
+                <div class="order-date" style="float: right; width:33%;text-align: right; box-sizing: border-box;">
+                    <h4 class="heading4"><span class="heading3">Quotation No:</span> <span class="heading3Details">QOT-406</span></h4>
+                    <h4 class="heading4"><span class="heading3">Date:</span> <span class="heading3Details">2021-08-20</span></h4>
+                    <h4 class="heading4"><span class="heading3">Expires On:</span> <span class="heading3Details">2021-09-20</span></h4>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+
+            <table cellspacing="0" class="inv_table" style="padding-top: 20px;">
+                <thead>
+                    <tr>
+                        <th><span style="line-height: 10px; padding-top: 0px; padding-bottom: 0px; display: inline-block;">Items</span></th>
+                        <th><span style="line-height: 10px; padding-top: 0px; padding-bottom: 0px; display: inline-block;">Quantity</span></th>
+                        <th style="text-align: right;"><span style="line-height: 10px; padding-top: 0px; padding-bottom: 0px; display: block;">Rate / Unit</span></th>
+                        <th style="text-align: right;"><span style="line-height: 10px; padding-top: 0px; padding-bottom: 0px; display: block;">Amount</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($data['related_products'] as $related_product)
+                        <tr>
+                            <td style="padding-left: 30px;">
+                                <h5 style="margin: 0;text-align: left;line-height: 10px;border:font-size: 14px;">
+                                    {{ $related_product->name }}
+                                </h5>
+                                @if ($related_product->description)
+                                    <p style="margin: 0;text-align: left; font-weight: normal;color:#4c5357;line-height: 10px;font-size: 12px;">
+                                        {{ $related_product->description }}
+                                    </p>
+                                @endif
+                            </td>
+                            <td>
+                                <span style="font-weight: normal;"> {{ $related_product->qty }} </span>
+                            </td>
+                            <td>
+                                <span style="font-weight: normal;">
+                                    tk {{ $related_product->unit }}
+                                    @if ($related_product->unit)
+                                        / {{ $related_product->unit }}
+                                    @endif
+                                </span>
+                            </td>
+                            <td>
+                                <span style="font-weight: normal;">tk {{ $related_product->total_price }}</span>
+                            </td>
+                        </tr>
+                    @endforeach
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2" style="border-bottom: 0;"></td>
+                        <td><b>Subtoal:</b></td>
+                        <td>tk {{ $data['quotes']->subtotal }}</td>
+                    </tr>
+                    @foreach (json_decode($data['quotes']->vat) as $vat)
+                        <tr>
+                            <td colspan="2" style="border-bottom: 0;"></td>
+                            <td>{{ $vat->name }} :</td>
+                            <td>tk  {{ number_format($vat->value,2) }}</td>
+                        </tr>
+                    @endforeach
+
+
+                    <tr>
+                        <td colspan="2" style="border-bottom: 0;"></td>
+                        <td><b>Flat Amount:</b></td>
+                        <td>
+                            tk  -{{ $data['quotes']->discount_amount }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="border-bottom: 0;"></td>
+                        <td><b>Total:</b></td>
+                        <td>tk  {{ $data['quotes']->total }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="border-bottom: 0;"></td>
+                        <td><b>Grand Total (BDT):</b></td>
+                        <td><b>tk  {{ $data['quotes']->total }}</b></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div class="row" v-if="quote.document_note" style="padding: 30px 30px 0px 30px;">
+                <div class="terms">
+                    <div class="flex-container">
+                        <div class="terms-details">
+                            <h4 style="margin-bottom: 0px;">Notes/Terms</h4>
+                            <p style="margin-top: 0px; line-height: 14px; font-size: 13px;">
+                                {!! nl2br( $data['quotes']->document_note ) !!}
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <div class="prepared_by" v-if="quote.creator_info" style="
+                height: 47px;
+                position: fixed;
+                bottom: 15px;
+                left: 28px;">
+
+                <h5 style="font-size: 14px; line-height: 14px;margin: 0;margin-bottom: 5px;">
+                    {{ $data['quotes']->assigned_to }}
+                </h5>
+
+                <div>
+                    <h6 style="
+                            font-size: 14px;
+                            line-height: 14px;
+                            margin: 0;
+                            padding-top: 0px;
+                            font-weight: 400;
+                            display: inline-block;
+                            border-top: 1px solid rgb(131, 131, 131);">
+                        prepared by
+                    </h6>
+                </div>
+            </div>
         </div>
-    </div>
 
-
-</body>
+    </body>
 
 </html>

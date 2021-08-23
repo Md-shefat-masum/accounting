@@ -22,6 +22,10 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    public function test_view()
+    {
+        return view('invoice_layouts.quotes_invoice_html');
+    }
     public function index()
     {
         return view('backend.master.admin');

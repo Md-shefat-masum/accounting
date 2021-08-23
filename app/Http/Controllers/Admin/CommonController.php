@@ -267,6 +267,7 @@ class CommonController extends Controller
             $related_product->sales_price = $item->sales_price;
             $related_product->purchase_price = $item->purchase_price;
             $related_product->qty = $item->qty;
+            $related_product->unit = $item->unit;
             if ($type_name == 'saleorders') {
                 $related_product->ordered_qty = $item->qty;
             }
