@@ -36,13 +36,22 @@ class PdfController extends Controller
         $data['quotes'] = $quotes;
         $data['customer'] = Customers::where('id',$quotes->customer_id)->firstOrFail();
         $data['related_products'] = $quotes_products;
+        $data['user'] = Auth::user();
 
         // logo to base 64
-        $path = public_path().'/'.Auth::User()->logo;
-        $type = pathinfo($path, PATHINFO_EXTENSION);
-        $data_path = file_get_contents($path);
-        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data_path);
-        $data['logo'] = $base64;
+        if($data['user']->logo){
+            $path = public_path().'/'.$data['user']->logo;
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data_path = file_get_contents($path);
+            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data_path);
+            $data['logo'] = $base64;
+        }else{
+            $path = public_path().'/pdflogo.png';
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data_path = file_get_contents($path);
+            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data_path);
+            $data['logo'] = $base64;
+        }
 
         // dd($data['quotes']);
         // return view('invoice_layouts.quotes_invoice',compact('data'));

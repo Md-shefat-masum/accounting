@@ -101,6 +101,7 @@
                 font-weight: 400;
                 width: 35%;
                 font-size: 13px;
+                line-height: 10px;
                 display: inline-block;
                 text-align: right;
                 float: right;
@@ -246,13 +247,19 @@
                     <div class="address-details" style="text-align: right;">
                         <h2 class="addressHeading2">QUOTATION</h2>
                         <div>
-                            <h4 class="addressHeading">hungrycoder</h4>
-                            <p class="addressp">218/3/A (3rd floor) West Kafrul,</p>
-                            <p class="addressp">Begum Rokeya Ave,Shwerapara</p>
-                            <p class="addressp">Dhaka 1216</p>
-                            <p class="addressp">Phone: +8809638786786</p>
-                            <p class="addressp">Mobile: +8801712662245</p>
-                            <p class="addressp">www.orika.com.bd</p>
+                            <h4 class="addressHeading">{{ $data['user']->company }}</h4>
+                            @isset(json_decode($data['user']->address)->line1)
+                                <p class="addressp">{{ json_decode($data['user']->address)->line1 }}</p>
+                            @endisset
+                            @isset(json_decode($data['user']->address)->line2)
+                                <p class="addressp">{{ json_decode($data['user']->address)->line2 }}</p>
+                            @endisset
+                            @isset(json_decode($data['user']->address)->line3)
+                                <p class="addressp">{{ json_decode($data['user']->address)->line3 }}</p>
+                            @endisset
+                            <p class="addressp">Phone: {{ $data['user']->phone }}</p>
+                            <p class="addressp">Mobile: {{ $data['user']->mobile }}</p>
+                            <p class="addressp">{{ $data['user']->website }}</p>
                         </div>
                     </div>
                 </div>
