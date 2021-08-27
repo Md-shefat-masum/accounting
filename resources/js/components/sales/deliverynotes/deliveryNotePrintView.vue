@@ -104,7 +104,8 @@
                         <h4>Delivery Informaton</h4>
                         <p v-if="delivery_note.delivery_method"><span>Delivery Method:</span> <span> {{delivery_note.delivery_method}} </span></p>
                         <p v-if="delivery_note.vehicle_number"><span>Vehicle / Truck Number:</span> <span>{{delivery_note.vehicle_number}} </span></p>
-                        <p v-if="delivery_note.operator_name"><span>Operator Number:</span> <span> {{delivery_note.operator_name}}</span></p>
+                        <p v-if="delivery_note.operator_name"><span>Operator Name:</span> <span> {{delivery_note.operator_name}}</span></p>
+                        <p v-if="delivery_note.operator_phone_number"><span>Operator Number:</span> <span> {{delivery_note.operator_phone_number}}</span></p>
                         <p v-if="delivery_note.weight_unit"><span>Truct Measurement:</span> <span> {{delivery_note.weight_unit}}</span></p>
                         <p v-if="delivery_note.delivery_weight"><span>Total Weight:</span> <span>{{delivery_note.delivery_weight}}</span></p>
                     </div>

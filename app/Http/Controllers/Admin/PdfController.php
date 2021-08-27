@@ -100,10 +100,28 @@ class PdfController extends Controller
     {
         $data = [];
         $quotes = Deliverynote::findOrfail($id);
-        $quotes_products = DeliveryNoteProduct::where('delivery_note_id',$id)->with('product_details')->get();
+        $quotes_products = RelatedProduct::where('type_name','delivery_note')->where('type_id',$id)->with('product_details')->get();
         $data['quotes'] = $quotes;
+        $data['customer'] = Customers::where('id',$quotes->customer_id)->firstOrFail();
         $data['related_products'] = $quotes_products;
+        $data['user'] = Auth::user();
 
+        // logo to base 64
+        if($data['user']->logo){
+            $path = public_path().'/'.$data['user']->logo;
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data_path = file_get_contents($path);
+            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data_path);
+            $data['logo'] = $base64;
+        }else{
+            $path = public_path().'/pdflogo.png';
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data_path = file_get_contents($path);
+            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data_path);
+            $data['logo'] = $base64;
+        }
+
+        // return view('invoice_layouts.delivery_notes_invoice',compact('data'));
         $load_html = view('invoice_layouts.delivery_notes_invoice',compact('data'))->render();
         $pdf = PDF::loadHtml($load_html)->setOptions(['defaultFont' => 'sans-serif']);
 
@@ -135,10 +153,28 @@ class PdfController extends Controller
     {
         $data = [];
         $quotes = Invoices::findOrfail($id);
-        $quotes_products = InvoiceProduct::where('invoice_id',$id)->with('product_details')->get();
+        $quotes_products = RelatedProduct::where('type_name','invoices')->where('type_id',$id)->with('product_details')->get();
         $data['quotes'] = $quotes;
+        $data['customer'] = Customers::where('id',$quotes->customer_id)->firstOrFail();
         $data['related_products'] = $quotes_products;
+        $data['user'] = Auth::user();
 
+        // logo to base 64
+        if($data['user']->logo){
+            $path = public_path().'/'.$data['user']->logo;
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data_path = file_get_contents($path);
+            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data_path);
+            $data['logo'] = $base64;
+        }else{
+            $path = public_path().'/pdflogo.png';
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data_path = file_get_contents($path);
+            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data_path);
+            $data['logo'] = $base64;
+        }
+
+        // return view('invoice_layouts.invoice_product_invoice',compact('data'));
         $load_html = view('invoice_layouts.invoice_product_invoice',compact('data'))->render();
         $pdf = PDF::loadHtml($load_html)->setOptions(['defaultFont' => 'sans-serif']);
 
@@ -170,12 +206,29 @@ class PdfController extends Controller
     {
         $data = [];
         $quotes = Saleorders::findOrfail($id);
-        $quotes_products = SaleOrderProduct::where('sale_order_id',$id)->with('product_details')->get();
+        $quotes_products = RelatedProduct::where('type_name','saleorders')->where('type_id',$id)->with('product_details')->get();
         $data['quotes'] = $quotes;
+        $data['customer'] = Customers::where('id',$quotes->customer_id)->firstOrFail();
         $data['related_products'] = $quotes_products;
+        $data['user'] = Auth::user();
+
+        // logo to base 64
+        if($data['user']->logo){
+            $path = public_path().'/'.$data['user']->logo;
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data_path = file_get_contents($path);
+            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data_path);
+            $data['logo'] = $base64;
+        }else{
+            $path = public_path().'/pdflogo.png';
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data_path = file_get_contents($path);
+            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data_path);
+            $data['logo'] = $base64;
+        }
 
         $load_html = view('invoice_layouts.saleorder_invoice',compact('data'))->render();
-        $pdf = PDF::loadHtml($load_html)->setOptions(['defaultFont' => 'sans-serif']);
+        $pdf = PDF::loadHtml($load_html);
 
         $files = glob(public_path().'/invoice_pdf/*'); //get all file names
         foreach($files as $file){
@@ -208,6 +261,26 @@ class PdfController extends Controller
         $Receipts_split = ReceiptSplit::where('receipt_id',$id)->get();
         $data['quotes'] = $Receipts;
         $data['related_splits'] = $Receipts_split;
+        $data['customer'] = Customers::where('id',$Receipts->customer_id)->firstOrFail();
+        $data['user'] = Auth::user();
+
+        // logo to base 64
+        if($data['user']->logo){
+            $path = public_path().'/'.$data['user']->logo;
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data_path = file_get_contents($path);
+            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data_path);
+            $data['logo'] = $base64;
+        }else{
+            $path = public_path().'/pdflogo.png';
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data_path = file_get_contents($path);
+            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data_path);
+            $data['logo'] = $base64;
+        }
+
+        // dd($data);
+        // return view('invoice_layouts.receipt_invoice',compact('data'));
 
         $load_html = view('invoice_layouts.receipt_invoice',compact('data'))->render();
         $pdf = PDF::loadHtml($load_html)->setOptions(['defaultFont' => 'sans-serif']);

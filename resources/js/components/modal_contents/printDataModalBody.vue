@@ -138,6 +138,10 @@
                     url = '/api/print-pdf/delivery_note/';
                     file_name = `Delivery Note- #${this.selected_data.code} ${today_date} ${parseInt(Math.random()*1000000)}`;
                 }
+                else if(this.type == 'invoice'){
+                    url = '/api/print-pdf/invoice/';
+                    file_name = `Invoice- #${this.selected_data.code} ${today_date} ${parseInt(Math.random()*1000000)}`;
+                }
                 else if(this.type == 'receipt'){
                     url = '/api/print-pdf/receipt/';
                     file_name = `Sales Recipts- #${this.selected_data.code} ${today_date} ${parseInt(Math.random()*1000000)}`;

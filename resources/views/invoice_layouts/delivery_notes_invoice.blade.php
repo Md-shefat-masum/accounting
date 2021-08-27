@@ -1,237 +1,519 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
+    <head>
+        <meta charset="U+09F3" />
+        <meta name="viewport"  content="width=device-width, initial-scale=1.0" />
+        {{-- <meta http-equiv="Content-Type" content="text/html; charset=U+09F3; "/> --}}
+        <title>DELIVERY NOTE</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delivery Notes</title>
-</head>
+        <style>
+            /* @font-face {
+                font-family: 'Averta';
+                font-weight: normal;
+                font-style: normal;
+                font-variant: normal;
+                src: url("{{asset('')}}fonts/Averta-Regular.woff2") format("woff2"), url("{{asset('')}}fonts/Averta-Regular.woff") format("woff");
+            } */
+            /* @font-face {
+                font-family: "Averta";
+                src: url("{{storage_path()}}/fonts/Averta-RegularItalic.woff2") format("woff2"), url("storage_path()}}/fonts/Averta-RegularItalic.woff") format("woff");
+                font-weight: normal;
+                font-style: italic;
+                font-display: swap;
+            } */
+            /* @font-face {
+                font-family: "Averta";
+                src: url("/fonts/Averta-Regular.woff2") format("woff2"), url("/fonts/Averta-Regular.woff") format("woff");
+                font-weight: normal;
+                font-style: normal;
+                font-display: swap;
+            } */
+            /*@font-face {
+                font-family: "Averta";
+                src: url("storage_path()}}/fonts/Averta-Semibold.woff2") format("woff2"), url("storage_path()}}/fonts/Averta-Semibold.woff") format("woff");
+                font-weight: 600;
+                font-style: normal;
+                font-display: swap;
+            }
+            @font-face {
+                font-family: "Averta";
+                src: url("storage_path()}}/fonts/Averta-SemiboldItalic.woff2") format("woff2"), url("storage_path()}}/fonts/Averta-SemiboldItalic.woff") format("woff");
+                font-weight: 600;
+                font-style: italic;
+                font-display: swap;
+            }
+            @font-face {
+                font-family: "Averta";
+                src: url("storage_path()}}/fonts/Averta-Bold.woff2") format("woff2"), url("storage_path()}}/fonts/Averta-Bold.woff") format("woff");
+                font-weight: bold;
+                font-style: normal;
+                font-display: swap;
+            }
+            @font-face {
+                font-family: "Averta";
+                src: url("storage_path()}}/fonts/Averta-BoldItalic.woff2") format("woff2"), url("storage_path()}}/fonts/Averta-BoldItalic.woff") format("woff");
+                font-weight: bold;
+                font-style: italic;
+                font-display: swap;
+            } */
+            body {
+                padding: 0;
+                margin: 0;
+                outline: 0;
+                margin: 0 auto;
+                /* font-family: Averta; */
+                font-family: 'Heebo'!important;
+            }
 
-<body>
-    <section>
-        <h3 class="heading">Delivery Notes</h3>
-    </section>
-    <section class="my-1">
-        <div class="left">
-            <h4>{{ $data['quotes']->customer }}</h4>
-            <ul>
-                <li>Teton Road</li>
-                <li>14</li>
-                <li>Vughan On 1444</li>
-                <li>CANADA</li>
-            </ul>
-        </div>
-        <div class="right">
-            <ul>
-                <li>no.QOT-00{{$data['quotes']->id}}</li>
-                <li>{{$data['quotes']->date}}</li>
-                <li><b>Expire on {{$data['quotes']->expiration_date}}</b></li>
-                <li><b>{{$data['quotes']->payment_terms}}</b></li>
-            </ul>
-        </div>
-        <div class="clearfix"></div>
-    </section>
-    <section class="my-1">
-        <div class="left">
-            <u>Billing Address</u>
-            <ul>
-                <li>
-                    <h4>{{ Auth::user()->name }}</h4>
-                </li>
-                <li>{{ $data['quotes']->address }}</li>
-            </ul>
-        </div>
-        <div class="right">
-            <u>Shipping Address</u>
-            <ul>
-                <li>
-                    @if ($data['quotes']->delivery_contact)
-                        <h4>{{ $data['quotes']->delivery_contact }}</h4>
-                    @else
-                        <h4>{{ Auth::user()->name }}</h4>
+            .heading{
+                margin: 10px 0px 5px 0px;
+                color: #8C959A;
+                font-size: 14px;
+                line-height: 10px;
+                font-weight: 400;
+                text-transform: uppercase;
+            }
+
+            .heading2{
+                margin: 5px 0px;
+                font-size: 14px;
+                text-transform: capitalize;
+                line-height: 10px;
+            }
+            .heading2p{
+                margin: 0px;
+                font-size: 14px;
+                line-height: 10px;
+            }
+
+            .heading3{
+                margin: 0px 0px;
+                font-size: 14px;
+                display: inline-block;
+                text-align: right;
+                width: 65%;
+            }
+
+            .heading3Details{
+                font-weight: 400;
+                width: 35%;
+                font-size: 13px;
+                line-height: 10px;
+                display: inline-block;
+                text-align: right;
+                float: right;
+            }
+
+            .heading4{
+                margin: 0px 0px;
+                display: block;
+                line-height: 12px;
+            }
+
+            .addressHeading2{
+                margin: 0px 0px 0px 0px;
+                font-size: 36px;
+                font-weight: 400;
+                line-height: 30px;
+            }
+
+            .addressHeading{
+                margin: 10px 0px 0px 0px;
+                font-size: 14px;
+                line-height: 10px;
+            }
+
+            .addressp{
+                margin: 3px 0px;
+                font-size: 14px;
+                line-height: 10px;
+            }
+
+            .inv_table{
+                width: 100%;
+                text-align: center;
+            }
+
+            .inv_table thead{
+                background-color: #444444;
+                color: white;
+                text-transform: uppercase;
+                font-size: 14px;
+                line-height: 10px;
+            }
+
+            .inv_table td{
+                border-bottom: 1px solid #d4dde3;
+            }
+
+            .inv_table th{
+                border-bottom: 0;
+            }
+
+            .inv_table tfoot td:first-child{
+                border-bottom: 0;
+            }
+            .inv_table tfoot td:nth-child(2){
+                text-align: right;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            .inv_table th{
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+            .inv_table tbody td,
+            .inv_table tfoot td{
+                padding-top: 5px;
+                padding-bottom: 5px;
+                font-size: 14px;
+            }
+
+            .inv_table th{
+                font-weight: 600;
+                font-family: sans-serif;
+            }
+            .inv_table td:first-child,
+            .inv_table th:first-child{
+                text-align: left;
+                padding-left: 30px;
+            }
+            .inv_table td:nth-child(2),
+            .inv_table th:nth-child(2){
+                width: 110px;
+            }
+            .inv_table td:nth-child(3),
+            .inv_table th:nth-child(3){
+                text-align: right;
+                padding-left: 15px;
+                padding-right: 15px;
+                width: 160px;
+                box-sizing: border-box;
+            }
+            .inv_table td:last-child,
+            .inv_table th:last-child{
+                width: 118px;
+                padding-right: 30px;
+                text-align: right;
+                box-sizing: border-box;
+            }
+
+            .inv_table tbody td h5{
+                /* font-weight: 600; */
+                text-align: left;
+                font-size: 14px;
+                line-height: 18px;
+                margin: 0;
+                text-transform: capitalize;
+            }
+
+            .inv_table tbody td:first-child p{
+                color: #4c5357;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 18px;
+                margin: 0;
+                text-align: left;
+            }
+
+            @page {
+                margin: 0px;
+                size: A4;
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <div class="main print_view" id="content">
+
+            <div style="padding: 16px 30px 0px 30px;">
+                <div class="logo" style="float:left; width: 48%; box-sizing: border-box;">
+                    <div style="
+                        height: 50px;
+                        width: 200px;
+                        background-repeat: no-repeat;
+                        background-size: 100%;
+                        background-position: left center;
+                        background-image: url('{{$data['logo']}}')">
+                    </div>
+                </div>
+                <div class="address" style="float:right;width: 48%; box-sizing: border-box;">
+                    <div class="address-details" style="text-align: right;">
+                        <h2 class="addressHeading2">DELIVERY NOTE</h2>
+                        <div>
+                            <p class="addressp">no. <b>{{$data['quotes']->code}}</b></p>
+                            <p class="addressp">{{$data['quotes']->date}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+
+            <div style="padding: 16px 30px 0px 30px;">
+                <div class="address" style="float:left;width: 100%; box-sizing: border-box;">
+                    <div class="address-details" style="text-align: left;">
+                        <div>
+                            <h4 class="addressHeading">{{ $data['user']->company }}</h4>
+                            @isset(json_decode($data['user']->address)->line1)
+                                <p class="addressp">{{ json_decode($data['user']->address)->line1 }}</p>
+                            @endisset
+                            @isset(json_decode($data['user']->address)->line2)
+                                <p class="addressp">{{ json_decode($data['user']->address)->line2 }}</p>
+                            @endisset
+                            @isset(json_decode($data['user']->address)->line3)
+                                <p class="addressp">{{ json_decode($data['user']->address)->line3 }}</p>
+                            @endisset
+                            <p class="addressp">Phone: {{ $data['user']->phone }}</p>
+                            <p class="addressp">Mobile: {{ $data['user']->mobile }}</p>
+                            <p class="addressp">{{ $data['user']->website }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+
+            <div class="line"></div>
+
+            {{-- <div class="row" style="display: flex;"> --}}
+            <div style="padding: 10px 30px 0px 30px;">
+                <div class="bill-address" style="float: left; width:33%; box-sizing: border-box;">
+                    <h2 class="heading">BILL To</h2>
+                    <h4 class="heading2">humburger</h4>
+                    <span class="heading2p">
+                        <p class="heading2p">
+                            {!! nl2br( $data['quotes']->address ) !!}
+                        </p>
+                        {{-- <p class="heading2p">jatrabari</p> --}}
+                    </span>
+                </div>
+                <div class="ship-address" style="float: left; width:33%; box-sizing: border-box;">
+                    @if ($data['quotes']->delivery_address)
+                        <h2 class="heading">Ship To</h2>
+                        <h4 class="heading2">humburger</h4>
+                        <span>
+                            <p class="heading2p">
+                                {!! nl2br( $data['quotes']->delivery_address ) !!}
+                            </p>
+                            {{-- <p class="heading2p">jatrabari</p> --}}
+                        </span>
                     @endif
-                </li>
-                @if ($data['quotes']->delivery_address)
-                    <li>
-                        {{ $data['quotes']->delivery_address }}
-                    </li>
-                @else
-                    <li>
-                        {{ $data['quotes']->address }}
-                    </li>
-                @endif
-            </ul>
-        </div>
-        <div class="clearfix"></div>
-    </section>
-    <section>
-        <table>
-            <thead>
-                <tr>
-                    <th class="r-1">Item name &amp; Description</th>
-                    <th>VAT</th>
-                    <th>Qty.</th>
-                    <th>Unit price</th>
-                    <th style="text-align: right;">Amout</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($data['related_products'] as $item)
-                    @php
-                        $item = (object) $item;
-                    @endphp
-                    @if ($item->product_details)
+
+                </div>
+                {{-- <div class="order-date" style="float: right; width:33%;text-align: right; box-sizing: border-box;">
+                    <h4 class="heading4"><span class="heading3">Quotation No:</span> <span class="heading3Details">{{$data['quotes']->code}}</span></h4>
+                    <h4 class="heading4"><span class="heading3">Date:</span> <span class="heading3Details">{{$data['quotes']->date}}</span></h4>
+                    <h4 class="heading4"><span class="heading3">Expires On:</span> <span class="heading3Details">{{$data['quotes']->end_of_delivery}}</span></h4>
+                </div> --}}
+                <div style="clear: both;"></div>
+            </div>
+            <p style="text-align: right; padding-right: 15px;margin: 0;font-size: 14px;">
+                <b>PO#: {{$data['quotes']->po_number}}</b>
+            </p>
+            <table cellspacing="0" class="inv_table" style="padding-top: 10px;">
+                <thead>
+                    <tr>
+                        <th><span style="line-height: 10px; padding-top: 0px; padding-bottom: 0px; display: inline-block;">Item name & description</span></th>
+                        <th><span style="line-height: 10px; padding-top: 0px;text-align: center; padding-bottom: 0px; display: block;">Unit</span></th>
+                        <th style="text-align: right;"><span style="line-height: 10px; padding-top: 0px; padding-bottom: 0px; display: block;">Qty.Ordered</span></th>
+                        <th style="text-align: right;"><span style="line-height: 10px; padding-top: 0px; padding-bottom: 0px; display: block;">Qty.Delivered</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($data['related_products'] as $related_product)
                         <tr>
-                            <td class="r-1">
-                                <ul>
-                                    <li>{{ $item->product_details->code }} {{ $item->product_details->name }}</li>
-                                    <li>{{ $item->description }}</li>
-                                </ul>
+                            <td style="padding-left: 30px;">
+                                <h5 style="margin: 0;text-align: left;line-height: 10px;border:font-size: 14px;">
+                                    {{ $related_product->name }}
+                                </h5>
+                                @if ($related_product->description)
+                                    <p style="margin: 0;text-align: left; font-weight: normal;color:#4c5357;line-height: 10px;font-size: 12px;">
+                                        {{ $related_product->description }}
+                                    </p>
+                                @endif
                             </td>
-                            <td> {{ $item->disc }}% </td>
-                            <td> {{ $item->qty }} </td>
-                            <td> {{ number_format($item->sales_price,2) }} TK / {{ $item->product_details->unit }} </td>
-                            <td style="text-align: right;"> {{ number_format($item->total_price,2) }} TK </td>
+                            <td>
+                                <span style="font-weight: normal;text-align: center;"> {{ $related_product->unit }} </span>
+                            </td>
+                            <td>
+                                <span style="font-weight: normal;"> {{ $related_product->ordered_qty>0?$related_product->ordered_qty:'--' }} </span>
+                            </td>
+                            <td>
+                                <span style="font-weight: normal;">
+                                    {{-- tk {{ $related_product->unit }}
+                                    @if ($related_product->unit)
+                                        / {{ $related_product->unit }}
+                                    @endif --}}
+                                    {{ $related_product->qty }}
+                                </span>
+                            </td>
                         </tr>
-                    @endif
-                    
-                @endforeach
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td></td>
-                    <th colspan="2">Subtotal</th>
-                    <th colspan="2" style="text-align: right;">{{ number_format($data['quotes']->subtotal) }} TK</th>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td colspan="2">Discount ( {{ $data['quotes']->discount_rate }}% )</td>
-                    <td colspan="2" style="text-align: right;">{{ number_format($data['quotes']->discount_amount,2) }} TK</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td colspan="2">Vat</td>
-                    <td colspan="2" style="text-align: right;">{{ number_format($data['quotes']->vat,2) }} TK</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <th colspan="2">TOTAL</th>
-                    <th colspan="2" style="text-align: right;">{{ number_format($data['quotes']->total,2) }} TK</th>
-                </tr>
-            </tfoot>
-        </table>
-    </section>
-    <section>
-        <h6>Payment Infomation</h6>
-        <hr>
-        <p class="doc_des">
-            {{ $data['quotes']->description }} 
-        </p>
+                    @endforeach
 
-    </section>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2" style="border-bottom: 0;"></td>
+                        <td><b>Total Items:</b></td>
+                        <td>{{ count( $data['related_products'] ) }}</td>
+                    </tr>
+                </tfoot>
+            </table>
 
-    <style>
-        *,
-        body {
-            outline: 0;
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-            font-family: sans-serif;
-        }
-        ul li{
-            list-style-type: none;
-            font-size: 13px;
-            padding: 2px 0px;
-        }
-        body{
-            padding: 30px;
-        }
+            <div style="padding: 16px 30px 0px 30px;">
+                <div class="address" style="float:left;width: 100%; box-sizing: border-box;">
+                    <div class="address-details" style="text-align: left;">
+                        <div>
+                            <h4 class="addressHeading"
+                                style="
+                                    font-size: 16px;
+                                    line-height: 26px;">
+                                    Delivery Informaton
+                            </h4>
 
-        /* section {
-            border: 1px solid red;
-        } */
+                            <table cellspacing="0" style="font-size: 12px;">
+                                <tr>
+                                    <td>
+                                        <b>Delivery Method:</b>
+                                    </td>
+                                    <td style="width: 2px;">:</td>
+                                    <td>
+                                        {{$data['quotes']->delivery_method}}
+                                    </td>
+                                </tr>
 
-        .heading {
-            text-align: right;
-            text-transform: uppercase;
-        }
+                                <tr>
+                                    <td>
+                                        @if ($data['quotes']->vehicle_number)
+                                            <b>Vehicle / Truck Number:</b>
+                                        @endif
+                                    </td>
+                                    <td style="width: 2px;">:</td>
+                                    <td>
+                                        @if ($data['quotes']->vehicle_number)
+                                            {{$data['quotes']->vehicle_number}}
+                                        @endif
+                                    </td>
+                                </tr>
 
-        .left {
-            float: left;
-            width: 50%;
-            overflow: hidden;
-        }
+                                <tr>
+                                    <td>
+                                        @if ($data['quotes']->operator_name)
+                                            <b>Operator Name:</b>
+                                        @endif
+                                    </td>
+                                    <td style="width: 2px;">:</td>
+                                    <td>
+                                        @if ($data['quotes']->operator_name)
+                                            {{$data['quotes']->operator_name}}
+                                        @endif
+                                    </td>
+                                </tr>
 
-        .right {
-            float: right;
-            text-align: right;
-            width: 50%;
-            overflow: hidden;
-        }
+                                <tr>
+                                    <td>
+                                        @if ($data['quotes']->operator_phone_number)
+                                            <b>Operator Number:</b>
+                                        @endif
+                                    </td>
+                                    <td style="width: 2px;">:</td>
+                                    <td>
+                                        @if ($data['quotes']->operator_phone_number)
+                                             {{$data['quotes']->operator_phone_number}}
+                                        @endif
+                                    </td>
+                                </tr>
 
-        .clearfix {
-            clear: both;
-        }
+                                <tr>
+                                    <td>
+                                        @if ($data['quotes']->weight_unit)
+                                            <b>Truct Measurement:</b>
+                                        @endif
+                                    </td>
+                                    <td style="width: 2px;">:</td>
+                                    <td>
+                                        @if ($data['quotes']->weight_unit)
+                                            {{$data['quotes']->weight_unit}}
+                                        @endif
+                                    </td>
+                                </tr>
 
-        .my-1 {
-            margin: 10px 0px;
-        }
+                                <tr>
+                                    <td>
+                                        @if ($data['quotes']->delivery_weight)
+                                            <b>Total Weight:</b>
+                                        @endif
+                                    </td>
+                                    <td style="width: 2px;">:</td>
+                                    <td>
+                                        @if ($data['quotes']->delivery_weight)
+                                             {{$data['quotes']->delivery_weight}}
+                                        @endif
+                                    </td>
+                                </tr>
+                            </table>
 
-        table {
-            width: 100%;
-            border-spacing: 0;
-        }
 
-        thead {
-            background: rgba(0, 0, 0, .1);
-        }
 
-        th,
-        td {
-            padding: 10px 5px;
-            text-align: left;
-            font-size: 13px;
-            border-collapse: collapse;
-            border-spacing: 0px;
-            border: 0;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
 
-        .r-1 {
-            text-align: left;
-            width: 40%;
-        }
 
-        .r-1.li {
-            text-align: left;
-        }
+                        </div>
+                    </div>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
 
-        tfoot tr td,
-        tfoot tr th {
-            border: 0;
-            padding: 10px 5px;
-        }
+            <div style="
+                        position: absolute;
+                        width: 100vw;
+                        padding-left: 30px;
+                        bottom: 0;">
+                <p>this is software generated</p>
+            </div>
 
-        h6 {
-            font-size: 16px;
-            padding: 10px 0px;
-        }
+            {{-- <div class="row" v-if="quote.document_note" style="padding: 30px 30px 0px 30px;">
+                <div class="terms">
+                    <div class="flex-container">
+                        <div class="terms-details">
+                            <h4 style="margin-bottom: 0px;">Notes/Terms</h4>
+                            <p style="margin-top: 0px; line-height: 14px; font-size: 13px;">
+                                {!! nl2br( $data['quotes']->document_note ) !!}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
 
-        hr{
-            width: 50%;
-        }
+            {{-- <div class="prepared_by" v-if="quote.creator_info" style="
+                height: 47px;
+                position: fixed;
+                bottom: 15px;
+                left: 28px;">
 
-        .doc_des{
-            line-height: 24px;
-            font-size: 15px;
-        }
+                <h5 style="font-size: 14px; line-height: 14px;margin: 0;margin-bottom: 5px;">
+                    {{ $data['quotes']->assigned_to }}
+                </h5>
 
-        h4{
-            padding: 2px 0px;
-        }
+                <div>
+                    <h6 style="
+                            font-size: 14px;
+                            line-height: 14px;
+                            margin: 0;
+                            padding-top: 0px;
+                            font-weight: 400;
+                            display: inline-block;
+                            border-top: 1px solid rgb(131, 131, 131);">
+                        prepared by
+                    </h6>
+                </div>
+            </div> --}}
+        </div>
 
-    </style>
-</body>
+    </body>
 
 </html>

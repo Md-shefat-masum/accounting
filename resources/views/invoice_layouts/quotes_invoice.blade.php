@@ -294,9 +294,9 @@
 
                 </div>
                 <div class="order-date" style="float: right; width:33%;text-align: right; box-sizing: border-box;">
-                    <h4 class="heading4"><span class="heading3">Quotation No:</span> <span class="heading3Details">QOT-406</span></h4>
-                    <h4 class="heading4"><span class="heading3">Date:</span> <span class="heading3Details">2021-08-20</span></h4>
-                    <h4 class="heading4"><span class="heading3">Expires On:</span> <span class="heading3Details">2021-09-20</span></h4>
+                    <h4 class="heading4"><span class="heading3">Quotation No:</span> <span class="heading3Details">{{$data['quotes']->code}}</span></h4>
+                    <h4 class="heading4"><span class="heading3">Date:</span> <span class="heading3Details">{{$data['quotes']->date}}</span></h4>
+                    <h4 class="heading4"><span class="heading3">Expires On:</span> <span class="heading3Details">{{$data['quotes']->expiration_date}}</span></h4>
                 </div>
                 <div style="clear: both;"></div>
             </div>

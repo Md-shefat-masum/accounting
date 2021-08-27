@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex';
 export default {
     props:['data_info'],
     data: function(){
@@ -59,6 +60,9 @@ export default {
             })
     },
     methods: {
+        ...mapMutations([
+            'get_pdf_link',
+        ]),
         sentMail: function(){
             let data = {
                 email: this.email,
@@ -73,6 +77,11 @@ export default {
                     alert('mail has been sent successfuly.');
                 })
         },
+    },
+    computed: {
+        ...mapGetters([
+            'get_pdf_link'
+        ])
     }
 }
 </script>
