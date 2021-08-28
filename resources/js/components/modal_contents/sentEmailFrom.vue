@@ -61,7 +61,7 @@ export default {
     },
     methods: {
         ...mapMutations([
-            'get_pdf_link',
+            'set_pdf_link',
         ]),
         sentMail: function(){
             let data = {

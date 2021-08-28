@@ -69,6 +69,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters, mapMutations } from 'vuex';
     import DeliveryNotePrintView from '../sales/deliverynotes/deliveryNotePrintView.vue';
     import InvoicePrintView from '../sales/invoices/invoicePrintView.vue';
     import quotePrintView from '../sales/quotes/quotePrintView.vue';
@@ -93,9 +94,52 @@
                 email_show : false,
                 email_data : '',
                 email_render: Math.random(),
+                file_name: '',
+                file_url: '',
             }
         },
+        created: function(){
+            this.set_pdf_link('');
+            this.set_file_name();
+        },
         methods: {
+            ...mapMutations([
+                'set_pdf_link',
+            ]),
+            set_file_name: function(){
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var yyyy = today.getFullYear();
+                let today_date =  dd + '-' + mm + '-' + yyyy ;
+
+                if(this.type == 'quotation'){
+                    this.file_url = '/api/print-pdf/quotation/';
+                    this.file_name = `Quote- #${this.selected_data.code} ${today_date} ${parseInt(Math.random()*1000000)}`;
+                }
+                else if(this.type == 'sales_order'){
+                    this.file_url = '/api/print-pdf/saleorder/';
+                    this.file_name = `Sales Order- #${this.selected_data.code} ${today_date} ${parseInt(Math.random()*1000000)}`;
+                }
+                else if(this.type == 'deliverynote'){
+                    this.file_url = '/api/print-pdf/delivery_note/';
+                    this.file_name = `Delivery Note- #${this.selected_data.code} ${today_date} ${parseInt(Math.random()*1000000)}`;
+                }
+                else if(this.type == 'invoice'){
+                    this.file_url = '/api/print-pdf/invoice/';
+                    this.file_name = `Invoice- #${this.selected_data.code} ${today_date} ${parseInt(Math.random()*1000000)}`;
+                }
+                else if(this.type == 'receipt'){
+                    this.file_url = '/api/print-pdf/receipt/';
+                    this.file_name = `Sales Recipts- #${this.selected_data.code} ${today_date} ${parseInt(Math.random()*1000000)}`;
+                }
+                else {
+                    this.file_url = null;
+                    this.file_name = '';
+                }
+
+                this.set_pdf_link(this.file_url);
+            },
             edit: function(quote_id){
                 $('#printModal').modal('hide');
                 this.edit_content(this.selected_data.id);
@@ -118,45 +162,13 @@
                 setTimeout(function(){newWin.close();},1000);
             },
             download_pdf: function(){
-                let url = null;
-                let file_name = '';
-                var today = new Date();
-                var dd = String(today.getDate()).padStart(2, '0');
-                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-                var yyyy = today.getFullYear();
-                let today_date =  dd + '-' + mm + '-' + yyyy ;
 
-                if(this.type == 'quotation'){
-                    url = '/api/print-pdf/quotation/';
-                    file_name = `Quote- #${this.selected_data.code} ${today_date} ${parseInt(Math.random()*1000000)}`;
-                }
-                else if(this.type == 'sales_order'){
-                    url = '/api/print-pdf/saleorder/';
-                    file_name = `Sales Order- #${this.selected_data.code} ${today_date} ${parseInt(Math.random()*1000000)}`;
-                }
-                else if(this.type == 'deliverynote'){
-                    url = '/api/print-pdf/delivery_note/';
-                    file_name = `Delivery Note- #${this.selected_data.code} ${today_date} ${parseInt(Math.random()*1000000)}`;
-                }
-                else if(this.type == 'invoice'){
-                    url = '/api/print-pdf/invoice/';
-                    file_name = `Invoice- #${this.selected_data.code} ${today_date} ${parseInt(Math.random()*1000000)}`;
-                }
-                else if(this.type == 'receipt'){
-                    url = '/api/print-pdf/receipt/';
-                    file_name = `Sales Recipts- #${this.selected_data.code} ${today_date} ${parseInt(Math.random()*1000000)}`;
-                }
-                else {
-                    url = null;
-                    file_name = '';
-                }
-
-                if(url){
-                    axios.get(url+this.selected_data.id)
+                if(this.file_url){
+                    axios.get(this.file_url+this.selected_data.id)
                         .then((res)=>{
                             const link = document.createElement('a');
                             link.href = res.data;
-                            link.setAttribute("download", file_name);
+                            link.setAttribute("download", this.file_name);
                             link.click();
                         })
                 }
@@ -166,7 +178,13 @@
                 this.email_show = !this.email_show;
                 this.email_render = Math.random();
                 this.email_data = this.selected_data;
+                console.log(this.get_pdf_link());
             }
+        },
+        computed:{
+            ...mapGetters([
+                'get_pdf_link',
+            ])
         }
     };
 </script>
