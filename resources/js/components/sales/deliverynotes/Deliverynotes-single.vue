@@ -136,7 +136,10 @@
                 });
             },
             go_to_note_list: function(){
-                this.$router.push({name: 'deliveryNoteList'});
+                // console.log(this.$router.resolve({name: 'deliveryNoteList'}));
+                if(location.pathname != this.$router.resolve({name: 'deliveryNoteList'}).href){
+                    this.$router.push({name: 'deliveryNoteList'});
+                }
             },
             setFormData: function(form_data){
                 this.form = form_data;

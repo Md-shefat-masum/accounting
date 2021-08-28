@@ -100,11 +100,20 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
         },
         created: function(){
             this.set_pdf_link('');
-            this.set_file_name();
+            this.set_pdf_name('');
+        },
+        watch: {
+            selected_data: {
+                handler: function(val){
+                    this.set_file_name();
+                },
+                deep: true,
+            }
         },
         methods: {
             ...mapMutations([
                 'set_pdf_link',
+                'set_pdf_name',
             ]),
             set_file_name: function(){
                 var today = new Date();
@@ -138,7 +147,9 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
                     this.file_name = '';
                 }
 
-                this.set_pdf_link(this.file_url);
+                console.log(this.selected_data);
+                this.set_pdf_name(this.file_name);
+                this.set_pdf_link(`${window.location.origin}/mail-invoice-download/${this.type}/${this.selected_data.id}?invoice_name=${this.file_name.replaceAll('#','')}`);
             },
             edit: function(quote_id){
                 $('#printModal').modal('hide');
@@ -178,7 +189,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
                 this.email_show = !this.email_show;
                 this.email_render = Math.random();
                 this.email_data = this.selected_data;
-                console.log(this.get_pdf_link());
+                // console.log(this.get_pdf_link);
             }
         },
         computed:{

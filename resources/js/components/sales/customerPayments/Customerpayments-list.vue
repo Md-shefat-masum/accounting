@@ -198,12 +198,12 @@
                                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                                     </a>
                                                     <div class="dropdown-menu">
-                                                        <a class="dropdown-item waves-effect waves-light" href="#" @click="printData(customer_payment.id)">Print</a>
-                                                        <hr style="margin: 2px 0;">
+                                                        <!-- <a class="dropdown-item waves-effect waves-light" href="#" @click="printData(customer_payment.id)">Print</a> -->
+                                                        <!-- <hr style="margin: 2px 0;"> -->
 
                                                         <!-- <a class="dropdown-item waves-effect waves-light" href="#/product/edit">Receive Payment</a> -->
-                                                        <hr style="margin: 2px 0;">
-                                                        <a class="dropdown-item waves-effect waves-light" href="#"  @click="sentMail(customer_payment.id)">Send by Email</a>
+                                                        <!-- <hr style="margin: 2px 0;"> -->
+                                                        <!-- <a class="dropdown-item waves-effect waves-light" href="#"  @click="sentMail(customer_payment.id)">Send by Email</a> -->
                                                         <a class="dropdown-item waves-effect waves-light" href="#" @click="print_customerpayments(customer_payment.id)">Export as PDF</a>
                                                         <a class="dropdown-item text-danger waves-effect waves-light" href="#" @click="deleteCustomerPayment(customer_payment.id)">Delete</a>
                                                     </div>

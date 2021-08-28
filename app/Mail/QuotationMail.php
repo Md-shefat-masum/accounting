@@ -31,7 +31,7 @@ class QuotationMail extends Mailable
      */
     public function build()
     {
-        
+
         return $this->view('emails.quotationEmail')
                     ->attach(public_path($this->invoice_link), [
                          'as' => 'quotation.pdf',

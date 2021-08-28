@@ -180,12 +180,7 @@
                                         </td>
                                         <td class="text-center">
                                             <div class="ellipsis" @click="editDeliveryNote(deliverynote.id)">
-                                                <div class="label-light-info" v-if="deliverynote.status == 'not delivered'">{{deliverynote.status}}</div>
-                                                <div v-else>
-                                                    <!-- <span class="custom_status_color">delivered</span> -->
-                                                    <span class="label-light-success" v-if="deliverynote.sales_log && deliverynote.sales_log.is_delivery_note">ordered</span>
-                                                    <span class="label-light-info" v-if="deliverynote.sales_log && deliverynote.sales_log.is_invoice">invoiced</span>
-                                                </div>
+                                                <span class="label-light-info" v-if="deliverynote.sales_log && deliverynote.sales_log.is_invoice">invoiced</span>
                                             </div>
                                             <!-- <div class="ellipsis" @click="editDeliveryNote(deliverynote.id)">
                                                 <div class="badge col-red">{{deliverynote.status}}</div>

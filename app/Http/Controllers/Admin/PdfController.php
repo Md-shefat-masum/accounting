@@ -28,6 +28,9 @@ use PDF;
 
 class PdfController extends Controller
 {
+    public $type = null;
+    public $invoice_name = null;
+
     public function quotation_pdf($id)
     {
         $data = [];
@@ -82,7 +85,12 @@ class PdfController extends Controller
         // $stream = $pdf->stream('quotation.pdf');
         // $output = $pdf->output();
 
-        // return $pdf->download('invoice.pdf');
+        if($this->type){
+            $invoice_name = $this->invoice_name;
+            return view('invoice_layouts.download_invoice',compact(['file_name','invoice_name']));
+            // return $pdf->download('invoice.pdf');
+        }
+
         // echo "<iframe src='{$pdf->render()}'></iframe>";
         return $file_name;
     }
@@ -137,6 +145,12 @@ class PdfController extends Controller
         fopen($path, "w");
         file_put_contents($path,$pdf->output());
 
+        if($this->type){
+            $invoice_name = $this->invoice_name;
+            return view('invoice_layouts.download_invoice',compact(['file_name','invoice_name']));
+            // return $pdf->download('invoice.pdf');
+        }
+
         return $file_name;
     }
 
@@ -190,6 +204,12 @@ class PdfController extends Controller
         fopen($path, "w");
         file_put_contents($path,$pdf->output());
 
+        if($this->type){
+            $invoice_name = $this->invoice_name;
+            return view('invoice_layouts.download_invoice',compact(['file_name','invoice_name']));
+            // return $pdf->download('invoice.pdf');
+        }
+
         return $file_name;
     }
 
@@ -241,6 +261,12 @@ class PdfController extends Controller
 
         fopen($path, "w");
         file_put_contents($path,$pdf->output());
+
+        if($this->type){
+            $invoice_name = $this->invoice_name;
+            return view('invoice_layouts.download_invoice',compact(['file_name','invoice_name']));
+            // return $pdf->download('invoice.pdf');
+        }
 
         return $file_name;
     }
@@ -297,6 +323,12 @@ class PdfController extends Controller
         fopen($path, "w");
         file_put_contents($path,$pdf->output());
 
+        if($this->type){
+            $invoice_name = $this->invoice_name;
+            return view('invoice_layouts.download_invoice',compact(['file_name','invoice_name']));
+            // return $pdf->download('invoice.pdf');
+        }
+
         return $file_name;
     }
 
@@ -331,6 +363,12 @@ class PdfController extends Controller
         fopen($path, "w");
         file_put_contents($path,$pdf->output());
 
+        if($this->type){
+            $invoice_name = $this->invoice_name;
+            return view('invoice_layouts.download_invoice',compact(['file_name','invoice_name']));
+            // return $pdf->download('invoice.pdf');
+        }
+
         return $file_name;
     }
 
@@ -345,8 +383,37 @@ class PdfController extends Controller
 
     public function sent_mail(Request $request)
     {
-        Mail::to($request->email)->send(new DefaultMail($request->subject,$request->message));
+        Mail::to($request->email)->send(new DefaultMail(
+            $request->subject,
+            $request->message,
+            $request->invoice_link,
+            $request->invoice_name,
+        ));
     }
 
+    public function mail_invoice_download($type,$id)
+    {
+        // dd($type,$id,request(),$_REQUEST);
+        $this->type = $type;
+        $this->invoice_name = request()->invoice_name;
+        if($type == 'quotation'){
+            return $this->quotation_pdf($id);
+        }
+        else if($type == 'sales_order'){
+            return $this->saleorder_pdf($id);
+        }
+        else if($type == 'deliverynote'){
+            return $this->delivery_note_pdf($id);
+        }
+        else if($type == 'invoice'){
+            return $this->invoice_pdf($id);
+        }
+        else if($type == 'receipt'){
+            return $this->receipt_pdf($id);
+        }
+        else{
+
+        }
+    }
 
 }

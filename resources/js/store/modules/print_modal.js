@@ -3,11 +3,13 @@ import axios from "axios";
 // state list
 const state = {
     pdf_link: '',
+    pdf_name: '',
 };
 
 // get state
 const getters = {
     get_pdf_link: (state) => state.pdf_link,
+    get_pdf_name: (state) => state.pdf_name,
 };
 
 // actions
@@ -24,6 +26,9 @@ const actions = {
 const mutations = {
     set_pdf_link: function (state, pdf_link) {
         state.pdf_link = pdf_link;
+    },
+    set_pdf_name: function (state, pdf_name) {
+        state.pdf_name = pdf_name;
     },
 };
 

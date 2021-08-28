@@ -6,6 +6,6 @@
     <title>Quotation Email</title>
 </head>
 <body>
-    
+
 </body>
 </html>

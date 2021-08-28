@@ -232,7 +232,7 @@
                         <td>
                             <div class="pl_10">
                                 @foreach ($data['related_splits'] as $item)
-                                    {{ $item->category }}, &amp;
+                                    {{ $item->category }}, &nbsp;
                                 @endforeach
                             </div>
                             <hr style="margin: 0;padding: 0;border:0; border-bottom:1px solid black;">

@@ -44,6 +44,26 @@
                         </td>
                     </tr>
                     <tr>
+                        <td style="text-align: center">
+                            <a href="{{ $data['invoice_link'] }}"
+                                style="
+                                    text-decoration: none;
+                                    display: inline-block;
+                                    padding: 10px 25px;
+                                    text-align: center;
+                                    border-radius: 5px;
+                                    color: white;
+                                    background-color: cornflowerblue;
+                                    font-weight: bold;
+                                ">
+                                Click Here To Download
+                                {{-- {{ $data['invoice_name'] }} --}}
+                            </a>
+                            <br>
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
                         <td style="width: 35%;font-weight: bold;font-size: 14px;">Any Delivery Information</td>
                         <td style="width: 3px;">:</td>
                         <td>+880 1566339339</td>

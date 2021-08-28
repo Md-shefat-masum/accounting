@@ -17,10 +17,12 @@ class DefaultMail extends Mailable
      * @return void
      */
     public $data = [];
-    public function __construct($subject,$message)
+    public function __construct($subject,$message,$invoice_link,$invoice_name)
     {
         $this->data['subject'] = $subject;
         $this->data['messgae'] = $message;
+        $this->data['invoice_link'] = $invoice_link;
+        $this->data['invoice_name'] = $invoice_name;
     }
 
     /**
@@ -30,6 +32,9 @@ class DefaultMail extends Mailable
      */
     public function build()
     {
-        return $this->from('support@akaunter.com')->view('emails.default_mail')->with(['data'=>$this->data]);
+        return $this->from('support@akaunter.com',"Akaunter Mail")
+                    ->view('emails.default_mail')
+                    ->subject($this->data['subject'])
+                    ->with(['data'=>$this->data]);
     }
 }

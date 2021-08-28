@@ -12,7 +12,6 @@ const state = {
 const getters = {
     get_basic_information: state => state.basic_information,
     get_auth_user_info: state => state.auth_user_info,
-    get_auth_user_info: state => state.auth_user_info,
     get_countries: state => state.countries,
     get_tax_and_vat: state => state.tax_and_vat,
 }

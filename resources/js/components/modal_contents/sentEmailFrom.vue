@@ -68,6 +68,8 @@ export default {
                 email: this.email,
                 subject: this.subject,
                 message: this.message,
+                invoice_link: this.get_pdf_link,
+                invoice_name: this.get_pdf_name,
             };
             this.show_loader = true;
             axios.post('/api/sent-mail/',data)
@@ -80,7 +82,8 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'get_pdf_link'
+            'get_pdf_link',
+            'get_pdf_name',
         ])
     }
 }

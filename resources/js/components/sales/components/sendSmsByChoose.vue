@@ -33,7 +33,7 @@
                     <div class="form-group contacts" style="w-100">
                         <Select2 v-model="selected_select2_contacts"
                                     :options="customer_contacts"
-                                    :settings="{multiple:true}"
+                                    :settings="{multiple:true,tags:true}"
                                     @change="myChangeEvent($event)"
                                     @select="mySelectEvent($event)"></Select2>
                     </div>
@@ -45,8 +45,9 @@
                     <label for=""><b>Mobile Number</b></label>
                     <input type="text" class="form-control customer_number_input" placeholder="Select from list or type" v-model="customer_number">
                 </div> -->
-                <div class="form-group">
+                <div class="form-group position-relative">
                     <label for=""><b>Text</b></label>
+                    <span style="position:absolute; right: 15px;">{{ sms_body.length }}</span>
                     <textarea name="" id="" class="form-control" style="height:224px" v-model="sms_body"></textarea>
                 </div>
             </div>
@@ -61,6 +62,7 @@
 
 <script>
 import Select2 from 'v-select2-component';
+import { mapGetters } from 'vuex';
 export default {
     components:{Select2},
     props:['customer_id','form_data','go_to_note_list','modal_name'],
@@ -79,6 +81,7 @@ export default {
                 msg += 'Any Delivery Information 01566339339 \r';
                 msg += 'Thanks By \r';
                 msg += 'ORIKA CORPORATION \r';
+
                 this.sms_body = msg;
             }
         },
@@ -98,6 +101,8 @@ export default {
             selected_select2_contacts: '',
             customer_delivery_notes_for_select2: [],
             contact_count: 0,
+
+            // selected_select2_contacts_dynamic: [],
         }
     },
     methods: {
@@ -113,59 +118,88 @@ export default {
         sms_set: function(delivery_info){
             let msg = '';
             msg += `Dear Customer \r`;
-            msg += `your product ${this.get_all_selected_product_name} \r`;
+            msg += `Your product ${this.get_all_selected_product_name} \r`;
+            msg += `Quantity: ${this.get_all_selected_product_qty} \r`;
+            msg += `Weight:  ${this.form_data.delivery_weight} ${this.form_data.weight_unit} \r`;
+            // msg += `Unit:  ${this.form_data.weight_unit} \r`;
             msg += `will be delivered by ${delivery_info.delivery_method} \r`;
             msg += `Number: ${delivery_info.vehicle_number} \r`;
             msg += `Driver: ${delivery_info.operator_name} \r`;
             msg += `Driver Number: ${delivery_info.operator_phone_number} \r`;
-            msg += `Any Delivery Information 01566339339 \r`;
-            msg += `Thanks By \r`;
-            msg += `ORIKA CORPORATION \r`;
+            // msg += `Any Delivery Information 01566339339 \r`;
+            // msg += `Thanks By \r`;
+            // msg += `ORIKA CORPORATION \r`;
+
+            msg += this.get_basic_information.default_sms;
+
             this.sms_body = msg;
         },
         sms_send: function(){
             let delivery_info = this.form_data;
 
             this.selected_select2_contacts.forEach(item => {
+
                 axios.get('/api/contacts/'+item)
                     .then((res)=>{
-                        this.contact_count++;
-
-                        // console.log(res.data);
                         let data = new FormData();
                         data.append('product',this.get_all_selected_product_name);
                         data.append('method',delivery_info.delivery_method);
                         data.append('vehicle_number',delivery_info.vehicle_number);
                         data.append('driver',delivery_info.operator_phone_number);
                         data.append('driver_number',delivery_info.operator_phone_number);
-
-                        data.append('number',res.data.phone);
                         data.append('message',this.sms_body);
+                        this.contact_count++;
 
                         let that = this;
-                        axios.post('/Sms_gateway/send-single-sms.php',data)
-                            .then(function(response) {
-                                // handle success
-                                // console.log(response.data);
-                                if (response.data.api_response_message == 'SUCCESS') {
-                                    if(that.contact_count == that.selected_select2_contacts.length){
-                                        $('#'+that.modal_name).modal('hide');
-                                        that.go_to_note_list();
+
+                        if(res.data != false){
+                            // console.log(res.data);
+                            data.append('number',res.data.phone);
+                            axios.post('/Sms_gateway/send-single-sms.php',data)
+                                .then(function(response) {
+                                    // handle success
+                                    // console.log(response.data);
+                                    if (response.data.api_response_message == 'SUCCESS') {
+                                        if(that.contact_count == that.selected_select2_contacts.length){
+                                            $('#'+that.modal_name).modal('hide');
+                                            that.go_to_note_list();
+                                        }
+                                    } else {
+                                        swal({
+                                            title: 'Error',
+                                            text: 'Enter a valid phone number with country code.',
+                                            type: 'error',
+                                            timer: 3000
+                                        });
                                     }
-                                } else {
-                                    swal({
-                                        title: 'Error',
-                                        text: 'Enter a valid phone number with country code.',
-                                        type: 'error',
-                                        timer: 3000
-                                    });
-                                }
-                            })
-                            .catch(function(error) {
-                                console.log(error);
-                            });
-
-
+                                })
+                                .catch(function(error) {
+                                    console.log(error);
+                                });
+                        }else{
+                            data.append('number',item);
+                            axios.post('/Sms_gateway/send-single-sms.php',data)
+                                .then(function(response) {
+                                    // handle success
+                                    // console.log(response.data);
+                                    if (response.data.api_response_message == 'SUCCESS') {
+                                        if(that.contact_count == that.selected_select2_contacts.length){
+                                            $('#'+that.modal_name).modal('hide');
+                                            that.go_to_note_list();
+                                        }
+                                    } else {
+                                        swal({
+                                            title: 'Error',
+                                            text: 'Enter a valid phone number with country code.',
+                                            type: 'error',
+                                            timer: 3000
+                                        });
+                                    }
+                                })
+                                .catch(function(error) {
+                                    console.log(error);
+                                });
+                        }
                     })
             });
 
@@ -184,6 +218,9 @@ export default {
         }
     },
     computed: {
+        ...mapGetters([
+            'get_basic_information',
+        ]),
         get_all_selected_product_name: function(){
             if(this.form_data.selected_products && this.form_data.selected_products.length > 0){
 
@@ -197,6 +234,20 @@ export default {
 
                 return '';
 
+            }
+
+        },
+        get_all_selected_product_qty: function(){
+            if(this.form_data.selected_products && this.form_data.selected_products.length > 0){
+
+                let total_qty = this.form_data.selected_products.reduce((qty,item)=>{
+                    return qty + item.qty
+                },0);
+
+                return total_qty;
+
+            }else{
+                return '';
             }
 
         }

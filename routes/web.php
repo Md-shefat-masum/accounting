@@ -57,6 +57,8 @@ Route::group( ['namespace'=>'Admin','middleware'=>['auth'] ],function(){
     Route::get('product-service-export-to-exel-selected', 'CommonExportController@product_export_to_exel_selected');
     Route::get('product-service-line-export-to-exel-selected', 'CommonExportController@service_export_to_exel_selected');
 
+    Route::get('print-customer-due', 'CommonExportController@service_export_to_exel_selected');
+
 });
 
 Route::get('/test',function(){
@@ -97,6 +99,9 @@ Route::get('/test',function(){
 
     dd($log_details);
 })->name('route name');
+
+// pdf download from email
+Route::get('/mail-invoice-download/{type}/{id}', 'Admin\PdfController@mail_invoice_download');
 
 Route::get('/views/{id}', 'Admin\PdfController@receipt_pdf');
 

@@ -123,7 +123,11 @@ class CommonController extends Controller
     {
         if (request()->has('code') && request()->get('code') != null) {
 
-            $new_count = explode('-', request()->get('code'))[1];
+            if(isset(explode('-', request()->get('code'))[1])){
+                $new_count = explode('-', request()->get('code'))[1];
+            }else{
+                $new_count = request()->get('code');
+            }
             $latest_count = 0;
 
             if(UniqueId::where('user_id', Auth::user()->id)->where('type', $type)->exists()){
@@ -133,11 +137,11 @@ class CommonController extends Controller
             // dd(request()->get('code'), $type , $new_count , $latest_count->count);
 
             // update if given code greater than latest code
-            if($new_count > $latest_count->count){
+            if(isset(explode('-', request()->get('code'))[1]) && $new_count > $latest_count->count){
                 UniqueId::where('user_id', Auth::user()->id)
                         ->where('type', $type)
                         ->update([
-                            'count' => explode('-', request()->get('code'))[1],
+                            'count' => $new_count,
                         ]);
             }
 

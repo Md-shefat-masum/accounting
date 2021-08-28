@@ -15,7 +15,7 @@
                         <col style="width: 25%;" />
                         <col style="width: 20%;" />
                         <col style="width: 25%;" />
-                        <col style="width: 40%;" />
+                        <col v-if="get_basic_information.tax_management == 'Yes'" style="width: 40%;" />
                     </colgroup>
 
                     <thead>
@@ -62,7 +62,7 @@
                                     <span class="header-normal">Total</span>
                                 </div>
                             </th>
-                            <th colspan="1" class="A54VNK-Ff-h A54VNK-Ff-p" __gwt_column="column-gwt-uid-701" __gwt_header="header-gwt-uid-702">
+                            <th v-if="get_basic_information.tax_management == 'Yes'" colspan="1" class="A54VNK-Ff-h A54VNK-Ff-p" __gwt_column="column-gwt-uid-701" __gwt_header="header-gwt-uid-702">
                                 <div>
                                     <span class="ellipsis ellipsis-block header-small" data-title="VAT%" data-toggle="tooltip">VAT%</span>
                                     <span class="header-normal">VAT%</span>
@@ -113,7 +113,7 @@
                                     <input type="text" readonly v-model="selected_product.total_price" class="form-control" />
                                 </div>
                             </td>
-                            <td class="A54VNK-Ff-a A54VNK-Ff-s A54VNK-Ff-n">
+                            <td v-if="get_basic_information.tax_management == 'Yes'" class="A54VNK-Ff-a A54VNK-Ff-s A54VNK-Ff-n">
                                 <Select2 :key="index" v-model="selected_product.selected_select2_tax_and_vat"
                                     :options="tax_and_vats_for_select2"
                                     :settings="{multiple:true}"
@@ -266,7 +266,7 @@
                         </div>
                     </div>
 
-                    <div class="col-12">
+                    <div v-if="get_total_vat_information.length > 0" class="col-12">
                         <hr>
                     </div>
 
@@ -594,6 +594,7 @@
                 'get_total_vat_information',
                 'get_form_product_list_info',
                 'get_old_data',
+                'get_basic_information',
             ]),
         }
     }

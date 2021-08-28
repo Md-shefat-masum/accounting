@@ -11,7 +11,11 @@ class ContactsController extends Controller
 {
     public function get(Request $request, $id)
     {
-        return Contacts::findOrFail($id);
+        if(Contacts::where('id',$id)->exists()){
+            return Contacts::findOrFail($id);
+        }else{
+            return false;
+        }
     }
 
     public function list(Request $request)

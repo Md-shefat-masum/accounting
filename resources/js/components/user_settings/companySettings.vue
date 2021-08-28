@@ -252,6 +252,14 @@
                                                 </div>
                                                 <div class="form-group SimpleTextQuestion row">
                                                     <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="" style="font-weight: normal;">Default SMS</label>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <textarea style="min-height: 120px;" name="default_sms" v-model="form.default_sms" class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
                                                         <label class="m-0" for="" style="font-weight: normal;">Cash Drawer Management</label>
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
@@ -479,6 +487,7 @@ import { mapActions, mapGetters } from 'vuex';
                     "default_qoute_expiration_days": '',
                     "late_payment_fees": '',
                     "late_payment_interest": '',
+                    "default_sms": '',
                     "cash_drawer_management": '',
                     "accounting_basis": '',
                     "tax_management": '',
@@ -696,6 +705,7 @@ import { mapActions, mapGetters } from 'vuex';
             ...mapActions([
                 'fetch_user_information',
                 'fetch_countries',
+                'fetch_basic_information',
             ]),
             set_auto_numbering: function(event){
                 // console.log(event.target.value);
@@ -716,6 +726,7 @@ import { mapActions, mapGetters } from 'vuex';
                     .then((res)=>{
                         // console.log(res.data);
                         this.fetch_user_information();
+                        this.fetch_basic_information();
                         Toast.fire({
                             icon: 'success',
                             title: 'Information Updated.'
