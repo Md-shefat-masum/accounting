@@ -30,6 +30,18 @@
                                                         <input type="text" v-model="form.company" class="form-control" id="gwt-uid-137" />
                                                     </div>
                                                 </div>
+                                                <div class="form-group SimpleTextQuestion row">
+                                                    <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
+                                                        <label class="m-0" for="gwt-uid-137" style="font-weight: normal;">Logo</label>
+                                                        <span class="text-danger bold">*</span>
+                                                    </div>
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <form action="" name="logo_pic_form" id="logo_pic_form">
+                                                            <input type="file" @change="upload_logo" name="logo_image" class="form-control form-component" autocomplete="off" />
+                                                            <img :src="'/'+this.get_auth_user_info.logo" alt="" style="height: 40px;margin: 10px;">
+                                                        </form>
+                                                    </div>
+                                                </div>
 
                                                 <div class="form-group SimpleTextQuestion row">
                                                     <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
@@ -389,7 +401,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-12">
+                                            <div class="col-12" v-if="selected_numbering">
                                                 <h4>Auto Numbering</h4>
                                                 <div class="form-group SimpleTextQuestion row">
                                                     <div class="col-sm-4 col-xs-4 control-label text-right d-flex align-items-center justify-content-end">
@@ -399,7 +411,7 @@
                                                     </div>
                                                     <div class="col-sm-8 col-xs-8">
                                                         <!-- <input v-model="auto_numbering.select_object" type="text" class="form-control" > -->
-                                                        <select v-model="selected_numbering.name" @change="set_auto_numbering($event)" class="form-control">
+                                                        <select v-if="selected_numbering" v-model="selected_numbering.name" @change="set_auto_numbering($event)" class="form-control">
                                                             <option :value="auto_numbering.name" v-for="(auto_numbering,index) in auto_numberings" :key="index">
                                                                 {{ auto_numbering.name }}
                                                             </option>
@@ -611,7 +623,12 @@ import { mapActions, mapGetters } from 'vuex';
                         code: '000',
                     },
                 ],
-                selected_numbering: {},
+
+                selected_numbering: {
+                    name: '',
+                    prefix: '',
+                    code: '',
+                },
 
                 address: {
                     line1: '',
@@ -694,7 +711,7 @@ import { mapActions, mapGetters } from 'vuex';
                 this.address = this.get_auth_user_info.address_json;
             }
 
-            if(this.get_auth_user_info.auto_numbering){
+            if(this.get_auth_user_info.auto_numbering && this.get_auth_user_info.auto_numbering_json.length>0){
                 this.auto_numberings = this.get_auth_user_info.auto_numbering_json;
             }
 
@@ -707,6 +724,17 @@ import { mapActions, mapGetters } from 'vuex';
                 'fetch_countries',
                 'fetch_basic_information',
             ]),
+            upload_logo: function(){
+               let form_data = new FormData($('#logo_pic_form')[0]);
+               axios.post('/api/user-logo-update',form_data)
+                    .then((res)=>{
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'logo Updated'
+                        });
+                        this.fetch_user_information();
+                    })
+            },
             set_auto_numbering: function(event){
                 // console.log(event.target.value);
                 let auto_numbering_index = this.auto_numberings.findIndex(item=>item.name==event.target.value);

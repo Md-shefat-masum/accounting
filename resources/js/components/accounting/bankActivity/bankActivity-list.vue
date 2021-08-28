@@ -100,10 +100,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr v-for="bank in banklist" :key="bank.id">
                                         <td>
                                             <div class="ellipsis">
-                                                asia bank
+                                                {{ bank.bank_name }}
                                             </div>
                                         </td>
                                         <td>
@@ -113,12 +113,12 @@
                                         </td>
                                         <td>
                                             <div class="ellipsis">
-                                                420
+                                                 {{ bank.bank_number }}
                                             </div>
                                         </td>
                                         <td class="text-right">
                                             <div class="ellipsis">
-                                                Tk 40,0000
+                                                Tk  {{ bank.total_earn }}
                                             </div>
                                         </td>
                                     </tr>
@@ -149,7 +149,7 @@
 
         data: function () {
             return {
-                purchaseorders: false,
+                banklist: {},
                 form: new Form({
                     "id": "",
                     "supplier": "",
@@ -181,34 +181,17 @@
             }
         },
         created: function () {
-            this.listPurchaseorders();
+            this.bank_list();
         },
         methods: {
-            listPurchaseorders: function () {
-
+            bank_list: function () {
                 var that = this;
-                this.form.get('/api/purchaseorders').then(function (response) {
-                    that.purchaseorders = response.data;
+                this.form.get('/api/banks_list_with_amounts').then(function (response) {
+                    that.banklist = response.data;
+                    // console.log(response.data);
                 })
 
             },
-            createPurchaseorder: function () {
-
-                var that = this;
-                this.form.post('/api/purchaseorders').then(function (response) {
-                    that.purchaseorders.push(response.data);
-                    that.form.reset();
-                })
-
-            },
-            deletePurchaseorder: function (purchaseorder, index) {
-
-                var that = this;
-                this.form.delete('/api/purchaseorders/' + purchaseorder.id).then(function (response) {
-                    that.purchaseorders.splice(index, 1);
-                })
-
-            }
         }
     }
 </script>

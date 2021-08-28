@@ -6,6 +6,7 @@ use App\Model\UniqueId;
 use Illuminate\Http\Request;
 use App\Model\Banks;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class BanksController extends Controller
 {
@@ -18,6 +19,14 @@ class BanksController extends Controller
     {
         $auth_user = Auth::user();
         $banks = Banks::where('user_id', $auth_user->id)->orderBy('created_at', 'asc')->get();
+        return $banks;
+    }
+
+    public function list_with_amounts(Request $request)
+    {
+        $auth_user = Auth::user();
+        $banks = Banks::where('user_id', $auth_user->id)->orderBy('created_at', 'asc')
+                        ->get();
         return $banks;
     }
 

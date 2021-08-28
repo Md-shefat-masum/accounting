@@ -18,6 +18,7 @@
                             </ul>
                             <ul class="d-inline-block mb-0" style="float: right;padding: .75rem 1rem;">
                                 <li style="float: left;">
+                                    <a href="/print-customer-due" class="btn btn-default m-0 mr-2 mb-2 mb-lg-0 mobile_d_none" target="_blank">Download Due Sheet </a>
                                     <router-link to="/contact/customer/create" class="btn btn-default m-0 mr-2 mb-2 mb-lg-0 mobile_d_none">New Customers</router-link>
                                     <router-link to="/contact/customer/create" class="btn btn-default m-0 mr-2 mb-2 mb-lg-0 mobile_d_block"><i class="fas fa-plus"></i></router-link>
                                 </li>

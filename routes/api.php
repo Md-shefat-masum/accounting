@@ -86,6 +86,7 @@ Route::group([
     Route::delete('employees/{id}', 'EmployeesController@delete');
 
     Route::get('banks', 'BanksController@list');
+    Route::get('banks_list_with_amounts', 'BanksController@list_with_amounts');
     Route::get('banks/{id}', 'BanksController@get');
     Route::post('banks', 'BanksController@create');
     Route::put('banks/{id}', 'BanksController@update');

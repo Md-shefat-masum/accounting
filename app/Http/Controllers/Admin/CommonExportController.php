@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\CreditMemoExport;
 use App\Exports\CreditMemoLineExport;
+use App\Exports\CustomerDueExport;
 use App\Exports\DeliveryNoteExport;
 use App\Exports\DeliveryNoteLineExport;
 use App\Exports\InvoiceExport;
@@ -35,13 +36,13 @@ class CommonExportController extends Controller
     }
 
     public function quote_export_to_exel_selected(Request $request)
-    {   
+    {
         $ids = json_decode($request->checked_id);
         return Excel::download(new QuotesExport($ids), 'quotes.xlsx');
     }
-    
+
     public function quote_line_export_to_exel_selected(Request $request)
-    {   
+    {
         $ids = json_decode($request->checked_id);
         return Excel::download(new QuotesLineExport($ids), 'quotes.xlsx');
     }
@@ -79,7 +80,7 @@ class CommonExportController extends Controller
     {
         return Excel::download(new InvoiceLineExport(), 'invoice_line.xlsx');
     }
-    
+
     public function invoice_export_to_exel_selected(Request $request)
     {
         $ids = json_decode($request->checked_id);
@@ -127,7 +128,7 @@ class CommonExportController extends Controller
     {
         return Excel::download(new CreditMemoLineExport(), 'credit_memos_line.xlsx');
     }
-   
+
     public function credit_memos_export_to_exel_selected(Request $request)
     {
         $ids = json_decode($request->checked_id);
@@ -162,6 +163,11 @@ class CommonExportController extends Controller
     {
         $ids = json_decode($request->checked_id);
         return Excel::download(new ServiceLineExport(), 'product_service_line.xlsx');
+    }
+
+    public function print_customer_due(Request $request)
+    {
+        return Excel::download(new CustomerDueExport(), 'customer_due_export.xlsx');
     }
 
 }
