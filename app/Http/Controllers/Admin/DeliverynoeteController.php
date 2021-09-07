@@ -91,10 +91,19 @@ class DeliverynoeteController extends Controller
             'customer' => 'required |max:255 ',
             'selected_products' => 'required',
             'delivery_address' => 'required',
-        ], [
-            'customer.required' => 'customer is a required field.',
-            'customer.max' => 'customer can only be 255 characters.',
+            'code' => 'required|unique:deliverynotes',
+            'date' => 'required',
+        ],[
+            'selected_products.required' => 'empty product list',
+            'code.unique' => 'The code has already been taken. you may try '.CommonController::getCodeId('delivery_note', 'DEN'),
         ]);
+
+        if($request->has('delivery_method')
+            &&  ( $request->delivery_method == "vehicle" || $request->delivery_method == "truck" ) ){
+            $validatedData = $request->validate([
+                'vehicle_number' => 'required',
+            ]);
+        }
 
         $products = $request->selected_products;
 

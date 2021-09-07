@@ -11,21 +11,26 @@ $msg = $_POST["message"];
 // var_dump(strpos('   ',$msg), $_POST);
 // return $msg;
 
-// $product = $_GET["product"];
-// $method = $_GET["method"];
-// $vehicle_number = $_GET["vehicle_number"];
-// $driver = $_GET["driver"];
-// $driver_number = $_GET["driver_number"];
+$product = $_POST["product"];
+$code = $_POST["code"];
+$qty = $_POST["qty"];
+$method = $_POST["method"];
+$vehicle_number = $_POST["vehicle_number"];
+$driver = $_POST["driver"];
+$driver_number = $_POST["driver_number"];
 
-// $msg = "Dear Customer \r
-// your product $product \r
-// will be delivered by $method \r
-// Number: $vehicle_number \r
-// Driver: $driver \r
-// Driver Number: $driver_number \r
-// Any Delivery Information 01566339339 \r
-// Thanks By \r
-// ORIKA CORPORATION ";
+$msg = "Your Order Ready for deliver  \r
+DN No #  $code \r
+Item/Product # $product \r
+QTY  # $qty \r
+delivered by\r
+Number: $vehicle_number \r
+Truck No # $vehicle_number \r
+Operator Details # $driver - $driver_number \r
+Thank You \r
+Orika Corporation \r
+www.orika.com.bd \r
+01566339339 ";
 
 $message = $msg;
 $recipient = $number; // For SINGLE_SMS or OTP

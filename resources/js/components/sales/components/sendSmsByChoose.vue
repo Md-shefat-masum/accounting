@@ -116,22 +116,46 @@ export default {
             this.customer_number = contact.phone;
         },
         sms_set: function(delivery_info){
+            `Your Order Ready for deliver
+            DN No #
+            Item/Product #
+            QTY # 720.12 (Units)
+            Weight #
+            PO #
+            Delivered by Truck / Vehicle: DM TA 25 3622
+            Operator Details: Ahmmed-0171266545
+            Thank You
+            Orika Corporation
+            www.orika.com.bd
+            01566339339`
+
             let msg = '';
-            msg += `Dear Customer \r`;
-            msg += `Your product ${this.get_all_selected_product_name} \r`;
-            msg += `Quantity: ${this.get_all_selected_product_qty} \r`;
-            msg += `Weight:  ${this.form_data.delivery_weight} ${this.form_data.weight_unit} \r`;
-            // msg += `Unit:  ${this.form_data.weight_unit} \r`;
-            msg += `will be delivered by ${delivery_info.delivery_method} \r`;
-            msg += `Number: ${delivery_info.vehicle_number} \r`;
-            msg += `Driver: ${delivery_info.operator_name} \r`;
-            msg += `Driver Number: ${delivery_info.operator_phone_number} \r`;
-            // msg += `Any Delivery Information 01566339339 \r`;
-            // msg += `Thanks By \r`;
-            // msg += `ORIKA CORPORATION \r`;
+            msg += `Your Order Ready for deliver \r`;
+            msg += `DN No # ${this.form_data.code} \r`;
+            msg += `Item/Product # ${this.get_all_selected_product_name} \r`;
+            msg += `QTY # ${this.get_all_selected_product_qty} ${this.form_data.weight_unit}\r`;
+            // if(this.form_data.delivery_weight){
+            //     msg += `Weight:  ${this.form_data.delivery_weight ?? ''} ${this.form_data.weight_unit ?? ''} \r`;
+            // }
+            // if(this.form_data.po_number){
+            //     msg += `PO:  ${this.form_data.po_number} \r`;
+            // }
+            if(delivery_info.delivery_method){
+                msg += `delivered by \r ${delivery_info.delivery_method} # ${delivery_info.vehicle_number} \r`;
+            }
+            if(delivery_info.operator_name){
+                msg += `Operator Details # ${delivery_info.operator_name} - ${delivery_info.operator_phone_number} \r`;
+            }
+            // if(delivery_info.operator_phone_number){
+            //     msg += `Driver Number: ${delivery_info.operator_phone_number} \r`;
+            // }
 
-            msg += this.get_basic_information.default_sms;
+            msg += `Thank You \r`;
+            msg += `Orika Corporation \r`;
+            msg += `www.orika.com.bd \r`;
+            msg += `01566339339 \r`;
 
+            // msg += this.get_basic_information.default_sms;
             this.sms_body = msg;
         },
         sms_send: function(){
@@ -143,6 +167,8 @@ export default {
                     .then((res)=>{
                         let data = new FormData();
                         data.append('product',this.get_all_selected_product_name);
+                        data.append('code',`DN No # ${this.form_data.code}`);
+                        data.append('qty',`${this.get_all_selected_product_qty} ${this.form_data.weight_unit??''}`);
                         data.append('method',delivery_info.delivery_method);
                         data.append('vehicle_number',delivery_info.vehicle_number);
                         data.append('driver',delivery_info.operator_phone_number);

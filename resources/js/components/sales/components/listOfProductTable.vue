@@ -1,6 +1,9 @@
 <template>
     <div>
         <div class="row">
+            <div>
+                <input type="hidden" name="selected_products">
+            </div>
             <div class="col-sm-12">
                 <table
                     class="A54VNK-Ff-y table table-hover table-link A54VNK-Ff-z empty"

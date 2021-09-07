@@ -8,6 +8,7 @@
                 data-toggle="modal"
                 data-target="#addCustomerDeliveryAddress"
                 autocomplete="off"
+                name="delivery_address"
                 readonly
                 v-html="delivery_address"
                 placeholder="Delivery address"></textarea>

@@ -79,8 +79,7 @@
                             <span class="text-danger bold" aria-hidden="true">*</span>
                         </div>
                         <div class="col-sm-8 col-8">
-                            <input v-model="form.code" type="text" class="form-control A54VNK-oi-b" autocomplete="off" placeholder="code">
-                            <div class="error-panel"></div>
+                            <input v-model="form.code" name="code" type="text" class="form-control A54VNK-oi-b" autocomplete="off" placeholder="code">
                         </div>
                     </div>
                     <div class="form-group row" data-id="v192168000003_1092663879328_4429">
@@ -167,8 +166,7 @@
                             <span class="text-danger bold" aria-hidden="true">*</span>
                         </div>
                         <div class="col-sm-8 col-8">
-                            <input type="text" v-model="form.vehicle_number" class="form-control A54VNK-oi-b">
-                            <div class="error-panel"></div>
+                            <input type="text" v-model="form.vehicle_number" name="vehicle_number" class="form-control A54VNK-oi-b">
                         </div>
                     </div>
                     <div class="form-group row" data-id="v192168000062_1318947796381_657"
@@ -229,6 +227,7 @@
             :sales_logs="sales_logs" :type="type">
             <!-- sale_order_to_delivery_note -->
         </salesStatusVue>
+
 
         <list-of-product-table
             :old_data="form.selected_products"

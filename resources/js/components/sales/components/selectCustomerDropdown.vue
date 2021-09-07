@@ -9,6 +9,7 @@
                     data-toggle="dropdown" autocomplete="off"
                     role="button" placeholder="Customer name or code"
                     v-model="customer_name"
+                    name="customer"
                     readonly
                     aria-expanded="true" />
             <ul class="dropdown-menu A54VNK-pi-c">
@@ -22,8 +23,6 @@
                     <a class="ellipsis-block" role="button" data-toggle="modal" data-target="#addCustomerOrLeadModal">Create a Lead or Customer</a>
                 </li>
             </ul>
-
-            <!-- <span class="text-danger" v-if="errors.customer">{{errors.customer[0]}}</span> -->
         </div>
 
         <!-- addCustomerOrLeadModal Modal -->
