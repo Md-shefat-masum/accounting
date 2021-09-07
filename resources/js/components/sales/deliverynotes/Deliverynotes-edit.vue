@@ -97,6 +97,7 @@ import { mapGetters, mapMutations } from 'vuex'
                 this.form.discount_rate = this.get_form_product_list_info.discount_rate;
                 this.form.subtotal = this.get_form_product_list_info.subtotal;
                 this.form.total = this.get_form_product_list_info.total;
+                this.form.document_note = this.get_form_product_list_info.document_note;
 
                 var that = this;
                 this.form.put('/api/delivery-note/' + this.$route.params.id).then(function (response) {

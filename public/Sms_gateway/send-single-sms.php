@@ -48,7 +48,8 @@ $messageType = 'TEXT'; // options available: "TEXT", "UNICODE"
  * $messageType   : Must contain any of the two values: "TEXT", "UNICODE"
  */
 
+
 $sms = new AdnSmsNotification();
 $message = $sms->sendSms($requestType, $message, $recipient, $messageType);
-print_r($message);
+// print_r($message);
 

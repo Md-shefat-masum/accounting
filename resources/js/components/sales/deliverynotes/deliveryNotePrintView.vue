@@ -55,7 +55,7 @@
             </div>
         </div>
 
-        <p style="text-align:right; padding-right: 15px;"><b>PO#: {{delivery_note.po_number}}</b></p>
+        <p v-if="delivery_note.po_number" style="text-align:right; padding-right: 15px;"><b>PO#: {{delivery_note.po_number}}</b></p>
 
         <div class="row">
             <div class="col-12" style="width: 100%;padding:0">
@@ -78,7 +78,7 @@
                                 {{ product.product_details && product.product_details.unit }}
                             </td>
                             <td style="text-align:center;">
-                                {{ product.ordered_qty>0?product.ordered_qty:product.qty }}
+                                {{ product.ordered_qty>0?product.ordered_qty:'N/A' }}
                             </td>
                             <td>
                                 {{ product.qty }}
@@ -110,6 +110,12 @@
                         <p v-if="delivery_note.delivery_weight"><span>Total Weight:</span> <span>{{delivery_note.delivery_weight}}</span></p>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div style="padding-left:10px; margin-top:10px;">
+            <h4>Notes/Terms</h4>
+            <div v-html="delivery_note.document_note.replaceAll('\n', '<br>')" style="font-size:14px;">
             </div>
         </div>
 

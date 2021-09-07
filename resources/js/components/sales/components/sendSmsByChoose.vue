@@ -171,7 +171,7 @@ export default {
                         data.append('qty',`${this.get_all_selected_product_qty} ${this.form_data.weight_unit??''}`);
                         data.append('method',delivery_info.delivery_method);
                         data.append('vehicle_number',delivery_info.vehicle_number);
-                        data.append('driver',delivery_info.operator_phone_number);
+                        data.append('driver',delivery_info.operator_name);
                         data.append('driver_number',delivery_info.operator_phone_number);
                         data.append('message',this.sms_body);
                         this.contact_count++;
@@ -181,7 +181,7 @@ export default {
                         if(res.data != false){
                             // console.log(res.data);
                             data.append('number',res.data.phone);
-                            axios.post('/Sms_gateway/send-single-sms.php',data)
+                            axios.post(`/Sms_gateway/send-single-sms.php`,data)
                                 .then(function(response) {
                                     // handle success
                                     // console.log(response.data);

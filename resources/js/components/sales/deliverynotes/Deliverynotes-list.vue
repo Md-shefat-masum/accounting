@@ -169,12 +169,12 @@
                                             </div>
                                         </td>
                                         <td class="text-center">
-                                            <div class="ellipsis" @click="editDeliveryNote(deliverynote.id)">
-                                                {{deliverynote.document_note}}
+                                            <div v-html="deliverynote.document_note" class="ellipsis" :title="deliverynote.document_note" @click="editDeliveryNote(deliverynote.id)">
+                                                <!-- {{deliverynote.document_note}} -->
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="ellipsis" @click="editDeliveryNote(deliverynote.id)">
+                                            <div :title="deliverynote.delivery_address" class="ellipsis" @click="editDeliveryNote(deliverynote.id)">
                                                 {{deliverynote.delivery_address}}
                                             </div>
                                         </td>

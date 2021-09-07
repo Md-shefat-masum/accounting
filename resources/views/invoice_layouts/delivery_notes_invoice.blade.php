@@ -312,9 +312,13 @@
                 </div> --}}
                 <div style="clear: both;"></div>
             </div>
-            <p style="text-align: right; padding-right: 15px;margin: 0;font-size: 14px;">
-                <b>PO#: {{$data['quotes']->po_number}}</b>
-            </p>
+
+            @if ($data['quotes']->po_number)
+                <p style="text-align: right; padding-right: 15px;margin: 0;font-size: 14px;">
+                    <b>PO#: {{$data['quotes']->po_number}}</b>
+                </p>
+            @endif
+
             <table cellspacing="0" class="inv_table" style="padding-top: 10px;">
                 <thead>
                     <tr>
@@ -341,7 +345,7 @@
                                 <span style="font-weight: normal;text-align: center;"> {{ $related_product->unit }} </span>
                             </td>
                             <td>
-                                <span style="font-weight: normal;"> {{ $related_product->ordered_qty>0?$related_product->ordered_qty:'--' }} </span>
+                                <span style="font-weight: normal;"> {{ $related_product->ordered_qty>0?$related_product->ordered_qty:'N/A' }} </span>
                             </td>
                             <td>
                                 <span style="font-weight: normal;">

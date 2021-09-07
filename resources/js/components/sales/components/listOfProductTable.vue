@@ -438,7 +438,8 @@
                     this.set_edited_sales_order_related_products_for_delivery_note(
                         {
                             related_product_id: related_product_id,
-                            qty: parseInt(qty),
+                            // qty: parseInt(qty),
+                            qty: qty,
                             arrray_index: arrray_index,
                         }
                     )
