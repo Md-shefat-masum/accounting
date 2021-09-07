@@ -167,7 +167,7 @@ export default {
                     .then((res)=>{
                         let data = new FormData();
                         data.append('product',this.get_all_selected_product_name);
-                        data.append('code',`DN No # ${this.form_data.code}`);
+                        data.append('code',`${this.form_data.code}`);
                         data.append('qty',`${this.get_all_selected_product_qty} ${this.form_data.weight_unit??''}`);
                         data.append('method',delivery_info.delivery_method);
                         data.append('vehicle_number',delivery_info.vehicle_number);
@@ -184,13 +184,14 @@ export default {
                             axios.post(`/Sms_gateway/send-single-sms.php`,data)
                                 .then(function(response) {
                                     // handle success
-                                    // console.log(response.data);
                                     if (response.data.api_response_message == 'SUCCESS') {
                                         if(that.contact_count == that.selected_select2_contacts.length){
                                             $('#'+that.modal_name).modal('hide');
                                             that.go_to_note_list();
                                         }
                                     } else {
+                                        $('#'+that.modal_name).modal('hide');
+                                        // that.go_to_note_list();
                                         swal({
                                             title: 'Error',
                                             text: 'Enter a valid phone number with country code.',
@@ -207,13 +208,14 @@ export default {
                             axios.post('/Sms_gateway/send-single-sms.php',data)
                                 .then(function(response) {
                                     // handle success
-                                    // console.log(response.data);
                                     if (response.data.api_response_message == 'SUCCESS') {
                                         if(that.contact_count == that.selected_select2_contacts.length){
                                             $('#'+that.modal_name).modal('hide');
                                             that.go_to_note_list();
                                         }
                                     } else {
+                                        // $('#'+that.modal_name).modal('hide');
+                                        // that.go_to_note_list();
                                         swal({
                                             title: 'Error',
                                             text: 'Enter a valid phone number with country code.',
@@ -267,7 +269,9 @@ export default {
             if(this.form_data.selected_products && this.form_data.selected_products.length > 0){
 
                 let total_qty = this.form_data.selected_products.reduce((qty,item)=>{
-                    return qty + item.qty
+                    // console.log({qty,qyt:item.qty,qt:parseFloat(item.qty)});
+                    let item_qty = parseFloat(item.qty);
+                    return qty + item_qty;
                 },0);
 
                 return total_qty;

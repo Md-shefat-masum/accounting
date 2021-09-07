@@ -113,7 +113,7 @@
             </div>
         </div>
 
-        <div style="padding-left:10px; margin-top:10px;">
+        <div style="padding-left:10px; margin-top:10px;" v-if="delivery_note.document_note">
             <h4>Notes/Terms</h4>
             <div v-html="delivery_note.document_note.replaceAll('\n', '<br>')" style="font-size:14px;">
             </div>

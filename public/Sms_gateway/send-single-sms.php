@@ -24,8 +24,7 @@ DN No #  $code \r
 Item/Product # $product \r
 QTY  # $qty \r
 delivered by\r
-Number: $vehicle_number \r
-Truck No # $vehicle_number \r
+$method No # $vehicle_number \r
 Operator Details # $driver - $driver_number \r
 Thank You \r
 Orika Corporation \r
@@ -51,5 +50,5 @@ $messageType = 'TEXT'; // options available: "TEXT", "UNICODE"
 
 $sms = new AdnSmsNotification();
 $message = $sms->sendSms($requestType, $message, $recipient, $messageType);
-// print_r($message);
+print_r($message);
 
