@@ -11,13 +11,13 @@
 
                 <div class="block-header">
                     <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d-flex justify-content-between">
                             <ul class="breadcrumb breadcrumb-style d-inline-block mb-0">
                                 <li class="breadcrumb-item">
                                     <h4 style="border: 0;" class="page-title">Quotes</h4>
                                 </li>
                             </ul>
-                            <ul class="d-inline-block mb-0" style="float: right;padding: .75rem 1rem;">
+                            <ul class="d-inline-block mb-0 pr-0" style="float: right;padding: .75rem 1rem;">
                                 <li style="float: left;">
                                     <router-link to="/sales/quote/create" class="btn btn-default m-0 mr-2 mb-2 mb-lg-0 mobile_d_none">
                                         New Quotes
@@ -26,11 +26,11 @@
                                         <i class="fas fa-plus"></i>
                                     </router-link>
                                 </li>
-                                <li class="mobile_d_search_block" style="float: left;">
+                                <!-- <li class="d" style="float: left;">
                                     <a class="btn btn-white nav-link m-0 mr-2" href='#'>
                                         <i class="fas fa-search" aria-hidden="true"></i>
                                     </a>
-                                </li>
+                                </li> -->
                                 <li style="float: left;">
                                     <a class="btn new_dot btn-white nav-link dropdown-toggle" href="#"
                                        id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -51,7 +51,7 @@
 
                 <!-- filter -->
 
-                <div class="row" v-if="checked_id.length>0">
+                <div class="row" v-if="checked_id.length>0 ">
                     <div class="col-12">
                         <div class="page-panel A54VNK-Zc-c" style="display: flex;justify-content:space-between;background:white;padding: 5px 10px;">
                             <div class="d-flex align-items-center">
@@ -128,7 +128,7 @@
 
                 <div class="row clearfix">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="table-responsive">
+                        <div class="table-responsive" v-if="get_window_width > 992">
                             <table class="table table-hover mb-0">
                                 <thead>
                                     <tr>
@@ -175,7 +175,10 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <div @click="gotoCustomerProfile(quote.customer_id)" class="ellipsis color_blue">
+                                            <div v-if="quote.check_customer_exists" @click="gotoCustomerProfile(quote.customer_id)" class="ellipsis color_blue">
+                                                {{quote.customer}}
+                                            </div>
+                                            <div v-else title="customer not exists" class="ellipsis color_blue">
                                                 {{quote.customer}}
                                             </div>
                                         </td>
@@ -247,6 +250,108 @@
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+
+                        <div v-else class="sm_list_card_body">
+
+                            <div class="grid_card" v-for="quote in show_quotes.data" :key="quote.id">
+                                <div class="PMRVCW-je-c">
+                                    <div class="card rounded-sm">
+                                        <div class="PMRVCW-je-d card-body">
+                                            <div class="pull-right text-muted PMRVCW-je-i">
+                                                <div><span class="">{{quote.date}}</span></div>
+                                            </div>
+                                            <div>
+                                                <div>
+                                                    <h4 class="no-margin-top PMRVCW-hk-a">
+                                                        <a class="ellipsis-block" @click.prevent="editQuote(quote.id)" href="#" :title="quote.code">Quote {{quote.code}}</a>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix">
+                                                <ul class="list-inline PMRVCW-je-g">
+                                                    <li class="ellipsis-inline">
+                                                        <span class="ellipsis-inline PMRVCW-jk-a">
+                                                            <a class="text-muted ellipsis-inline PMRVCW-jk-a" v-if="quote.check_customer_exists" @click.prevent="gotoCustomerProfile(quote.customer_id)" href="#" :title="quote.customer">{{quote.customer}}</a>
+                                                            <a class="text-muted ellipsis-inline PMRVCW-jk-a" v-else href="#" :title="quote.customer">{{quote.customer}}</a>
+                                                            <span class="small" aria-hidden="true" style="display: none;"></span>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                                <div class="pull-right text-right">
+                                                    <div class="PMRVCW-je-a">{{ get_basic_information.currency }} {{ quote.amount_number_format }}</div>
+                                                </div>
+                                                <ul class="list-inline PMRVCW-je-g PMRVCW-je-h">
+                                                    <li>
+                                                        <span class="PMRVCW-Rf-a ellipsis">
+                                                            <!-- <span title="In 3 weeks">In 3 weeks</span> -->
+                                                            <div class="label-light-success" v-if="quote.status == 'open'">{{quote.status}}</div>
+                                                            <div v-else>
+                                                                <span class="label-light-info" v-if="quote.status == 'won'">won</span>
+                                                                <span class="label-light-success" v-if="quote.sales_log && quote.sales_log.is_sales_order">ordered</span>
+                                                                <span class="label-light-warning" v-if="quote.sales_log && quote.sales_log.is_invoice">invoiced</span>
+                                                                <span class="label-light-info" v-if="quote.status == 'lost'">lost</span>
+                                                            </div>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="PMRVCW-Mj-a clearfix actions pb-3 small_card_bottom_action">
+                                            <div class="d-flex justify-content-between px-3">
+                                                <div class="PMRVCW-fk-b">
+                                                    <!-- <button class="btn PMRVCW-fk-a" data-action="CONVERT" data-convert-to-type="SALES_ORDER">
+                                                        <span class="picto-font PMRVCW-fk-d"></span>
+                                                        <span class="PMRVCW-fk-c">Order</span>
+                                                    </button> -->
+                                                </div>
+                                                <div class="PMRVCW-gk-b">
+                                                    <!-- <button class="btn PMRVCW-gk-a" type="button" data-action="EMAIL">
+                                                        <span class="picto-font PMRVCW-gk-c" title="Email">M</span>
+                                                    </button> -->
+                                                </div>
+                                                <div class="PMRVCW-Lh-b">
+                                                    <button aria-expanded="false" class="btn shadow-none dropdown-toggle PMRVCW-Lh-a" data-toggle="dropdown" type="button" aria-label="More Actions">
+                                                        <span class="picto-font PMRVCW-Lh-c"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-right">
+                                                        <li>
+                                                            <a @click.prevent="QuotesToSaleOrder(quote.id)" v-if="!( quote.sales_log && quote.sales_log.is_sales_order) && !(quote.sales_log && quote.sales_log.is_invoice )" class="gwt-Anchor" href="#">
+                                                                <span class="picto-font PMRVCW-aj-c"></span> <span>Convert to Sales Order</span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a @click.prevent="QuotesToInvoice(quote.id)" v-if="!( quote.sales_log && quote.sales_log.is_sales_order) && !(quote.sales_log && quote.sales_log.is_invoice )" class="gwt-Anchor" href="#">
+                                                                <span class="picto-font PMRVCW-aj-c"></span> <span>Convert to Invoice</span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="gwt-Anchor" @click.prevent="printData(quote)" href="#">
+                                                                <span class="picto-font PMRVCW-aj-c">/</span>
+                                                                <span>Print</span>
+                                                            </a>
+                                                        </li>
+                                                        <!-- <li>
+                                                            <a class="gwt-Anchor" data-action="DUPLICATE" data-duplicate="DATA" href="javascript:void(0)">
+                                                                <span class="picto-font PMRVCW-aj-c">r</span> <span>Duplicate</span>
+                                                            </a>
+                                                        </li> -->
+                                                        <li class="divider"></li>
+                                                        <li>
+                                                            <a class="gwt-Anchor PMRVCW-aj-a" @click.prevent="deleteQuotes(quote.id)" data-action="DELETE" href="#">
+                                                                <span class="picto-font PMRVCW-aj-c">#</span>
+                                                                <span>Delete</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="PMRVCW-Mj-b" aria-hidden="true" style="display: none;">Processing...</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         <pagination :data="show_quotes" @pagination-change-page="getResults"></pagination>
                     </div>
@@ -475,8 +580,9 @@
                         }
                     })
             },
-            dataSearch: function(){
-                let value = $('#quote_search').val();
+            dataSearch: function(target_value = null){
+
+                let value = target_value ? target_value : $('#quote_search').val();
                 let formData = new FormData();
                 formData.append('key',value);
                 let that = this;
@@ -554,6 +660,7 @@
         computed: {
             ...mapGetters([
                 'get_basic_information',
+                'get_window_width',
             ]),
         }
     }

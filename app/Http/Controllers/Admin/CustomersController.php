@@ -60,7 +60,10 @@ class CustomersController extends Controller
                                     ->orWhere('company_name', 'LIKE', '%'.$key.'%')
                                     ->with('country_name')->paginate(10);
         }else{
-            $customers = Customers::where('user_id', $auth_user->id)->orderBy('id', 'DESC')->with('country_name')->paginate(10);
+            $customers = Customers::where('user_id', $auth_user->id)
+                            ->orderBy('id', 'DESC')
+                            ->with('country_name')
+                            ->paginate(10);
         }
         return $customers;
     }

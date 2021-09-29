@@ -35,11 +35,21 @@ const app = new Vue({
     store,
     created: function(){
         this.fetch_basic_information();
+        this.fetch_all_customers({page:1});
+        this.check_window_width();
     },
     methods: {
         ...mapActions([
             'fetch_basic_information',
+            'fetch_all_customers',
         ]),
+        ...mapMutations([
+            'set_window_width',
+        ]),
+        check_window_width: function(){
+            let window_width = window.innerWidth;
+            this.set_window_width(window_width);
+        },
         // ...mapMutations([
 
         // ]),

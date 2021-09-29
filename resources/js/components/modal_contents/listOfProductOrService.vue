@@ -50,7 +50,7 @@
 
                 <div class="row clearfix" v-if="!add_new_product_form">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="table-responsive">
+                        <div class="table-responsive selected_product_table product_service_table">
                             <table class="table table-hover list_of_product_table">
                                 <thead>
                                     <tr>
@@ -74,47 +74,50 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="productservice in productservices.data" :key="productservice.id">
-                                        <td style="padding: 5px 5px 4px;">
-                                            <div class="input-group-prepend">
+                                    <tr v-for="productservice in productservices.data"
+                                        @click="addProductToList($event,productservice)"
+                                        :key="productservice.id">
+
+                                        <td class="overlay_body">
+                                            <div class="over_lay_check"></div>
+                                            <label :for="`pro${productservice.id}`" >
+                                                <input :id="`pro${productservice.id}`" type="checkbox" style="opacity:1;position:unset;">
+                                            </label>
+                                            <!-- <div class="input-group-prepend">
                                                 <div class="input-group-text">
                                                     <label>
-                                                        <input @click="addProductToList($event,productservice)"
-                                                                type="checkbox">
-                                                        <!-- <input @click="addProductToList(productservice)"
-                                                                type="checkbox"
-                                                                :class="'select_product_box'+productservice.id" > -->
+                                                        <input type="checkbox">
                                                         <span></span>
                                                     </label>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </td>
-                                        <td>
+                                        <td >
                                             <div class="ellipsis">
                                                 {{productservice.name}}
                                             </div>
                                         </td>
-                                        <td>
+                                        <td >
                                             <div class="ellipsis">
                                                 {{productservice.description}}
                                             </div>
                                         </td>
-                                        <td>
+                                        <td >
                                             <div class="ellipsis">
                                                 {{productservice.code}}
                                             </div>
                                         </td>
-                                        <td class="text-right">
+                                        <td  class="text-right">
                                             <div class="ellipsis">
                                                 {{productservice.sales_price}}
                                             </div>
                                         </td>
-                                        <td class="text-right">
+                                        <td  class="text-right">
                                             <div class="ellipsis">
                                                 {{productservice.purchase_price}}
                                             </div>
                                         </td>
-                                        <td class="text-right">
+                                        <td  @click="addProductToList(productservice)" class="text-right">
                                             <div class="ellipsis">
                                                 {{productservice.unit}}
                                             </div>
@@ -234,6 +237,7 @@
                 productdeliverylocation: false,
                 inventory_accounts: false,
                 inventory_transit_accounts: false,
+                target_product_to_select: {},
             }
         },
         created: function(){
@@ -246,12 +250,14 @@
 
             this.listProductservices();
             this.getProductservice();
+
         },
         methods: {
             ...mapMutations([
                 'set_old_data',
                 'set_form_product_list_info',
             ]),
+
             getResults(page = 1) {
                 let that = this;
                 let status = this.data_get_url_status;
@@ -263,6 +269,7 @@
                         // }, 1000);
                     });
             },
+
             listProductservices: function(){
                 var that = this;
                 this.form.get('/api/productservices').then(function(response){
@@ -272,6 +279,7 @@
                     }, 1000);
                 })
             },
+
             getProductservice: function (Productservice) {
                 axios.get('/api/productunits')
                     .then((res)=>{
@@ -304,13 +312,17 @@
                     })
 
             },
+
             deleteProductservice: function(productservice, index){
                 var that = this;
                 this.form.delete('/api/productservices/'+productservice.id).then(function(response){
                     that.productservices.splice(index,1);
                 })
             },
-            addProductToList: function(event,product){
+
+            addProductToList: function(event, product){
+                // this.target_product_to_select = product;
+
                 product.qty = 1;
                 product.disc = 0.00;
                 product.total_price = product.qty * product.sales_price;
@@ -328,13 +340,17 @@
                     // this.temp_slected_products.push(product);
                 // }
 
-                if(event.target.checked == true){
+                let input = $(event.currentTarget).find('input[type="checkbox"]')[0];
+                input.checked == false ? input.checked = true : input.checked = false;
+
+                if(input.checked  == true){
                     this.new_selected_products.push(product);
                 }else{
                     this.new_selected_products = this.new_selected_products.filter((item)=>item.id!=product.id);
                 }
-                // console.log(this.temp_slected_products.length, event);
+                // console.log('bottom',this.new_selected_products);
             },
+
             saveProductList: function(){
                 this.temp_slected_products = this.temp_slected_products.concat(this.new_selected_products);
                 this.set_old_data(this.temp_slected_products);
@@ -346,6 +362,7 @@
                 this.resetSelectedProductList();
                 $('.modal').modal('hide');
             },
+
             createProductservice: function(){
                 $('.done_btn').addClass('loading').prop("disabled",true);
                 this.form.post('/api/productservices')
@@ -369,9 +386,34 @@
                         });
                     });
             },
+
             setFormData: function(form_data){
                 this.form = form_data;
             },
+
+            init_jq: function(){
+                let product = this.target_product_to_select;
+                product.qty = 1;
+                product.disc = 0.00;
+                product.total_price = product.qty * product.sales_price;
+                product.index = this.temp_slected_products.length;
+
+                let that = this;
+                $('.product_service_table tr').on('click',function(){
+                    let input = $(this).find('input[type="checkbox"]')[0];
+                    input.checked == true ? input.checked = false : input.checked = true;
+
+                    if(input.checked == true){
+                        that.new_selected_products.push(product);
+                    }else{
+                        that.new_selected_products = that.new_selected_products.filter((item)=>item.id!=product.id);
+                    }
+
+                    console.log(input);
+                });
+
+
+            }
         },
         computed: {
             ...mapGetters([

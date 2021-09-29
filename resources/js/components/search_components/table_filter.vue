@@ -92,7 +92,7 @@
                         <div class="col-md-12 mb-0 d-flex align-content-center flex-wrap">
                             <div class="setting_li_search">
                                 <i class="fas fa-search"></i>
-                                <input type="text" placeholder="Search in Quotes">
+                                <input type="text" @keyup="dataSearch($event.target.value)" id="quote_search" placeholder="Search in Quotes">
                             </div>
                         </div>
                     </div>

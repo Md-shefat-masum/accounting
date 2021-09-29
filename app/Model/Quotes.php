@@ -7,7 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Quotes extends Model
 {
 
-    protected $appends = ['files','amount_number_format'];
+    protected $appends = [
+        'files',
+        'amount_number_format',
+        'check_customer_exists',
+    ];
+
+    public function getCheckCustomerExistsAttribute()
+    {
+        return Customers::where('id',$this->customer_id)->exists();
+    }
 
     public function getAmountNumberFormatAttribute()
     {

@@ -652,3 +652,258 @@ input[type=file] {
 .contacts .select2-container {
   width: 100% !important;
 }
+.btn:focus,
+.btn-large:focus,
+.btn-small:focus,
+.btn-floating:focus,
+.btn:hover,
+.btn-large:hover,
+.btn-small:hover {
+  background-color: #5390f4;
+  color: white;
+}
+.custom_scroll {
+  /* width */
+  /* Track */
+  /* Handle */
+  /* Handle on hover */
+}
+.custom_scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.custom_scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.custom_scroll::-webkit-scrollbar-thumb {
+  background: #5390f4;
+}
+.custom_scroll::-webkit-scrollbar-thumb:hover {
+  background: #457ad1;
+  cursor: pointer;
+}
+.sm_list_card_body {
+  grid-area: body;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-column-gap: 2rem;
+}
+.sm_list_card_body .card {
+  box-shadow: unset !important;
+}
+.sm_list_card_body .btn:not(.btn-link):not(.btn-circle) {
+  box-shadow: unset;
+}
+@media screen and (max-width: 991.99px) {
+  #leftsidebar {
+    display: none;
+  }
+  .navbar #nav_bar_body {
+    display: flex;
+  }
+  .navbar #nav_bar_body .navbar-header {
+    display: flex;
+    justify-content: space-between;
+    width: unset;
+    margin-bottom: unset;
+    height: 55px;
+  }
+  .navbar #nav_bar_body .navbar-header .sidemenu_trigger {
+    display: inline-block;
+    order: 1;
+  }
+  .navbar #nav_bar_body .navbar-header .navbar-brand {
+    order: 2;
+    display: none;
+  }
+  .navbar #nav_bar_body .navbar-header .navbar-toggle {
+    order: 3;
+    display: none;
+  }
+  .navbar #nav_bar_body #navbar-collapse {
+    display: block;
+    display: flex;
+  }
+  .navbar #nav_bar_body #navbar-collapse ul .user_name {
+    display: none;
+  }
+  .submenu.content-card.card {
+    top: 61px;
+  }
+  .submenu.content-card.card .body {
+    /* width */
+    /* Track */
+    /* Handle */
+    /* width */
+    /* Track */
+    /* Handle */
+    /* Handle on hover */
+  }
+  .submenu.content-card.card .body::-webkit-scrollbar {
+    width: 7px;
+  }
+  .submenu.content-card.card .body::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 2px grey;
+    border-radius: 10px;
+  }
+  .submenu.content-card.card .body::-webkit-scrollbar-thumb {
+    background: #5783c7;
+    border-radius: 10px;
+  }
+  .submenu.content-card.card .body::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .submenu.content-card.card .body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  .submenu.content-card.card .body::-webkit-scrollbar-thumb {
+    background: #5390f4;
+  }
+  .submenu.content-card.card .body::-webkit-scrollbar-thumb:hover {
+    background: #457ad1;
+    cursor: pointer;
+  }
+  .mainnav.navbar ul {
+    flex: 1;
+  }
+  .mainnav.navbar .nav.navbar-nav {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: revert;
+    justify-content: flex-end;
+  }
+  section.content.content-menu .content-card .nav-tabs {
+    padding-bottom: 5px;
+    /* width */
+    /* Track */
+    /* Handle */
+    /* width */
+    /* Track */
+    /* Handle */
+    /* Handle on hover */
+  }
+  section.content.content-menu .content-card .nav-tabs::-webkit-scrollbar {
+    width: 7px;
+  }
+  section.content.content-menu .content-card .nav-tabs::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 2px grey;
+    border-radius: 10px;
+  }
+  section.content.content-menu .content-card .nav-tabs::-webkit-scrollbar-thumb {
+    background: #5783c7;
+    border-radius: 10px;
+  }
+  section.content.content-menu .content-card .nav-tabs::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  section.content.content-menu .content-card .nav-tabs::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  section.content.content-menu .content-card .nav-tabs::-webkit-scrollbar-thumb {
+    background: #5390f4;
+  }
+  section.content.content-menu .content-card .nav-tabs::-webkit-scrollbar-thumb:hover {
+    background: #457ad1;
+    cursor: pointer;
+  }
+  section.content.content-menu .content-card .nav > li > a {
+    min-width: 63px;
+  }
+  section.content.content-menu a.btn.new_dot i,
+  section.content.content-menu a.btn i,
+  section.content.content-menu a.btn {
+    line-height: unset;
+    display: inline-block;
+    padding: 0px 8px;
+    line-height: 34px;
+  }
+  section.content.content-menu a.btn.new_dot i i,
+  section.content.content-menu a.btn i i,
+  section.content.content-menu a.btn i {
+    display: inline-block;
+    line-height: unset;
+  }
+  section.content.content-menu .mobile_d_block {
+    display: none !important;
+  }
+  .small_card_bottom_action button {
+    line-height: 32px;
+  }
+  .selected_product_table {
+    width: 100%;
+    overflow-x: scroll;
+    /* width */
+    /* Track */
+    /* Handle */
+    /* width */
+    /* Track */
+    /* Handle */
+    /* Handle on hover */
+    padding-bottom: 10px;
+    background: white;
+  }
+  .selected_product_table::-webkit-scrollbar {
+    width: 7px;
+  }
+  .selected_product_table::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 2px grey;
+    border-radius: 10px;
+  }
+  .selected_product_table::-webkit-scrollbar-thumb {
+    background: #5783c7;
+    border-radius: 10px;
+  }
+  .selected_product_table::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .selected_product_table::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  .selected_product_table::-webkit-scrollbar-thumb {
+    background: #5390f4;
+  }
+  .selected_product_table::-webkit-scrollbar-thumb:hover {
+    background: #457ad1;
+    cursor: pointer;
+  }
+  .selected_product_table table {
+    table-layout: unset !important;
+    width: 765px !important;
+    max-width: 1000px !important;
+  }
+  .selected_product_table table colgroup col:nth-child(1),
+  .selected_product_table table colgroup col:nth-child(2),
+  .selected_product_table table colgroup col:nth-child(3),
+  .selected_product_table table colgroup col:nth-child(4),
+  .selected_product_table table colgroup col:nth-child(5),
+  .selected_product_table table colgroup col:nth-child(6),
+  .selected_product_table table colgroup col:nth-child(7),
+  .selected_product_table table colgroup col:nth-child(8),
+  .selected_product_table table colgroup col:nth-child(9) {
+    width: 300px !important;
+  }
+  .selected_product_table table colgroup col:nth-child(3) {
+    width: 350px !important;
+  }
+  .selected_product_table table colgroup col:last-child {
+    width: 250px !important;
+  }
+}
+.overlay_body {
+  position: relative;
+}
+.overlay_body .over_lay_check {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+@media (min-width: 992px) {
+  .sidemenu_trigger {
+    display: none;
+  }
+}

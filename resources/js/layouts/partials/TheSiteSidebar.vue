@@ -63,7 +63,12 @@
         name: '',
         url: '',
         created: function(){
-
+            setTimeout(() => {
+                $('.sidemenu_trigger').on('click',function(){
+                    $('#leftsidebar').toggle();
+                    $('.sidemenu_trigger i').toggleClass('fa-times');
+                })
+            }, 1000);
         },
     }
 </script>

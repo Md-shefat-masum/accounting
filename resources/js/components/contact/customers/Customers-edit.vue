@@ -471,6 +471,7 @@
     <!-- form section -->
 </template>
 <script type="text/babel">
+import { mapActions } from 'vuex';
     import NewFooter from '../../../layouts/partials/new_footer'
     import CustomerAddressModal from './components/customerAddressModal.vue';
 
@@ -537,6 +538,9 @@
             this.getCustomersSingle();
         },
         methods: {
+            ...mapActions([
+                'fetch_all_customers',
+            ]),
             getCountryList: function () {
                 axios.get('/api/country-list').then(response => this.countries = response.data);
             },
@@ -554,6 +558,7 @@
                         icon: 'success',
                         title: 'Update successfully'
                     });
+                    this.fetch_all_customers({page:1});
                     this.$router.replace({ name: 'customerLists'})
                 }).catch(() => {
                     Toast.fire({

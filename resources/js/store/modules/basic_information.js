@@ -6,6 +6,7 @@ const state = {
     auth_user_info: {},
     countries: {},
     tax_and_vat: [],
+    window_width: '',
 }
 
 // get state
@@ -14,6 +15,7 @@ const getters = {
     get_auth_user_info: state => state.auth_user_info,
     get_countries: state => state.countries,
     get_tax_and_vat: state => state.tax_and_vat,
+    get_window_width: state => state.window_width,
 }
 
 // actions
@@ -64,6 +66,9 @@ const mutations = {
     },
     set_tax_and_vat: function(state,tax_and_vat){
         state.tax_and_vat = tax_and_vat;
+    },
+    set_window_width: function(state,window_width){
+        state.window_width = window_width;
     },
 }
 

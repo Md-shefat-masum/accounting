@@ -4,152 +4,154 @@
             <div>
                 <input type="hidden" name="selected_products">
             </div>
-            <div class="col-sm-12">
-                <table
-                    class="A54VNK-Ff-y table table-hover table-link A54VNK-Ff-z empty"
-                    cellspacing="0"
-                    style="table-layout: fixed;">
+            <div class="col-sm-12 ">
+                <div class="table-responsive selected_product_table">
+                    <table
+                        class="A54VNK-Ff-y table table-hover table-link A54VNK-Ff-z empty"
+                        cellspacing="0"
+                        style="table-layout: fixed;">
 
-                    <colgroup>
-                        <col style="width: 15%;" />
-                        <col style="width: 25%;" />
-                        <col style="width: 40%;" />
-                        <col style="width: 15%;" />
-                        <col style="width: 25%;" />
-                        <col style="width: 20%;" />
-                        <col style="width: 25%;" />
-                        <col v-if="get_basic_information.tax_management == 'Yes'" style="width: 40%;" />
-                    </colgroup>
+                        <colgroup>
+                            <col style="width: 15%;" />
+                            <col style="width: 25%;" />
+                            <col style="width: 40%;" />
+                            <col style="width: 15%;" />
+                            <col style="width: 25%;" />
+                            <col style="width: 20%;" />
+                            <col style="width: 25%;" />
+                            <col v-if="get_basic_information.tax_management == 'Yes'" style="width: 40%;" />
+                        </colgroup>
 
-                    <thead>
-                        <tr>
-                            <th colspan="1" class="A54VNK-Ff-h A54VNK-Ff-f" __gwt_column="column-gwt-uid-687" __gwt_header="header-gwt-uid-688">
-                                <div>
-                                    <span class="ellipsis ellipsis-block header-small" data-title="" data-toggle="tooltip">Code</span>
-                                    <span class="header-normal">Code</span>
-                                </div>
-                            </th>
-                            <th colspan="1" class="A54VNK-Ff-h" __gwt_column="column-gwt-uid-689" __gwt_header="header-gwt-uid-690">
-                                <div>
-                                    <span class="ellipsis ellipsis-block header-small" data-title="" data-toggle="tooltip">Name</span>
-                                    <span class="header-normal">Name</span>
-                                </div>
-                            </th>
-                            <th colspan="1" class="A54VNK-Ff-h" __gwt_column="column-gwt-uid-691" __gwt_header="header-gwt-uid-692">
-                                <div>
-                                    <span class="ellipsis ellipsis-block header-small" data-title="Description" data-toggle="tooltip">Description</span>
-                                    <span class="header-normal">Description</span>
-                                </div>
-                            </th>
-                            <th colspan="1" class="A54VNK-Ff-h" __gwt_column="column-gwt-uid-693" __gwt_header="header-gwt-uid-694">
-                                <div>
-                                    <span class="ellipsis ellipsis-block header-small" data-title="Qty" data-toggle="tooltip">Qty</span>
-                                    <span class="header-normal">Qty</span>
-                                </div>
-                            </th>
-                            <th colspan="1" class="A54VNK-Ff-h" __gwt_column="column-gwt-uid-695" __gwt_header="header-gwt-uid-696">
-                                <div class="text-right" style="padding-right:20px;">
-                                    <span class="ellipsis ellipsis-block header-small" data-title="Price" data-toggle="tooltip">Price</span>
-                                    <span class="header-normal">Price </span>
-                                </div>
-                            </th>
-                            <th colspan="1" class="A54VNK-Ff-h" __gwt_column="column-gwt-uid-697" __gwt_header="header-gwt-uid-698">
-                                <div>
-                                    <span class="ellipsis ellipsis-block header-small" data-title="Disc.%" data-toggle="tooltip">Disc.%</span>
-                                    <span class="header-normal">Disc.%</span>
-                                </div>
-                            </th>
-                            <th colspan="1" class="A54VNK-Ff-h" __gwt_column="column-gwt-uid-699" __gwt_header="header-gwt-uid-700">
-                                <div>
-                                    <span class="ellipsis ellipsis-block header-small" data-title="Total" data-toggle="tooltip">Total</span>
-                                    <span class="header-normal">Total</span>
-                                </div>
-                            </th>
-                            <th v-if="get_basic_information.tax_management == 'Yes'" colspan="1" class="A54VNK-Ff-h A54VNK-Ff-p" __gwt_column="column-gwt-uid-701" __gwt_header="header-gwt-uid-702">
-                                <div>
-                                    <span class="ellipsis ellipsis-block header-small" data-title="VAT%" data-toggle="tooltip">VAT%</span>
-                                    <span class="header-normal">VAT%</span>
-                                </div>
-                            </th>
-                        </tr>
-                    </thead>
+                        <thead>
+                            <tr>
+                                <th colspan="1" class="A54VNK-Ff-h A54VNK-Ff-f" __gwt_column="column-gwt-uid-687" __gwt_header="header-gwt-uid-688">
+                                    <div>
+                                        <span class="ellipsis ellipsis-block header-small" data-title="" data-toggle="tooltip">Code</span>
+                                        <span class="header-normal">Code</span>
+                                    </div>
+                                </th>
+                                <th colspan="1" class="A54VNK-Ff-h" __gwt_column="column-gwt-uid-689" __gwt_header="header-gwt-uid-690">
+                                    <div>
+                                        <span class="ellipsis ellipsis-block header-small" data-title="" data-toggle="tooltip">Name</span>
+                                        <span class="header-normal">Name</span>
+                                    </div>
+                                </th>
+                                <th colspan="1" class="A54VNK-Ff-h" __gwt_column="column-gwt-uid-691" __gwt_header="header-gwt-uid-692">
+                                    <div>
+                                        <span class="ellipsis ellipsis-block header-small" data-title="Description" data-toggle="tooltip">Description</span>
+                                        <span class="header-normal">Description</span>
+                                    </div>
+                                </th>
+                                <th colspan="1" class="A54VNK-Ff-h" __gwt_column="column-gwt-uid-693" __gwt_header="header-gwt-uid-694">
+                                    <div>
+                                        <span class="ellipsis ellipsis-block header-small" data-title="Qty" data-toggle="tooltip">Qty</span>
+                                        <span class="header-normal">Qty</span>
+                                    </div>
+                                </th>
+                                <th colspan="1" class="A54VNK-Ff-h" __gwt_column="column-gwt-uid-695" __gwt_header="header-gwt-uid-696">
+                                    <div class="text-right" style="padding-right:20px;">
+                                        <span class="ellipsis ellipsis-block header-small" data-title="Price" data-toggle="tooltip">Price</span>
+                                        <span class="header-normal">Price </span>
+                                    </div>
+                                </th>
+                                <th colspan="1" class="A54VNK-Ff-h" __gwt_column="column-gwt-uid-697" __gwt_header="header-gwt-uid-698">
+                                    <div>
+                                        <span class="ellipsis ellipsis-block header-small" data-title="Disc.%" data-toggle="tooltip">Disc.%</span>
+                                        <span class="header-normal">Disc.%</span>
+                                    </div>
+                                </th>
+                                <th colspan="1" class="A54VNK-Ff-h" __gwt_column="column-gwt-uid-699" __gwt_header="header-gwt-uid-700">
+                                    <div>
+                                        <span class="ellipsis ellipsis-block header-small" data-title="Total" data-toggle="tooltip">Total</span>
+                                        <span class="header-normal">Total</span>
+                                    </div>
+                                </th>
+                                <th v-if="get_basic_information.tax_management == 'Yes'" colspan="1" class="A54VNK-Ff-h A54VNK-Ff-p" __gwt_column="column-gwt-uid-701" __gwt_header="header-gwt-uid-702">
+                                    <div>
+                                        <span class="ellipsis ellipsis-block header-small" data-title="VAT%" data-toggle="tooltip">VAT%</span>
+                                        <span class="header-normal">VAT%</span>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
 
-                    <tbody v-if="get_old_data.length > 0">
-                        <tr @click="product_selected_row(selected_product.id,index,$event)"
-                            class="A54VNK-Ff-r product_seleted_row"
-                            v-for="(selected_product, index) in get_old_data"
-                            :key="index">
-                            <td class="A54VNK-Ff-a A54VNK-Ff-s A54VNK-Ff-d">
-                                <div style="outline-style: none;" data-row="1" data-column="0">
-                                    {{selected_product.code}}
-                                </div>
-                            </td>
-                            <td class="A54VNK-Ff-a A54VNK-Ff-s">
-                                <div style="outline-style: none;" data-row="1" data-column="1">
-                                    {{selected_product.name}}
-                                </div>
-                            </td>
-                            <td class="A54VNK-Ff-a A54VNK-Ff-s">
-                                <div style="outline-style: none;" data-row="1" data-column="2">
-                                    <textarea class="form-control" rows="1" v-model="selected_product.description"></textarea>
-                                </div>
-                            </td>
-                            <td class="A54VNK-Ff-a A54VNK-Ff-s">
-                                <div style="outline-style: none;" data-row="1" data-column="3">
-                                    <input type="text"
-                                            @keyup="change_qty(selected_product.id, $event.target.value, index)"
-                                            v-model="selected_product.qty" class="form-control" />
-                                </div>
-                            </td>
-                            <td class="A54VNK-Ff-a A54VNK-Ff-s">
-                                <div style="outline-style: none;" data-row="1" data-column="4">
-                                    <input type="text" v-model="selected_product.sales_price" @keyup="calculateTotal(selected_product.id)" style="padding-right:20px;" class="form-control text-right" />
-                                </div>
-                            </td>
-                            <td class="A54VNK-Ff-a A54VNK-Ff-s">
-                                <div style="outline-style: none;" data-row="1" data-column="5">
-                                    <input type="text" v-model="selected_product.disc" @keyup="calculateTotal(selected_product.id)" class="form-control" />
-                                </div>
-                            </td>
-                            <td class="A54VNK-Ff-a A54VNK-Ff-s A54VNK-Ff-A">
-                                <div style="outline-style: none;" data-row="1" data-column="6">
-                                    <input type="text" readonly v-model="selected_product.total_price" class="form-control" />
-                                </div>
-                            </td>
-                            <td v-if="get_basic_information.tax_management == 'Yes'" class="A54VNK-Ff-a A54VNK-Ff-s A54VNK-Ff-n">
-                                <Select2 :key="index" v-model="selected_product.selected_select2_tax_and_vat"
-                                    :options="tax_and_vats_for_select2"
-                                    :settings="{multiple:true}"
-                                    @change="myChangeEvent($event, selected_product, index)"
-                                    @select="mySelectEvent($event, selected_product, index)">
-                                </Select2>
-                            </td>
-                        </tr>
-                    </tbody>
+                        <tbody v-if="get_old_data.length > 0">
+                            <tr @click="product_selected_row(selected_product.id,index,$event)"
+                                class="A54VNK-Ff-r product_seleted_row"
+                                v-for="(selected_product, index) in get_old_data"
+                                :key="index">
+                                <td class="A54VNK-Ff-a A54VNK-Ff-s A54VNK-Ff-d">
+                                    <div style="outline-style: none;" data-row="1" data-column="0">
+                                        {{selected_product.code}}
+                                    </div>
+                                </td>
+                                <td class="A54VNK-Ff-a A54VNK-Ff-s">
+                                    <div style="outline-style: none;" data-row="1" data-column="1">
+                                        {{selected_product.name}}
+                                    </div>
+                                </td>
+                                <td class="A54VNK-Ff-a A54VNK-Ff-s">
+                                    <div style="outline-style: none;" data-row="1" data-column="2">
+                                        <textarea class="form-control" rows="1" v-model="selected_product.description"></textarea>
+                                    </div>
+                                </td>
+                                <td class="A54VNK-Ff-a A54VNK-Ff-s">
+                                    <div style="outline-style: none;" data-row="1" data-column="3">
+                                        <input type="text"
+                                                @keyup="change_qty(selected_product.id, $event.target.value, index)"
+                                                v-model="selected_product.qty" class="form-control" />
+                                    </div>
+                                </td>
+                                <td class="A54VNK-Ff-a A54VNK-Ff-s">
+                                    <div style="outline-style: none;" data-row="1" data-column="4">
+                                        <input type="text" v-model="selected_product.sales_price" @keyup="calculateTotal(selected_product.id)" style="padding-right:20px;" class="form-control text-right" />
+                                    </div>
+                                </td>
+                                <td class="A54VNK-Ff-a A54VNK-Ff-s">
+                                    <div style="outline-style: none;" data-row="1" data-column="5">
+                                        <input type="text" v-model="selected_product.disc" @keyup="calculateTotal(selected_product.id)" class="form-control" />
+                                    </div>
+                                </td>
+                                <td class="A54VNK-Ff-a A54VNK-Ff-s A54VNK-Ff-A">
+                                    <div style="outline-style: none;" data-row="1" data-column="6">
+                                        <input type="text" readonly v-model="selected_product.total_price" class="form-control" />
+                                    </div>
+                                </td>
+                                <td v-if="get_basic_information.tax_management == 'Yes'" class="A54VNK-Ff-a A54VNK-Ff-s A54VNK-Ff-n">
+                                    <Select2 :key="index" v-model="selected_product.selected_select2_tax_and_vat"
+                                        :options="tax_and_vats_for_select2"
+                                        :settings="{multiple:true}"
+                                        @change="myChangeEvent($event, selected_product, index)"
+                                        @select="mySelectEvent($event, selected_product, index)">
+                                    </Select2>
+                                </td>
+                            </tr>
+                        </tbody>
 
-                    <tbody v-else>
-                        <tr>
-                            <td align="center" colspan="8">
-                                <div>
-                                    <div style="width: 100%; height: 100%; padding: 0px; margin: 0px;">
-                                        <div style="width: 100%; height: 100%;">
-                                            <div class="text-muted text-left">
-                                                No items to show
+                        <tbody v-else>
+                            <tr>
+                                <td align="center" colspan="8">
+                                    <div>
+                                        <div style="width: 100%; height: 100%; padding: 0px; margin: 0px;">
+                                            <div style="width: 100%; height: 100%;">
+                                                <div class="text-muted text-left">
+                                                    No items to show
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div aria-hidden="true" style="width: 100%; height: 100%; padding: 0px; margin: 0px; display: none;">
+                                            <div aria-hidden="true" class="A54VNK-Ff-q" style="width: 100%; height: 100%; display: none;">
+                                                <div class="text-muted text-left">
+                                                    Loading data...
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div aria-hidden="true" style="width: 100%; height: 100%; padding: 0px; margin: 0px; display: none;">
-                                        <div aria-hidden="true" class="A54VNK-Ff-q" style="width: 100%; height: 100%; display: none;">
-                                            <div class="text-muted text-left">
-                                                Loading data...
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div class="btn-toolbar A54VNK-Ki-a">
                     <button type="button" data-toggle="modal" @click="productListRender()" data-target="#addProductOrService" class="btn btn-default mt-2"><span class="picto-font">s</span> Add Product or Service</button>
                     <button type="button" @click="removeProductFormList()" class="btn btn-default ml-2 mt-2"><span class="picto-font">-</span> Delete</button>

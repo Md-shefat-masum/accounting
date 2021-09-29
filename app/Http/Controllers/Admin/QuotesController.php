@@ -40,15 +40,58 @@ class QuotesController extends Controller
         Quotes::where('creator', Auth::user()->id)->where('expiration_date', '<', Carbon::now()->toDateString())->update([
             'status' => 'lost'
         ]);
+        $select_fields = [
+            'id',
+            'code',
+            'sales_log_id',
+            'subtotal',
+            'total',
+            'customer_id',
+            'customer',
+            'date',
+            'status',
+            'is_invoiced',
+            'address',
+            'expiration_date',
+            'payment_terms',
+            'payment_date',
+            'currency',
+            'created_at',
+        ];
 
         if ($request->status == 'open') {
-            $datas = Quotes::where('creator', Auth::user()->id)->latest()->where('status', 'open')->with('sales_log')->orderBy('id', 'DESC')->paginate(10);
-        } elseif ($request->status == 'won') {
-            $datas = Quotes::where('creator', Auth::user()->id)->latest()->where('status', 'won')->with('sales_log')->orderBy('id', 'DESC')->paginate(10);
-        } elseif ($request->status == 'lost') {
-            $datas = Quotes::where('creator', Auth::user()->id)->latest()->where('status', 'lost')->with('sales_log')->orderBy('id', 'DESC')->paginate(10);
-        } else {
-            $datas = Quotes::where('creator', Auth::user()->id)->latest()->with('sales_log')->orderBy('id', 'DESC')->paginate(10);
+            $datas = Quotes::where('creator', Auth::user()->id)
+                            ->latest()
+                            ->where('status', 'open')
+                            ->with('sales_log')
+                            ->orderBy('id', 'DESC')
+                            ->select($select_fields)
+                            ->paginate(10);
+        }
+        elseif ($request->status == 'won') {
+            $datas = Quotes::where('creator', Auth::user()->id)
+                            ->latest()
+                            ->where('status', 'won')
+                            ->with('sales_log')
+                            ->orderBy('id', 'DESC')
+                            ->select($select_fields)
+                            ->paginate(10);
+        }
+        elseif ($request->status == 'lost') {
+            $datas = Quotes::where('creator', Auth::user()->id)
+                            ->latest()->where('status', 'lost')
+                            ->with('sales_log')
+                            ->orderBy('id', 'DESC')
+                            ->select($select_fields)
+                            ->paginate(10);
+        }
+        else {
+            $datas = Quotes::where('creator', Auth::user()->id)
+                            ->latest()
+                            ->with('sales_log')
+                            ->orderBy('id', 'DESC')
+                            ->select($select_fields)
+                            ->paginate(10);
         }
 
         $quotes_count = Quotes::where('creator', Auth::user()->id)->count();

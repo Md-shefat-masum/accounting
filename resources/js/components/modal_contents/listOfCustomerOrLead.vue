@@ -18,7 +18,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="customer in customers.data" :key="customer.id">
+                            <tr v-for="customer in get_all_customers.data" :key="customer.id">
                                 <td @click="customerSelect(customer)" style="cursor: pointer;">
                                     <div class="ellipsis" v-if="customer.is_company == false">
                                         {{ customer.first_name }} {{ customer.last_name }}
@@ -59,7 +59,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <pagination :data="customers" @pagination-change-page="getResults"></pagination>
+                    <pagination :data="get_all_customers" @pagination-change-page="getResults"></pagination>
                 </div>
             </div>
         </div>
@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
     export default {
         name: 'Customer',
         props: ['getCustomerNameId','getCustomerRecipent','set_customer_name'],
@@ -114,16 +115,20 @@
             }
         },
         created: function () {
-            this.listCustomers();
+            // this.listCustomers();
         },
         methods: {
+            ...mapActions([
+                'fetch_all_customers'
+            ]),
             getResults(page = 1) {
-                let that = this;
-                let status = this.data_get_url_status;
-                axios.get(`/api/customers-paginate`+'?page=' + page)
-                    .then(response => {
-                        this.customers = response.data;
-                    });
+                this.fetch_all_customers({page:page});
+                // let that = this;
+                // let status = this.data_get_url_status;
+                // axios.get(`/api/customers-paginate`+'?page=' + page)
+                //     .then(response => {
+                //         this.customers = response.data;
+                //     });
             },
 
             listCustomers: function () {
@@ -159,6 +164,11 @@
 
                 $('.modal').modal('hide');
             }
+        },
+        computed: {
+            ...mapGetters([
+                'get_all_customers',
+            ]),
         }
     }
 </script>
